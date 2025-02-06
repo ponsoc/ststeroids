@@ -29,9 +29,6 @@ class Component:
         
         :raises NotImplementedError: If called directly without being implemented in a subclass.
         """
-        if not self.state.visible:
-            return  # Do nothing if not visible
-        
         # Delegate rendering to the subclass
         self._render()             
         
