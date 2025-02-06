@@ -1,0 +1,8 @@
+# Include the LICENSE file
+include LICENSE
+
+# Include all Python source files
+recursive-include streamlit-steroids *.py
+
+# Include the README file
+include README.md

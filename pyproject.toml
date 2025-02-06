@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ststeroids"
+version = "0.0.1"
+description = "A framework supercharging Streamlit for building advanced multipage applications."
+readme = "README.md"
+authors = [{ name = "ponsoc"}]
+license = { file = "LICENSE" }
+dependencies = [
+    "streamlit>=1.42.0"
+]
+[project.urls]
+"Homepage" = "https://github.com/ponsoc/ststeroids"
+"Bug Reports" = "https://github.com/ponsoc/ststeroids/issues"
