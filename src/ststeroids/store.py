@@ -1,16 +1,17 @@
-import streamlit as st
 from typing import Any
+import streamlit as st
+
 
 class Store:
     """
     Class for creating a session store.
 
-    This class manages storing and retrieving properties in Streamlit's session state. 
+    This class manages storing and retrieving properties in Streamlit's session state.
     It initializes a store with a unique name and allows properties to be set and retrieved.
 
     :param store_name: The name of the store to create in session state.
     """
-    
+
     def __init__(self, store_name: str):
         """
         Initializes the session store with the given name.
@@ -49,8 +50,9 @@ class Store:
         :param property_value: The value to set for the property.
         :return: None
         """
-        st.session_state[self.name][property_name] = property_value            
-    
+        st.session_state[self.name][property_name] = property_value
+
+
 class ComponentStore(Store):
     """
     Class that creates a component session store. This can be passed to component instances.
@@ -58,7 +60,7 @@ class ComponentStore(Store):
     :param component_id: The unique identifier for the component.
     :param initial_state: The initial state of the component.
     """
-    
+
     def __init__(self):
         """
         Initializes the component store with the name 'components'.
@@ -75,8 +77,7 @@ class ComponentStore(Store):
         :return: None
         """
         self.init_property(component.id, component)
-    
-    
+
     def init_component_state(self, component_id: str, initial_state: dict) -> None:
         """
         Initializes a component state in the session store with its ID and initial state.
@@ -97,7 +98,9 @@ class ComponentStore(Store):
         """
         return super().get_property(f"{component_id}_state")[property_name]
 
-    def set_property(self, component_id: str, property_name: str, property_value: Any) -> None:
+    def set_property(
+        self, component_id: str, property_name: str, property_value: Any
+    ) -> None:
         """
         Sets the value of a property in a component's state.
 
@@ -108,7 +111,7 @@ class ComponentStore(Store):
         """
         component_state = super().get_property(f"{component_id}_state")
         component_state[property_name] = property_value
-        super().set_property(f"{component_id}_state", component_state)  
+        super().set_property(f"{component_id}_state", component_state)
 
     def get_component(self, component_id: str):
         """
