@@ -5,7 +5,7 @@ class Flow:
     def __init__(self):
         self.component_store = ComponentStore()
 
-    def run(self):
+    def run(self, *args, **kwargs):
         """
         Each derived class should implement its own run logic.
         """

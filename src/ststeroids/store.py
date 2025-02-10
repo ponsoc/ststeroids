@@ -31,7 +31,16 @@ class Store:
         :return: None
         """
         if property_name not in st.session_state[self.name]:
-            st.session_state[self.name][property_name] = property_value
+            st.session_state[self.name][property_name] = property_value           
+
+    def has_property(self, property_name: str) -> bool:
+        """
+        Checks if a property exists in the store.
+
+        :param property_name: The name of the property to check.
+        :return: True if the property exists, False otherwise.
+        """
+        return property_name in st.session_state.get(self.name, {})        
 
     def get_property(self, property_name: str) -> Any:
         """
@@ -86,7 +95,7 @@ class ComponentStore(Store):
         :param initial_state: The initial state to set for the component.
         :return: None
         """
-        self.init_property(f"{component_id}_state", initial_state)
+        self.init_property(f"{component_id}_state", initial_state)       
 
     def get_property(self, component_id: str, property_name: str) -> Any:
         """

@@ -77,11 +77,11 @@ class Layout:
         raise NotImplementedError("Subclasses should implement this method.")
 
     def show(self) -> None:
-        self.state.visibile = True
+        self.state.visible = True
         self._render()
 
     def hide(self) -> None:
-        self.state.visibile = False
+        self.state.visible = False
         self._render()
 
 
