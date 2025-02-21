@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ststeroids"
-version = "0.0.9"
+version = "0.1.4"
 description = "A framework supercharging Streamlit for building advanced multi-page applications"
 readme = "README.md"
 authors = [{ name = "ponsoc"}]
 license = { file = "LICENSE" }
-requires-python = ">=3.12.3"
+requires-python = ">=3.11.0"
 dependencies = [
     "streamlit>=1.41.0"
 ]
