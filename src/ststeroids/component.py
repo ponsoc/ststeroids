@@ -1,7 +1,7 @@
 from typing import Any
 from .store import ComponentStore
 
-
+# pylint: disable=too-few-public-methods
 class Component:
     """
     Base class for a component that interacts with the state and the store.
@@ -11,7 +11,7 @@ class Component:
         state (State): The state associated with the component.
     """
 
-    def __init__(self, component_id: str, initial_state: dict = {}):
+    def __init__(self, component_id: str, initial_state: dict = None):
         """
         Initializes the component with a unique ID and initial state.
 
@@ -20,7 +20,9 @@ class Component:
         """
         self.__store = ComponentStore()
         self.id = component_id
-        self.state = State(self.id, self.__store, initial_state)
+        self.state = State(
+            self.id, self.__store, initial_state if initial_state else {}
+        )
         self.__store.init_component(self)
 
     def render(self) -> None:
@@ -34,60 +36,10 @@ class Component:
         raise NotImplementedError("Subclasses should implement this method.")
 
 
-class Layout:
-    """
-    Base class for a layout that interacts with the state and the store.
-
-    Attributes:
-        id (str): The unique identifier for the layout.
-    """
-
-    def __init__(self, layout_id: str, visible: bool):
-        """
-        Initializes the layout with a unique ID.
-
-        :param layout_id: The unique identifier for the layout.
-        """
-        self.__store = ComponentStore()
-        self.id = layout_id
-        self.state = State(self.id, self.__store, {"visible": visible})
-        self.__store.init_component(self)
-
-    def _render(self) -> None:
-        """
-        Calls the derived class's render method if the layout is visible.
-        If not, it prevents rendering.
-
-        :raises NotImplementedError: If called directly without being implemented in a subclass.
-        """
-        if not self.state.visible:
-            return  # Do nothing if not visible
-
-        # Delegate rendering to the subclass
-        self.render()
-
-    def render(self) -> None:
-        """
-        Placeholder method for rendering the layout.
-
-        This method should be implemented by subclasses to define how the layout is rendered.
-
-        :raises NotImplementedError: If called directly without being implemented in a subclass.
-        """
-        raise NotImplementedError("Subclasses should implement this method.")
-
-    def show(self) -> None:
-        self.state.visible = True
-        self._render()
-
-    def hide(self) -> None:
-        self.state.visible = False
-        self._render()
-
-
 class State:
     """
-    Manages the state of a component, storing and retrieving properties through the associated store.
+    Manages the state of a component, storing and retrieving properties
+    through the associated store.
 
     Attributes:
         __id (str): The unique identifier for the component.

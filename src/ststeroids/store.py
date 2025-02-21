@@ -22,17 +22,6 @@ class Store:
         if store_name not in st.session_state:
             st.session_state[self.name] = {}
 
-    def init_property(self, property_name: str, property_value: Any) -> None:
-        """
-        Initializes a property in the store with a default value.
-
-        :param property_name: The name of the property to initialize.
-        :param property_value: The default value to set for the property.
-        :return: None
-        """
-        if property_name not in st.session_state[self.name]:
-            st.session_state[self.name][property_name] = property_value           
-
     def has_property(self, property_name: str) -> bool:
         """
         Checks if a property exists in the store.
@@ -40,7 +29,7 @@ class Store:
         :param property_name: The name of the property to check.
         :return: True if the property exists, False otherwise.
         """
-        return property_name in st.session_state.get(self.name, {})        
+        return property_name in st.session_state.get(self.name, {})
 
     def get_property(self, property_name: str) -> Any:
         """
@@ -85,7 +74,8 @@ class ComponentStore(Store):
         :param component_id: The unique identifier for the component.
         :return: None
         """
-        self.init_property(component.id, component)
+        if not self.has_property(component.id):
+            super().set_property(component.id, component)
 
     def init_component_state(self, component_id: str, initial_state: dict) -> None:
         """
@@ -95,9 +85,12 @@ class ComponentStore(Store):
         :param initial_state: The initial state to set for the component.
         :return: None
         """
-        self.init_property(f"{component_id}_state", initial_state)       
+        if not self.has_property(f"{component_id}_state"):
+            super().set_property(f"{component_id}_state", initial_state)
 
-    def get_property(self, component_id: str, property_name: str) -> Any:
+    def get_property(  # pylint: disable=arguments-differ
+        self, component_id: str, property_name: str
+    ) -> Any: 
         """
         Retrieves the value of a property from a component's state.
 
@@ -107,7 +100,7 @@ class ComponentStore(Store):
         """
         return super().get_property(f"{component_id}_state")[property_name]
 
-    def set_property(
+    def set_property(  # pylint: disable=arguments-differ
         self, component_id: str, property_name: str, property_value: Any
     ) -> None:
         """
