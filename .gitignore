@@ -3,3 +3,4 @@
 .pypirc
 /venv
 /src/ststeroids/__pycache__
+/tests/__pycache__
