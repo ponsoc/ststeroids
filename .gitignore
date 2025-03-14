@@ -2,3 +2,4 @@
 /src/ststeroids.egg-info
 .pypirc
 /venv
+/src/ststeroids/__pycache__

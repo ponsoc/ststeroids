@@ -14,8 +14,8 @@ class Router:
         :param default: The default page to load when the app starts. Defaults to "home".
         """
         self.routes = {}
-        if "ststeroids_current_page" not in st.session_state:
-            st.session_state["ststeroids_current_page"] = default
+        if "ststeroids_current_route" not in st.session_state:
+            st.session_state["ststeroids_current_route"] = default
 
     def run(self):
         """
@@ -25,7 +25,7 @@ class Router:
 
         :return: None
         """
-        self.routes[st.session_state["ststeroids_current_page"]]()
+        self.routes[st.session_state["ststeroids_current_route"]]()
 
     def route(self, route_name: str):
         """
@@ -34,7 +34,7 @@ class Router:
         :param route_name: The name of the route to navigate to.
         :return: None
         """
-        st.session_state["ststeroids_current_page"] = route_name
+        st.session_state["ststeroids_current_route"] = route_name
 
     def register_routes(self, routes: dict[str, Layout]):
         """
@@ -44,3 +44,8 @@ class Router:
         :return: None
         """
         self.routes = routes
+    
+    def get_current_route(self):
+        if  "ststeroids_current_route" in st.session_state:
+            return st.session_state["ststeroids_current_route"]
+        return None                
