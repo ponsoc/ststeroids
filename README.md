@@ -145,6 +145,43 @@ Registers a dictionary of routes where keys are route names and values are layou
 
 Returns the currently active route. Useful for creating a navigation breadcrumbs. 
 
+#### Store
+
+A wrapper around `st.session_state` to separate states into stores.
+
+Usage:
+
+```python
+session_store = Store("yourstore")
+```
+
+##### API reference
+
+`has_property(property_name: str)`
+
+Checks if a property exists in the store.
+
+`get_property(property_name: str)`
+
+Retrieves the value of a property from the store.
+
+`set_property(property_name: str)`
+
+Sets the value of a property in the store.
+
+#### Style
+
+A helper class to easily apply CSS to your Streamlit Application.
+
+Usage:
+
+```python
+from ststeroids import Style
+
+app_style = Style("style.css")
+app_style.apply_style()
+```
+
 ### Todo
 
 - Add test
