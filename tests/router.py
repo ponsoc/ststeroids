@@ -40,6 +40,12 @@ def test_run_calls_current_route(mock_session_state, router):
     router.run()
     mock_function.assert_called_once()
 
+def test_run_calls_invalid_current_route(mock_session_state, router):
+    mock_function = MagicMock()
+    router.register_routes({"home": mock_function})
+    with pytest.raises(KeyError, match="The current route 'invalid' is not a registered route."):
+        router.route("invalid")
+        router.run()
 
 def test_get_current_route(mock_session_state, router):
     assert router.get_current_route() == "home"

@@ -19,7 +19,7 @@ def component(mock_store):
 def test_component_initialization(component):
     # Test that the component is initialized correctly
     assert component.id == "test_component"
-    assert component.state is not None
+    assert isinstance(component.state, State)
 
 def test_state_initialization(mock_store):
     # Test that the state is initialized with the component ID and store

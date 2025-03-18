@@ -25,6 +25,8 @@ class Router:
 
         :return: None
         """
+        if st.session_state["ststeroids_current_route"] not in self.routes:
+            raise KeyError(f"The current route '{st.session_state["ststeroids_current_route"]}' is not a registered route.")
         self.routes[st.session_state["ststeroids_current_route"]]()
 
     def route(self, route_name: str):
