@@ -14,7 +14,7 @@ The main concepts of Ststeroids are:
 - Layouts
 - Routers
 
-In addition it comes with an easy way of loading style sheets into your Streamlit application.
+In addition, StSteroids provides an easy way to load style sheets into your Streamlit application and offers a wrapper around `st.session_state` to separate states into stores. This wrapper is also used within components to store the component and its state in the session state.
 
 #### Components
 Components are at the core of StSteroids. A component represents a specific visual element of your application along with its rendering logic. Examples include a login dialog or a person details component.
@@ -36,7 +36,9 @@ Routers enable multi-page applications by defining routes and linking them to la
 
 ### Usage
 
-#### Component
+StSteroids allows you to define components, layouts, and flows, then connect everything in `app.py` using a router. See the `example` folder in this repository.
+
+#### Components
 
 Defining a new component.
 ```python
@@ -74,7 +76,7 @@ myvalue = self.state.yourproperty
 self.state.yourproperty = "yourvalue"
 ```
 
-#### Flow
+#### Flows
 
 Defining a new flow.
 ```python
@@ -88,8 +90,62 @@ class YourXFlow(Flow)
         # Your flow logic
 ```
 
+##### API Reference
+
+`component_store`
+
+The component store containing the instances of components and their states.
+
+Use `component_store.get_component(component_id: str)` to retrieve an instance of a component.
+
+#### Layouts
+
+Defining a new layout.
+```python
+from ststeroids import Layout
+
+class YourXLayout(Layout)
+    def __init__(self)
+
+    def run(self)
+        # Your layout render logic
+```
+
+An instance of a layout can be renderd by calling either the `render()` function or by calling the instance of the layout.
+
+Calling the instance
+```python
+my_x_layout = YourXLayout()
+my_x_layout()
+```
+
+#### Routers
+Intializing a router
+
+```python
+from ststeroids import Router
+router = Router()
+```
+
+##### API Reference
+
+`run`
+
+Runs the currently active route
+
+`route(route_name: str)`
+
+Changes the currently active to the given route name
+
+`register_routes(routes: dict[str, Layout])`
+
+Registers a dictionary of routes where keys are route names and values are layouts.
+
+`get_current_route`
+
+Returns the currently active route. Useful for creating a navigation breadcrumbs. 
+
 ### Todo
 
 - Add test
-- Update readme
 - Add example project structure
