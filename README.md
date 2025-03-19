@@ -217,3 +217,4 @@ app_style.apply_style()
 - Add example project structure
 - Automate test workflow and publish to pypi
 - Ambition: directly link element values to component states
+- Describe component store
