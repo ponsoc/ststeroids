@@ -1,7 +1,7 @@
 import pytest
 import streamlit as st
 from unittest.mock import MagicMock
-from ststeroids import Router  # Replace 'your_module' with the actual module name
+from ststeroids import Router
 
 @pytest.fixture
 def router():
