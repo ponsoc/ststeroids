@@ -83,6 +83,7 @@ self.state.yourproperty = "yourvalue"
 ```
 
 `register_element(element_name: str)`
+
 Registers an Streamlit element onto the component by generating component bound key. Use this function when setting a key for an element within the component.
 
 Usage:
@@ -92,6 +93,7 @@ Usage:
 ```
 
 `get_element(element_name: str)`
+
 Returns the value of a registered element.
 
 Usage:
