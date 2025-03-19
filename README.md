@@ -71,15 +71,39 @@ Holds the component id
 Manages the component state. Although technically an instance of the StSteroids `State` class, it functions like a dictionary, allowing properties to be accessed using getters and setters.  
 
 When outside the component:
-```
+```python
 myvalue = yourcomponent.state.yourproperty
 yourcomponent.state.yourproperty = "yourvalue"
 ```
 
 When inside the component:
-```
+```python
 myvalue = self.state.yourproperty
 self.state.yourproperty = "yourvalue"
+```
+
+`register_element(element_name: str)`
+
+Registers an Streamlit element onto the component by generating component bound key. Use this function when setting a key for an element within the component.
+
+Usage:
+
+```python
+    st.text_input("yourtext", key=self.register_element("yourtext"))
+```
+
+`get_element(element_name: str)`
+
+Returns the value of a registered element.
+
+Usage:
+
+```python
+    def yourbutton_click(self);
+        yourtext = self.get_element("yourtext")
+
+    st.text_input("yourtext",key=self.register_element("yourtext"))        
+    st.button("yourbutton", on_click=self.yourbutton_click)
 ```
 
 #### Flows
@@ -193,3 +217,4 @@ app_style.apply_style()
 - Add example project structure
 - Automate test workflow and publish to pypi
 - Ambition: directly link element values to component states
+- Describe component store
