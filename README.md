@@ -34,6 +34,12 @@ For example, a layout might define multiple Streamlit columns and place componen
 #### Routers
 Routers enable multi-page applications by defining routes and linking them to layouts. These routes are internal, meaning they cannot be accessed directly via a URL (due to current Streamlit limitations) and should be triggered through user interactions.
 
+### Installation
+
+```
+pip install ststeroids
+```
+
 ### Usage
 
 StSteroids allows you to define components, layouts, and flows, then connect everything in `app.py` using a router. See the `example` folder in this repository.
@@ -184,5 +190,6 @@ app_style.apply_style()
 
 ### Todo
 
-- Add test
 - Add example project structure
+- Automate test workflow and publish to pypi
+- Ambition: directly link element values to component states
