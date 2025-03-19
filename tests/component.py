@@ -1,7 +1,12 @@
 import pytest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 from ststeroids.store import ComponentStore
 from ststeroids.component import Component, State
+
+@pytest.fixture
+def mock_session_state():
+    with patch("streamlit.session_state", new={}) as mock_state:
+        yield mock_state
 
 @pytest.fixture
 def mock_store():
@@ -41,3 +46,18 @@ def test_render_not_implemented(component):
     # Test that calling render raises NotImplementedError
     with pytest.raises(NotImplementedError):
         component.render()
+
+def test_register_element(component):
+    element_name = "button"
+    expected_key = "test_component_button"
+    assert component.register_element(element_name) == expected_key
+
+def test_get_element_not_set(component):
+    element_name = "non_existent"
+    assert component.get_element(element_name) is None
+
+def test_get_element_set(component, mock_session_state):
+    element_name = "input"
+    key = component.register_element(element_name)
+    mock_session_state[key] = "Test Value"
+    assert component.get_element(element_name) == "Test Value"
