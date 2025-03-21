@@ -51,4 +51,3 @@ class Router:
         if  "ststeroids_current_route" in st.session_state:
             return st.session_state["ststeroids_current_route"]
         return None
-    
