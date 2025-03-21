@@ -2,6 +2,7 @@ import streamlit as st
 from typing import Any
 from .store import ComponentStore
 
+
 # pylint: disable=too-few-public-methods
 class Component:
     """
