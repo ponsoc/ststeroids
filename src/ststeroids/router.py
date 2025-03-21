@@ -50,4 +50,5 @@ class Router:
     def get_current_route(self):
         if  "ststeroids_current_route" in st.session_state:
             return st.session_state["ststeroids_current_route"]
-        return None                
+        return None
+    
