@@ -1,0 +1,182 @@
+{
+  "authenticate_response": {
+    "access_token": "12345"
+  },
+  "movies": [
+    {
+      "title": "Inception",
+      "rating": 8.8,
+      "category": "Sci-Fi",
+      "release_year": 2010,
+      "director": "Christopher Nolan"
+    },
+    {
+      "title": "The Dark Knight",
+      "rating": 9.0,
+      "category": "Action",
+      "release_year": 2008,
+      "director": "Christopher Nolan"
+    },
+    {
+      "title": "Interstellar",
+      "rating": 8.6,
+      "category": "Sci-Fi",
+      "release_year": 2014,
+      "director": "Christopher Nolan"
+    },
+    {
+      "title": "The Matrix",
+      "rating": 8.7,
+      "category": "Sci-Fi",
+      "release_year": 1999,
+      "director": "The Wachowskis"
+    },
+    {
+      "title": "Pulp Fiction",
+      "rating": 8.9,
+      "category": "Crime",
+      "release_year": 1994,
+      "director": "Quentin Tarantino"
+    },
+    {
+      "title": "Forrest Gump",
+      "rating": 8.8,
+      "category": "Drama",
+      "release_year": 1994,
+      "director": "Robert Zemeckis"
+    },
+    {
+      "title": "The Shawshank Redemption",
+      "rating": 9.3,
+      "category": "Drama",
+      "release_year": 1994,
+      "director": "Frank Darabont"
+    },
+    {
+      "title": "Fight Club",
+      "rating": 8.8,
+      "category": "Drama",
+      "release_year": 1999,
+      "director": "David Fincher"
+    },
+    {
+      "title": "The Godfather",
+      "rating": 9.2,
+      "category": "Crime",
+      "release_year": 1972,
+      "director": "Francis Ford Coppola"
+    },
+    {
+      "title": "The Godfather Part II",
+      "rating": 9.0,
+      "category": "Crime",
+      "release_year": 1974,
+      "director": "Francis Ford Coppola"
+    },
+    {
+      "title": "The Lord of the Rings: The Fellowship of the Ring",
+      "rating": 8.8,
+      "category": "Fantasy",
+      "release_year": 2001,
+      "director": "Peter Jackson"
+    },
+    {
+      "title": "The Lord of the Rings: The Two Towers",
+      "rating": 8.7,
+      "category": "Fantasy",
+      "release_year": 2002,
+      "director": "Peter Jackson"
+    },
+    {
+      "title": "The Lord of the Rings: The Return of the King",
+      "rating": 9.0,
+      "category": "Fantasy",
+      "release_year": 2003,
+      "director": "Peter Jackson"
+    },
+    {
+      "title": "The Avengers",
+      "rating": 8.0,
+      "category": "Action",
+      "release_year": 2012,
+      "director": "Joss Whedon"
+    },
+    {
+      "title": "Avengers: Infinity War",
+      "rating": 8.4,
+      "category": "Action",
+      "release_year": 2018,
+      "director": "Anthony and Joe Russo"
+    },
+    {
+      "title": "Avengers: Endgame",
+      "rating": 8.4,
+      "category": "Action",
+      "release_year": 2019,
+      "director": "Anthony and Joe Russo"
+    },
+    {
+      "title": "Titanic",
+      "rating": 7.9,
+      "category": "Romance",
+      "release_year": 1997,
+      "director": "James Cameron"
+    },
+    {
+      "title": "Gladiator",
+      "rating": 8.5,
+      "category": "Action",
+      "release_year": 2000,
+      "director": "Ridley Scott"
+    },
+    {
+      "title": "Jurassic Park",
+      "rating": 8.1,
+      "category": "Adventure",
+      "release_year": 1993,
+      "director": "Steven Spielberg"
+    },
+    {
+      "title": "Star Wars: Episode IV - A New Hope",
+      "rating": 8.6,
+      "category": "Sci-Fi",
+      "release_year": 1977,
+      "director": "George Lucas"
+    },
+    {
+      "title": "Star Wars: Episode V - The Empire Strikes Back",
+      "rating": 8.7,
+      "category": "Sci-Fi",
+      "release_year": 1980,
+      "director": "Irvin Kershner"
+    },
+    {
+      "title": "The Silence of the Lambs",
+      "rating": 8.6,
+      "category": "Thriller",
+      "release_year": 1991,
+      "director": "Jonathan Demme"
+    },
+    {
+      "title": "Schindler's List",
+      "rating": 9.0,
+      "category": "Biography",
+      "release_year": 1993,
+      "director": "Steven Spielberg"
+    },
+    {
+      "title": "The Departed",
+      "rating": 8.5,
+      "category": "Crime",
+      "release_year": 2006,
+      "director": "Martin Scorsese"
+    },
+    {
+      "title": "Saving Private Ryan",
+      "rating": 8.6,
+      "category": "War",
+      "release_year": 1998,
+      "director": "Steven Spielberg"
+    }
+  ]
+}
