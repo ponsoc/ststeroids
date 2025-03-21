@@ -1,5 +1,6 @@
 from .store import ComponentStore
 
+
 # pylint: disable=too-few-public-methods
 class Flow:
     """

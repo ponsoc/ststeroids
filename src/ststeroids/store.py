@@ -92,7 +92,7 @@ class ComponentStore(Store):
 
     def get_property(  # pylint: disable=arguments-differ
         self, component_id: str, property_name: str
-    ) -> Any: 
+    ) -> Any:
         """
         Retrieves the value of a property from a component's state.
 

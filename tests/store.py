@@ -30,7 +30,9 @@ def test_store_get_property(mock_session_state):
 
 def test_store_get_property_key_error(mock_session_state):
     store = Store("test_store")
-    with pytest.raises(KeyError, match="'missing_key' doesn't exist in store 'test_store'."):
+    with pytest.raises(
+        KeyError, match="'missing_key' doesn't exist in store 'test_store'."
+    ):
         store.get_property("missing_key")
 
 
@@ -50,7 +52,7 @@ def test_component_store_initialization(mock_session_state):
 def test_component_store_init_component(mock_session_state):
     class MockComponent:
         id = "comp1"
-    
+
     component_store = ComponentStore()
     component = MockComponent()
     component_store.init_component(component)
