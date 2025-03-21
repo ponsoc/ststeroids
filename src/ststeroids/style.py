@@ -1,5 +1,6 @@
 import streamlit as st
 
+
 # pylint: disable=too-few-public-methods
 class Style:
     """

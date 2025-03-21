@@ -1,5 +1,7 @@
+import streamlit as st
 from typing import Any
 from .store import ComponentStore
+
 
 # pylint: disable=too-few-public-methods
 class Component:
@@ -24,6 +26,34 @@ class Component:
             self.id, self.__store, initial_state if initial_state else {}
         )
         self.__store.init_component(self)
+
+    def register_element(self, element_name: str):
+        """
+        Generates a unique key for an element based on the instance ID.
+
+        Args:
+            element_name (str): The name of the element to register.
+
+        Returns:
+            str: A unique key for the element.
+        """
+        key = f"{self.id}_{element_name}"
+        return key
+
+    def get_element(self, element_name: str):
+        """
+        Retrieves the value of a registered element from the session state.
+
+        Args:
+            element_name (str): The name of the element to retrieve.
+
+        Returns:
+            Any: The value of the element if it exists in the session state, otherwise None.
+        """
+        key = f"{self.id}_{element_name}"
+        if key not in st.session_state:
+            return None
+        return st.session_state[key]
 
     def render(self) -> None:
         """
@@ -71,9 +101,6 @@ class State:
         """
         if not name.startswith("__"):
             return self.__store.get_property(self.__id, name)
-        raise AttributeError(
-            f"'{type(self).__name__}' object has no attribute '{name}'"
-        )
 
     def __setattr__(self, name, value):
         """

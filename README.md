@@ -21,18 +21,24 @@ Components are at the core of StSteroids. A component represents a specific visu
 
 Each component contains only the logic necessary for its functionality, such as basic input validation or button interactions that trigger a [flow](#flows). Components and their state are stored in the ComponentStore.
 
-### Flows
+#### Flows
 Flows contain the business logic of the application, handling its core functionality and, in some cases, linking components to backend services.
 
 For example, a login flow might call an authentication service, validate the response, extract the access token, and store it in the session store.
 
-### Layouts
+#### Layouts
 Layouts bring components together to create a multi-page application. Each layout functions as a page, rendering one or more components and defining their arrangement.
 
 For example, a layout might define multiple Streamlit columns and place components within them.
 
-### Routers
+#### Routers
 Routers enable multi-page applications by defining routes and linking them to layouts. These routes are internal, meaning they cannot be accessed directly via a URL (due to current Streamlit limitations) and should be triggered through user interactions.
+
+### Installation
+
+```
+pip install ststeroids
+```
 
 ### Usage
 
@@ -44,11 +50,11 @@ Defining a new component.
 ```python
 from ststeroids import Component
 
-class YourXComponent(Component)
-    def __init__(self, component_id: str)
+class YourXComponent(Component):
+    def __init__(self, component_id: str):
         super().__init__(component_id) # This line is important to initialize the base class.
 
-    def render(self)
+    def render(self):
         # Your render logic
 ```
 
@@ -65,15 +71,39 @@ Holds the component id
 Manages the component state. Although technically an instance of the StSteroids `State` class, it functions like a dictionary, allowing properties to be accessed using getters and setters.  
 
 When outside the component:
-```
+```python
 myvalue = yourcomponent.state.yourproperty
 yourcomponent.state.yourproperty = "yourvalue"
 ```
 
 When inside the component:
-```
+```python
 myvalue = self.state.yourproperty
 self.state.yourproperty = "yourvalue"
+```
+
+`register_element(element_name: str)`
+
+Registers an Streamlit element onto the component by generating component bound key. Use this function when setting a key for an element within the component.
+
+Usage:
+
+```python
+    st.text_input("yourtext", key=self.register_element("yourtext"))
+```
+
+`get_element(element_name: str)`
+
+Returns the value of a registered element.
+
+Usage:
+
+```python
+    def yourbutton_click(self);
+        yourtext = self.get_element("yourtext")
+
+    st.text_input("yourtext",key=self.register_element("yourtext"))        
+    st.button("yourbutton", on_click=self.yourbutton_click)
 ```
 
 #### Flows
@@ -82,11 +112,11 @@ Defining a new flow.
 ```python
 from ststeroids import Flow
 
-class YourXFlow(Flow)
-    def __init__(self)
+class YourXFlow(Flow):
+    def __init__(self):
         super().__init__() # This line is important to initialize the base class.
 
-    def run(self)
+    def run(self):
         # Your flow logic
 ```
 
@@ -104,14 +134,14 @@ Defining a new layout.
 ```python
 from ststeroids import Layout
 
-class YourXLayout(Layout)
-    def __init__(self)
+class YourXLayout(Layout):
+    def __init__(self):
 
-    def run(self)
+    def run(self):
         # Your layout render logic
 ```
 
-An instance of a layout can be renderd by calling either the `render()` function or by calling the instance of the layout.
+An instance of a layout can be rendered by calling either the `render()` function or by calling the instance of the layout.
 
 Calling the instance
 ```python
@@ -184,5 +214,7 @@ app_style.apply_style()
 
 ### Todo
 
-- Add test
 - Add example project structure
+- Automate test workflow and publish to pypi
+- Ambition: directly link element values to component states
+- Describe component store

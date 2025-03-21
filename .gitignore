@@ -4,3 +4,4 @@
 /venv
 /src/ststeroids/__pycache__
 /tests/__pycache__
+.coverage

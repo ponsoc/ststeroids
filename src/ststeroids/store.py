@@ -38,6 +38,8 @@ class Store:
         :param property_name: The name of the property to retrieve.
         :return: The value of the property from the store.
         """
+        if property_name not in st.session_state[self.name]:
+            raise KeyError(f"'{property_name}' doesn't exist in store '{self.name}'.")
         return st.session_state[self.name][property_name]
 
     def set_property(self, property_name: str, property_value: Any) -> None:
@@ -90,7 +92,7 @@ class ComponentStore(Store):
 
     def get_property(  # pylint: disable=arguments-differ
         self, component_id: str, property_name: str
-    ) -> Any: 
+    ) -> Any:
         """
         Retrieves the value of a property from a component's state.
 
