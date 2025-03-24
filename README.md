@@ -51,6 +51,14 @@ pip install -r requirements.txt
 streamlit run ./example/src/app.py
 ```
 
+To run the tests, execute the following command from the project root:
+
+```
+pip install -r requirements.txt
+pip install -r requirements-dev.txt
+pytest
+```
+
 #### Components
 
 Defining a new component.
