@@ -1,13 +1,14 @@
 import streamlit as st
+from components import DataViewerComponent
 from shared import ComponentIDs
-from ststeroids import Flow, Layout
+from ststeroids import Layout
 
 
 class ManageDataLayout(Layout):
     def __init__(self):
-        st.empty()
+        self.data_viewer = DataViewerComponent(ComponentIDs.data_viewer, "Movies")
         
 
     def render(self):
-        st.write("Nog niet ingelogd. Gebruik het menu of ververs de pagina.")
+        self.data_viewer.render()
         
