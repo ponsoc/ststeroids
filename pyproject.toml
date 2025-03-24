@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ststeroids"
-version = "0.1.10"
+version = "0.1.11"
 description = "A framework supercharging Streamlit for building advanced multi-page applications"
 readme = "README.md"
 authors = [{ name = "ponsoc"}]

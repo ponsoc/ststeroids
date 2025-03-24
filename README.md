@@ -44,6 +44,21 @@ pip install ststeroids
 
 StSteroids allows you to define components, layouts, and flows, then connect everything in `app.py` using a router. See the `example` folder in this repository.
 
+To run the example app, execute the following commands from the project root:
+
+```
+pip install -r requirements.txt
+streamlit run ./example/src/app.py
+```
+
+To run the tests, execute the following command from the project root:
+
+```
+pip install -r requirements.txt
+pip install -r requirements-dev.txt
+pytest
+```
+
 #### Components
 
 Defining a new component.
@@ -84,7 +99,7 @@ self.state.yourproperty = "yourvalue"
 
 `register_element(element_name: str)`
 
-Registers an Streamlit element onto the component by generating component bound key. Use this function when setting a key for an element within the component.
+Registers a Streamlit element onto the component by generating component bound key. Use this function when setting a key for an element within the component.
 
 Usage:
 
@@ -212,9 +227,18 @@ app_style = Style("style.css")
 app_style.apply_style()
 ```
 
+### Release notes
+
+0.1.11
+
+Considered first stable release
+
+< 0.1.11
+
+Beta releases
+
 ### Todo
 
-- Add example project structure
 - Automate test workflow and publish to pypi
 - Ambition: directly link element values to component states
 - Describe component store
