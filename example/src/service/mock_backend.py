@@ -7,8 +7,9 @@ class MockBackendService:
         with open(test_data_file) as file:
             self.test_data = json.load(file)
 
-    def authenticate(self):
-        return self.__test_response(200, self.test_data["authenticate_response"])
+    def authenticate(self, username: str, password: str):
+        if username and password:
+            return self.__test_response(200, self.test_data["authenticate_response"])
 
     def get_movies(self):
         return self.__test_response(201, self.test_data["movies"])
