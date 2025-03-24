@@ -1,5 +1,5 @@
-import pytest
 from unittest.mock import MagicMock, patch
+import pytest
 from ststeroids.store import ComponentStore
 from ststeroids.component import Component, State
 

@@ -1,5 +1,5 @@
 import streamlit as st
-from ststeroids import Component, Flow, Router
+from ststeroids import Component, Router
 
 
 class SidebarComponent(Component):
