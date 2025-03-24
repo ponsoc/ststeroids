@@ -2,11 +2,5 @@
 /src/ststeroids.egg-info
 .pypirc
 /venv
-/src/ststeroids/__pycache__
-/tests/__pycache__
 .coverage
-/example/src/layouts/__pycache__
-/example/src/flows/__pycache__
-/example/src/components/__pycache__
-/example/src/__pycache__
-/example/src/service/__pycache__
+**/__pycache__
