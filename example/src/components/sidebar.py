@@ -14,17 +14,29 @@ class SidebarComponent(Component):
     def __get_titles(self):
         current_route = self.router.get_current_route()
         dashboard_title = "Dashboard"
-        manage_data_title = "Manage data"
+        view_data_title = "View data"
 
         if current_route == "dashboard":
             dashboard_title = f"**:primary-background[{dashboard_title}]**"
         if current_route == "manage_data":
-            manage_data_title = f"**:primary-background[{manage_data_title}]**"
+            view_data_title = f"**:primary-background[{view_data_title}]**"
 
-        return dashboard_title, manage_data_title
+        return dashboard_title, view_data_title
 
     def render(self):
-        dashboard_title, manage_data_title = self.__get_titles()
+        dashboard_title, view_data_title = self.__get_titles()
         with st.sidebar:
-            st.button(dashboard_title, icon=":material/search:", type="tertiary", on_click=self.__on_menu_item_click, kwargs={"item": "dashboard"})
-            st.button(manage_data_title, icon=":material/bar_chart:", type="tertiary", on_click=self.__on_menu_item_click, kwargs={"item": "manage_data"})
+            st.button(
+                dashboard_title,
+                icon=":material/search:",
+                type="tertiary",
+                on_click=self.__on_menu_item_click,
+                kwargs={"item": "dashboard"},
+            )
+            st.button(
+                view_data_title,
+                icon=":material/bar_chart:",
+                type="tertiary",
+                on_click=self.__on_menu_item_click,
+                kwargs={"item": "manage_data"},
+            )

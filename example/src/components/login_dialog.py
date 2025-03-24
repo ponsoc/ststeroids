@@ -3,7 +3,13 @@ from ststeroids import Component, Flow
 
 
 class LoginDialogComponent(Component):
-    def __init__(self, component_id: str, login_flow: Flow, login_success_flow: Flow, header: str = "Enter username/password"):
+    def __init__(
+        self,
+        component_id: str,
+        login_flow: Flow,
+        login_success_flow: Flow,
+        header: str = "Enter username/password",
+    ):
         super().__init__(component_id, {"visible": False})
         self.header = header
         self.login_flow = login_flow

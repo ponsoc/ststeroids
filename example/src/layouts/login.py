@@ -11,7 +11,9 @@ class LoginLayout(Layout):
         login_flow: Flow,
         login_success_flow: Flow,
     ):
-        self.login_dialog = LoginDialogComponent(ComponentIDs.dialog_login, login_flow, login_success_flow, login_header)
+        self.login_dialog = LoginDialogComponent(
+            ComponentIDs.dialog_login, login_flow, login_success_flow, login_header
+        )
 
     def render(self):
         self.login_dialog.render()
