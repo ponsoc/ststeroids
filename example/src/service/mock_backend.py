@@ -10,7 +10,7 @@ class MockBackendService:
     def authenticate(self, username, password):
         return self.__test_response(200, self.test_data["authenticate_response"])
 
-    def get_movies(self, query: str):
+    def get_movies(self):
         return self.__test_response(201, self.test_data["movies"])
 
     def __test_response(self, status_code, data):
