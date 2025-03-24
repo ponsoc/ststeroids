@@ -212,9 +212,18 @@ app_style = Style("style.css")
 app_style.apply_style()
 ```
 
+### Release notes
+
+0.1.11
+
+Considered first stable release
+
+< 0.1.11
+
+Beta releases
+
 ### Todo
 
-- Add example project structure
 - Automate test workflow and publish to pypi
 - Ambition: directly link element values to component states
 - Describe component store
