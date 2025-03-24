@@ -99,7 +99,7 @@ self.state.yourproperty = "yourvalue"
 
 `register_element(element_name: str)`
 
-Registers an Streamlit element onto the component by generating component bound key. Use this function when setting a key for an element within the component.
+Registers a Streamlit element onto the component by generating component bound key. Use this function when setting a key for an element within the component.
 
 Usage:
 
