@@ -44,6 +44,12 @@ pip install ststeroids
 
 StSteroids allows you to define components, layouts, and flows, then connect everything in `app.py` using a router. See the `example` folder in this repository.
 
+To run the example app, execute the following command from the project root:
+
+```
+streamlit run ./example/src/app.py
+```
+
 #### Components
 
 Defining a new component.
