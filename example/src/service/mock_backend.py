@@ -10,6 +10,7 @@ class MockBackendService:
     def authenticate(self, username: str, password: str):
         if username and password:
             return self.__test_response(200, self.test_data["authenticate_response"])
+        return self.__test_response(403,{})
 
     def get_movies(self):
         return self.__test_response(201, self.test_data["movies"])
@@ -18,4 +19,5 @@ class MockBackendService:
         test_response = Mock()
         test_response.status_code = status_code
         test_response.json.return_value = data
+        test_response.ok = 200 <= test_response.status_code < 400
         return test_response
