@@ -143,6 +143,14 @@ The component store containing the instances of components and their states.
 
 Use `component_store.get_component(component_id: str)` to retrieve an instance of a component.
 
+```python
+from components import YourXComponent
+
+your_x_component_instance: YourXComponent = self.component_store.get_component("your_x_component_id")
+```
+
+Notice the `: YourXComponent` this tells your IDE what type of component you are getting and helps the autocomplete.
+
 #### Layouts
 
 Defining a new layout.
