@@ -9,9 +9,9 @@ Ststeroids was designed to supercharge the development of complex multi-page app
 
 The main concepts of Ststeroids are:
 
-- Components
-- Flows
-- Layouts
+- Reusable Components
+- Logics Flows
+- Declarative Layouts
 - Routers
 
 In addition, StSteroids provides an easy way to load style sheets into your Streamlit application and offers a wrapper around `st.session_state` to separate states into stores. This wrapper is also used within components to store the component and its state in the session state.
@@ -143,6 +143,14 @@ The component store containing the instances of components and their states.
 
 Use `component_store.get_component(component_id: str)` to retrieve an instance of a component.
 
+```python
+from components import YourXComponent
+
+your_x_component_instance: YourXComponent = self.component_store.get_component("your_x_component_id")
+```
+
+Notice the `: YourXComponent` this tells your IDE what type of component you are getting and helps the autocomplete.
+
 #### Layouts
 
 Defining a new layout.
@@ -239,6 +247,7 @@ Beta releases
 
 ### Todo
 
+- Improve IDE/autocomplete for state managed variables
 - Automate test workflow and publish to pypi
 - Ambition: directly link element values to component states
 - Describe component store

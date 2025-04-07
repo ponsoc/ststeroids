@@ -61,6 +61,13 @@ class ComponentStore(Store):
     :param initial_state: The initial state of the component.
     """
 
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
     def __init__(self):
         """
         Initializes the component store with the name 'components'.

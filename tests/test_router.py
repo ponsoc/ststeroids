@@ -43,6 +43,14 @@ def test_run_calls_current_route(mock_session_state, router):
     router.run()
     mock_function.assert_called_once()
 
+def test_run_calls_current_route_that_raises_an_exception(mock_session_state, router):
+    mock_function = MagicMock(side_effect=KeyError("Missing key"))
+    router.register_routes({"home": mock_function})
+    with pytest.raises(
+        KeyError, match="Missing key"
+    ):
+        router.route("home")
+        router.run()
 
 def test_run_calls_invalid_current_route(mock_session_state, router):
     mock_function = MagicMock()
