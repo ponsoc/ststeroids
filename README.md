@@ -9,9 +9,9 @@ Ststeroids was designed to supercharge the development of complex multi-page app
 
 The main concepts of Ststeroids are:
 
-- Components
-- Flows
-- Layouts
+- Reusable Components
+- Logics Flows
+- Declarative Layouts
 - Routers
 
 In addition, StSteroids provides an easy way to load style sheets into your Streamlit application and offers a wrapper around `st.session_state` to separate states into stores. This wrapper is also used within components to store the component and its state in the session state.
