@@ -1,10 +1,7 @@
 import streamlit as st
 from collections import defaultdict
 from components import SidebarComponent
-from flows import (
-    LoginFlow,
-    LoginSuccessFlow,
-)
+from flows import LoginFlow, LoginSuccessFlow, RefreshFlow
 from layouts import LoginLayout, DashboardLayout, ManageDataLayout
 from service import MockBackendService
 from ststeroids import Router, Store, Style
@@ -15,6 +12,7 @@ router = Router("login")
 backend_service = MockBackendService("./example/test_data.json")
 login_flow = LoginFlow(session_store, backend_service)
 login_success_flow = LoginSuccessFlow(router, session_store, backend_service)
+refresh_flow = RefreshFlow(session_store, backend_service)
 
 st.set_page_config(layout="wide")
 
@@ -27,6 +25,7 @@ manage_data_layout = ManageDataLayout()
 
 sidebar = SidebarComponent("sidebar", router)
 sidebar.render()
+refresh_flow.run()
 
 
 def get_routes():
@@ -45,5 +44,4 @@ def get_routes():
 
 
 router.register_routes(get_routes())
-
 router.run()

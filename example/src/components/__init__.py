@@ -5,4 +5,10 @@ from .metric import MetricComponent
 from .live_metric import LiveMetricComponent
 
 
-__all__ = [LoginDialogComponent, SidebarComponent, DataViewerComponent, MetricComponent, LiveMetricComponent]
+__all__ = [
+    LoginDialogComponent,
+    SidebarComponent,
+    DataViewerComponent,
+    MetricComponent,
+    LiveMetricComponent,
+]

@@ -1,6 +1,6 @@
+import uuid
 import streamlit as st
 from ststeroids import Component
-import uuid
 
 
 class DataViewerComponent(Component):
@@ -18,12 +18,12 @@ class DataViewerComponent(Component):
 
     def render(self):
         st.subheader(self.header)
-        return st.dataframe(
+        st.dataframe(
             self.state.data,
             hide_index=True,
             column_config=self.column_config,
             column_order=self.column_order,
         )
 
-    def set_data(self, data: list):
+    def set_data(self, data):
         self.state.data = data
