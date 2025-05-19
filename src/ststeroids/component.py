@@ -55,6 +55,21 @@ class Component:
             return None
         return st.session_state[key]
 
+    def set_element(self, element_name: str, element_value):
+        """
+        Sets the value of a registered element in the session state.
+
+        Args:
+            element_name (str): The name of the element to set.
+            element_value (Any): The value to assign to the element.
+
+        Returns:
+            None
+        """
+        key = f"{self.id}_{element_name}"
+
+        st.session_state[key] = element_value
+
     def render(self) -> None:
         """
         Placeholder method for rendering the component.

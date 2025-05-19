@@ -78,3 +78,10 @@ def test_get_element_set(component, mock_session_state):
     key = component.register_element(element_name)
     mock_session_state[key] = "Test Value"
     assert component.get_element(element_name) == "Test Value"
+
+def test_set_element(component, mock_session_state):
+    element_name = "input"
+    key = component.register_element(element_name)
+    mock_session_state[key] = "nothing"
+    component.set_element(element_name, "something")
+    assert component.get_element(element_name) == "something"
