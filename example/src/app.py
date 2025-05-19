@@ -20,13 +20,11 @@ app_style = Style("./example/src/assets/style.css")
 app_style.apply_style()
 
 login_layout = LoginLayout("App login", login_flow, login_success_flow)
-dashboard_layout = DashboardLayout()
+dashboard_layout = DashboardLayout(refresh_flow)
 manage_data_layout = ManageDataLayout()
 
 sidebar = SidebarComponent("sidebar", router)
 sidebar.render()
-refresh_flow.run()
-
 
 def get_routes():
     routes = defaultdict(lambda: login_layout)
