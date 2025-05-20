@@ -26,6 +26,7 @@ manage_data_layout = ManageDataLayout()
 sidebar = SidebarComponent("sidebar", router)
 sidebar.render()
 
+
 def get_routes():
     routes = defaultdict(lambda: login_layout)
     routes["login"] = login_layout

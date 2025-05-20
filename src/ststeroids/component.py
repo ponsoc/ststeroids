@@ -1,6 +1,7 @@
 from typing import Any
 import streamlit as st
 from .store import ComponentStore
+from .flow import Flow
 
 
 # pylint: disable=too-few-public-methods
@@ -79,6 +80,20 @@ class Component:
         :raises NotImplementedError: If called directly without being implemented in a subclass.
         """
         raise NotImplementedError("Subclasses should implement this method.")
+
+    def _render_fragement(self, refresh_flow: Flow = None):
+        if refresh_flow:
+            refresh_flow.run()
+        self.render()
+
+    def render_as_fragement(
+        self, refresh_interval: str = "5s", refresh_flow: Flow = None
+    ):
+        @st.fragment(run_every=refresh_interval)
+        def _render():
+            self._render_fragement(refresh_flow)
+
+        _render()
 
 
 class State:

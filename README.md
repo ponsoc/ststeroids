@@ -97,6 +97,14 @@ myvalue = self.state.yourproperty
 self.state.yourproperty = "yourvalue"
 ```
 
+`render()`
+
+Renders an instance of the component.
+
+`render_as_fragment(refresh_interval:str="5s", refresh_flow: Flow=None)`
+
+Renders an instance of the component as a fragement. Additionality you can pass a refresh flow that should be called prior to rendering the component, you can use this to refresh the applications state.
+
 `register_element(element_name: str)`
 
 Registers a Streamlit element onto the component by generating component bound key. Use this function when setting a key for an element within the component.
@@ -120,6 +128,10 @@ Usage:
     st.text_input("yourtext",key=self.register_element("yourtext"))        
     st.button("yourbutton", on_click=self.yourbutton_click)
 ```
+
+`set_element(element_name: str, element_value)`
+
+Sets the value of a registered element.
 
 #### Flows
 
