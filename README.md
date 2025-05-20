@@ -249,6 +249,17 @@ app_style.apply_style()
 
 ### Release notes
 
+0.1.13
+
+- Adds a function to set a registered element's value
+- Adds a function for rendering a component as a fragement
+
+0.1.12
+
+- Makes a real Singleton of the component store
+- Fixes that an invalid route exception was thrown when an error occurred while running the layout beloning to a route, instead of throwing the real error.
+- Updates the readme and the example on how to have better autocomplete
+
 0.1.11
 
 Considered first stable release
