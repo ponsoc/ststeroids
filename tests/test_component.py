@@ -78,3 +78,21 @@ def test_get_element_set(component, mock_session_state):
     key = component.register_element(element_name)
     mock_session_state[key] = "Test Value"
     assert component.get_element(element_name) == "Test Value"
+
+
+def test_set_element(component, mock_session_state):
+    element_name = "input"
+    key = component.register_element(element_name)
+    mock_session_state[key] = "nothing"
+    component.set_element(element_name, "something")
+    assert component.get_element(element_name) == "something"
+
+
+def test_render_fragment_with_flow(component):
+    mock_flow = MagicMock()
+    component.render = MagicMock()
+
+    component._render_fragement(refresh_flow=mock_flow)
+
+    mock_flow.run.assert_called_once()
+    component.render.assert_called_once()

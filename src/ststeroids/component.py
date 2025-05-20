@@ -1,6 +1,7 @@
 from typing import Any
 import streamlit as st
 from .store import ComponentStore
+from .flow import Flow
 
 
 # pylint: disable=too-few-public-methods
@@ -55,6 +56,21 @@ class Component:
             return None
         return st.session_state[key]
 
+    def set_element(self, element_name: str, element_value):
+        """
+        Sets the value of a registered element in the session state.
+
+        Args:
+            element_name (str): The name of the element to set.
+            element_value (Any): The value to assign to the element.
+
+        Returns:
+            None
+        """
+        key = f"{self.id}_{element_name}"
+
+        st.session_state[key] = element_value
+
     def render(self) -> None:
         """
         Placeholder method for rendering the component.
@@ -64,6 +80,20 @@ class Component:
         :raises NotImplementedError: If called directly without being implemented in a subclass.
         """
         raise NotImplementedError("Subclasses should implement this method.")
+
+    def _render_fragement(self, refresh_flow: Flow = None):
+        if refresh_flow:
+            refresh_flow.run()
+        self.render()
+
+    def render_as_fragement(
+        self, refresh_interval: str = "5s", refresh_flow: Flow = None
+    ):
+        @st.fragment(run_every=refresh_interval)
+        def _render():
+            self._render_fragement(refresh_flow)
+
+        _render()
 
 
 class State:
