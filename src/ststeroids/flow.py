@@ -17,7 +17,7 @@ class Flow:
         """
         Internal run method that calls the actual run method implemented in the subclasses.
         """
-        self.run(*args, **kwargs)
+        return self.run(*args, **kwargs)
 
     def run(self, *args, **kwargs):
         """

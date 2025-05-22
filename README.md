@@ -99,11 +99,19 @@ self.state.yourproperty = "yourvalue"
 
 `render()`
 
+This method needs to be implemented by the subclass. To call it in a layout, use `_render()`
+
+`_render()`
+
 Renders an instance of the component.
 
-`render_as_fragment(refresh_interval:str="5s", refresh_flow: Flow=None)`
+` _render_dialog(title: str)`
 
-Renders an instance of the component as a fragement. Additionality you can pass a refresh flow that should be called prior to rendering the component, you can use this to refresh the applications state.
+Renders an instance of the component as a dialog. Title refer to the header of the dialog.
+
+`_render_fragment(refresh_interval:str="5s", refresh_flow: Flow=None)`
+
+Renders an instance of the component as a fragment. Additionality you can pass a refresh flow that should be called post rendering the component, you can use this to refresh the applications state for the next view.
 
 `register_element(element_name: str)`
 
@@ -149,6 +157,14 @@ class YourXFlow(Flow):
 
 ##### API Reference
 
+`run()`
+
+This method needs to be implemented by the subclass. To call it, use `_run()`
+
+`_run()`
+
+Runs the run method implemented in the subclass.
+
 `component_store`
 
 The component store containing the instances of components and their states.
@@ -172,7 +188,7 @@ from ststeroids import Layout
 class YourXLayout(Layout):
     def __init__(self):
 
-    def run(self):
+    def render(self):
         # Your layout render logic
 ```
 
@@ -183,6 +199,15 @@ Calling the instance
 my_x_layout = YourXLayout()
 my_x_layout()
 ```
+##### API Reference
+
+ `render()`
+
+This method needs to be implemented by the subclass. To call it in the application, use `_render()`
+
+`_render()`
+
+Renders an instance of the layout.
 
 #### Routers
 Intializing a router
@@ -252,7 +277,7 @@ app_style.apply_style()
 0.1.13
 
 - Adds a function to set a registered element's value
-- Adds a function for rendering a component as a fragement
+- Adds a function for rendering a component as a fragment
 
 0.1.12
 
