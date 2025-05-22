@@ -16,19 +16,15 @@ class LoginDialogComponent(Component):
         self.login_success_flow = login_success_flow
 
     def render(self):
-        @st.dialog(self.header)
-        def render_dialog():
+        if self.state.visible:
             username = st.text_input("Username")
             password = st.text_input("Password", type="password")
             if st.button("Login", use_container_width=True):
-                login_succes = self.login_flow.run(username, password)
+                login_succes = self.login_flow._run(username, password)
                 if login_succes:
-                    self.login_success_flow.run()
+                    self.login_success_flow._run()
                 else:
                     st.error("Login failed, please check your username and password.")
-
-        if self.state.visible:
-            render_dialog()
 
     def show(self):
         if self.state.visible is False:

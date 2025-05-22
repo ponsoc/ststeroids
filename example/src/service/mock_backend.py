@@ -14,6 +14,9 @@ class MockBackendService:
         return self.__test_response(403, {})
 
     def get_movies(self):
+        import time
+
+        time.sleep(5)
         data = self.test_data["movies"]
         rating = random.randint(1, 10)
         for item in data:

@@ -88,11 +88,11 @@ def test_set_element(component, mock_session_state):
     assert component.get_element(element_name) == "something"
 
 
-def test_render_fragment_with_flow(component):
+def test__render_fragment_with_flow(component):
     mock_flow = MagicMock()
     component.render = MagicMock()
 
-    component._render_fragement(refresh_flow=mock_flow)
+    component._Component__render_fragment(refresh_flow=mock_flow)
 
-    mock_flow.run.assert_called_once()
+    mock_flow._run.assert_called_once()
     component.render.assert_called_once()

@@ -71,6 +71,60 @@ class Component:
 
         st.session_state[key] = element_value
 
+    def _render(self):
+        """
+        Internal render method that calls the actual render method implemented in the subclasses.
+        """
+        self.render()
+
+    def _render_dialog(self, title: str):
+        """
+        Internal method for rendering the component as a dialog.
+
+        This wraps the component's core render logic in a Streamlit dialog with the given title.
+
+        :param title: The title to display at the top of the dialog.
+        """
+
+        @st.dialog(title)
+        def _render():
+            self._render()
+
+        _render()
+
+    def __render_fragment(self, refresh_flow: Flow = None):
+        """
+        Private method for rendering as a fragment.
+
+        This is called internally by the fragment wrapper and handles the core rendering logic.
+        Optionally triggers a refresh flow if one is provided.
+
+        :param refresh_flow: Optional flow object to pass into the rendering logic.
+        """
+        self._render()
+        if refresh_flow:
+            refresh_flow._run()
+
+    def _render_fragment(self, refresh_interval: str = "5s", refresh_flow: Flow = None):
+        """
+        Internal method for rendering the component as a fragment.
+
+        This sets up a Streamlit fragment that automatically re-runs at the given interval.
+        It internally calls the __render_fragment method.
+
+        This method is not meant to be overridden. Subclasses should implement the render()
+        method to define the rendering behavior.
+
+        :param refresh_interval: The interval at which the fragment should refresh (e.g., "5s").
+        :param refresh_flow: Optional flow object to pass into the rendering logic.
+        """
+
+        @st.fragment(run_every=refresh_interval)
+        def _render():
+            self.__render_fragment(refresh_flow)
+
+        _render()
+
     def render(self) -> None:
         """
         Placeholder method for rendering the component.
@@ -80,20 +134,6 @@ class Component:
         :raises NotImplementedError: If called directly without being implemented in a subclass.
         """
         raise NotImplementedError("Subclasses should implement this method.")
-
-    def _render_fragement(self, refresh_flow: Flow = None):
-        if refresh_flow:
-            refresh_flow.run()
-        self.render()
-
-    def render_as_fragement(
-        self, refresh_interval: str = "5s", refresh_flow: Flow = None
-    ):
-        @st.fragment(run_every=refresh_interval)
-        def _render():
-            self._render_fragement(refresh_flow)
-
-        _render()
 
 
 class State:

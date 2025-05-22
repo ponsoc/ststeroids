@@ -1,5 +1,5 @@
-import streamlit as st
 from collections import defaultdict
+import streamlit as st
 from components import SidebarComponent
 from flows import LoginFlow, LoginSuccessFlow, RefreshFlow
 from layouts import LoginLayout, DashboardLayout, ManageDataLayout
