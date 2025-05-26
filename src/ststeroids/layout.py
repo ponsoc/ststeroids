@@ -6,6 +6,12 @@ class Layout:
     def __call__(self):
         self.render()
 
+    def execute_render(self):
+        """
+        Executes the render method implemented in the subclasses.
+        """
+        self.render()
+
     def render(self) -> None:
         """
         Placeholder method for rendering the layout.

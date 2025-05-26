@@ -99,11 +99,28 @@ self.state.yourproperty = "yourvalue"
 
 `render()`
 
-Renders an instance of the component.
+This method needs to be implemented by the subclass. To call it in a layout, use `execute_render()`
 
-`render_as_fragment(refresh_interval:str="5s", refresh_flow: Flow=None)`
+`execute_render(render_as: Literal["normal", "dialog", "fragment"]="normal", options:dict={})`
 
-Renders an instance of the component as a fragement. Additionality you can pass a refresh flow that should be called prior to rendering the component, you can use this to refresh the applications state.
+Executes the render method of an instance of a component. Additionaly provide the `render_as` parameter with the `options` parameter.
+
+Dialog options:
+
+**title**
+
+The dialog title.
+
+Fragment options:
+
+**refresh_flow**
+
+A refresh flow that should be called post rendering the component, you can use this to refresh the applications state for the next view.
+
+**refresh_interval**
+
+The refresh interval, for example: `2s`.
+
 
 `register_element(element_name: str)`
 
@@ -149,6 +166,14 @@ class YourXFlow(Flow):
 
 ##### API Reference
 
+`run()`
+
+This method needs to be implemented by the subclass. To call it, use `execute_run()`
+
+`execute_run()`
+
+Executes the run method implemented in the subclass.
+
 `component_store`
 
 The component store containing the instances of components and their states.
@@ -172,7 +197,7 @@ from ststeroids import Layout
 class YourXLayout(Layout):
     def __init__(self):
 
-    def run(self):
+    def render(self):
         # Your layout render logic
 ```
 
@@ -183,6 +208,15 @@ Calling the instance
 my_x_layout = YourXLayout()
 my_x_layout()
 ```
+##### API Reference
+
+ `render()`
+
+This method needs to be implemented by the subclass. To call it in the application, use `execute_render()`
+
+`execute_render()`
+
+Executes the render method of an instance of a layout. 
 
 #### Routers
 Intializing a router
@@ -249,20 +283,25 @@ app_style.apply_style()
 
 ### Release notes
 
+0.1.14
+
+- Improved UI peformance when working with fragments.
+- Improved method naming. **Note** to update the run and render calls to `execute_run` and `exectute_render`
+
 0.1.13
 
-- Adds a function to set a registered element's value
-- Adds a function for rendering a component as a fragement
+- Adds a function to set a registered element's value.
+- Adds a function for rendering a component as a fragment.
 
 0.1.12
 
-- Makes a real Singleton of the component store
+- Makes a real Singleton of the component store.
 - Fixes that an invalid route exception was thrown when an error occurred while running the layout beloning to a route, instead of throwing the real error.
-- Updates the readme and the example on how to have better autocomplete
+- Updates the readme and the example on how to have better autocomplete.
 
 0.1.11
 
-Considered first stable release
+Considered first stable release.
 
 < 0.1.11
 
