@@ -94,5 +94,5 @@ def test__render_fragment_with_flow(component):
 
     component._Component__render_fragment(refresh_flow=mock_flow)
 
-    mock_flow._run.assert_called_once()
+    mock_flow.execute_run.assert_called_once()
     component.render.assert_called_once()

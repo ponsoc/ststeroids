@@ -13,8 +13,6 @@ class DashboardLayout(Layout):
     def render(self):
         left, right = st.columns([1, 1])
         with left:
-            self.total_movies._render()
+            self.total_movies.execute_render()
         with right:
-            self.avg_rating._render_fragment(
-                refresh_flow=self.refresh_flow, refresh_interval="2s"
-            )
+            self.avg_rating.execute_render("fragment",{"refresh_flow":self.refresh_flow, "refresh_interval":"2s"})

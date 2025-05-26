@@ -13,9 +13,9 @@ class Flow:
         """
         self.component_store = ComponentStore()
 
-    def _run(self, *args, **kwargs):
+    def execute_run(self, *args, **kwargs):
         """
-        Internal run method that calls the actual run method implemented in the subclasses.
+        Executes the run method implemented in the subclasses.
         """
         return self.run(*args, **kwargs)
 

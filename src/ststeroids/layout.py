@@ -6,9 +6,9 @@ class Layout:
     def __call__(self):
         self.render()
 
-    def _render(self):
+    def execute_render(self):
         """
-        Internal render method that calls the actual render method implemented in the subclasses.
+        Executes the render method implemented in the subclasses.
         """
         self.render()
 

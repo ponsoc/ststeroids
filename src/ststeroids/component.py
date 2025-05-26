@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Literal
 import streamlit as st
 from .store import ComponentStore
 from .flow import Flow
@@ -71,12 +71,6 @@ class Component:
 
         st.session_state[key] = element_value
 
-    def _render(self):
-        """
-        Internal render method that calls the actual render method implemented in the subclasses.
-        """
-        self.render()
-
     def _render_dialog(self, title: str):
         """
         Internal method for rendering the component as a dialog.
@@ -88,22 +82,9 @@ class Component:
 
         @st.dialog(title)
         def _render():
-            self._render()
+            self.render()
 
         _render()
-
-    def __render_fragment(self, refresh_flow: Flow = None):
-        """
-        Private method for rendering as a fragment.
-
-        This is called internally by the fragment wrapper and handles the core rendering logic.
-        Optionally triggers a refresh flow if one is provided.
-
-        :param refresh_flow: Optional flow object to pass into the rendering logic.
-        """
-        self._render()
-        if refresh_flow:
-            refresh_flow._run()
 
     def _render_fragment(self, refresh_interval: str = "5s", refresh_flow: Flow = None):
         """
@@ -125,6 +106,23 @@ class Component:
 
         _render()
 
+    def __render_fragment(self,refresh_flow: Flow = None):
+        self.render()
+        if refresh_flow:
+                refresh_flow.execute_run()
+    
+    def execute_render(self, render_as: Literal["normal", "dialog", "fragment"]="normal", options:dict={}):
+        """
+        Executes the render method implemented in the subclasses, additionaly providing extra configuration based on the `render_as` parameter
+        """
+        match render_as:
+            case "normal":
+                return self.render()
+            case "dialog":
+                return self._render_dialog(**options)
+            case "fragment":
+                return self._render_fragment(**options)
+    
     def render(self) -> None:
         """
         Placeholder method for rendering the component.

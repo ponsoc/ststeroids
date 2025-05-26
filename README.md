@@ -99,19 +99,28 @@ self.state.yourproperty = "yourvalue"
 
 `render()`
 
-This method needs to be implemented by the subclass. To call it in a layout, use `_render()`
+This method needs to be implemented by the subclass. To call it in a layout, use `execute_render()`
 
-`_render()`
+`execute_render(render_as: Literal["normal", "dialog", "fragment"]="normal", options:dict={})`
 
-Renders an instance of the component.
+Executes the render method of an instance of a component. Additionaly provide the `render_as` parameter with the `options` parameter.
 
-` _render_dialog(title: str)`
+Dialog options:
 
-Renders an instance of the component as a dialog. Title refer to the header of the dialog.
+**title**
 
-`_render_fragment(refresh_interval:str="5s", refresh_flow: Flow=None)`
+The dialog title.
 
-Renders an instance of the component as a fragment. Additionality you can pass a refresh flow that should be called post rendering the component, you can use this to refresh the applications state for the next view.
+Fragment options:
+
+**refresh_flow**
+
+A refresh flow that should be called post rendering the component, you can use this to refresh the applications state for the next view.
+
+**refresh_interval**
+
+The refresh interval, for example: `2s`.
+
 
 `register_element(element_name: str)`
 
@@ -159,11 +168,11 @@ class YourXFlow(Flow):
 
 `run()`
 
-This method needs to be implemented by the subclass. To call it, use `_run()`
+This method needs to be implemented by the subclass. To call it, use `execute_run()`
 
-`_run()`
+`execute_run()`
 
-Runs the run method implemented in the subclass.
+Executes the run method implemented in the subclass.
 
 `component_store`
 
@@ -203,11 +212,11 @@ my_x_layout()
 
  `render()`
 
-This method needs to be implemented by the subclass. To call it in the application, use `_render()`
+This method needs to be implemented by the subclass. To call it in the application, use `execute_render()`
 
-`_render()`
+`execute_render()`
 
-Renders an instance of the layout.
+Executes the render method of an instance of a layout. 
 
 #### Routers
 Intializing a router
@@ -274,20 +283,25 @@ app_style.apply_style()
 
 ### Release notes
 
+0.1.14
+
+- Improved UI peformance when working with fragments.
+- Improved method naming. **Note** to update the run and render calls to `execute_run` and `exectute_render`
+
 0.1.13
 
-- Adds a function to set a registered element's value
-- Adds a function for rendering a component as a fragment
+- Adds a function to set a registered element's value.
+- Adds a function for rendering a component as a fragment.
 
 0.1.12
 
-- Makes a real Singleton of the component store
+- Makes a real Singleton of the component store.
 - Fixes that an invalid route exception was thrown when an error occurred while running the layout beloning to a route, instead of throwing the real error.
-- Updates the readme and the example on how to have better autocomplete
+- Updates the readme and the example on how to have better autocomplete.
 
 0.1.11
 
-Considered first stable release
+Considered first stable release.
 
 < 0.1.11
 

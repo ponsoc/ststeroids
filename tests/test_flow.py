@@ -11,14 +11,7 @@ def test_flow_initializes_component_store():
 def test_flow_run_raises_not_implemented_error():
     flow = Flow()
     with pytest.raises(NotImplementedError):
-        flow.run()
-
-
-def test_flow__run_raises_not_implemented_error():
-    flow = Flow()
-    with pytest.raises(NotImplementedError):
-        flow._run()
-
+        flow.execute_run()
 
 def test_subclass_run_called_by__run():
     class MyFlow(Flow):
@@ -26,5 +19,5 @@ def test_subclass_run_called_by__run():
             return x * 2
 
     flow = MyFlow()
-    result = flow._run(3)
+    result = flow.execute_run(3)
     assert result == 6
