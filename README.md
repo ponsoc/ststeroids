@@ -264,9 +264,13 @@ Checks if a property exists in the store.
 
 Retrieves the value of a property from the store.
 
-`set_property(property_name: str)`
+`set_property(property_name: str, property_value: str)`
 
 Sets the value of a property in the store.
+
+`del_property(property_name: str)`
+
+Deletes the property from the store.
 
 #### Style
 
