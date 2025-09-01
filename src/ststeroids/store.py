@@ -53,6 +53,16 @@ class Store:
         st.session_state[self.name][property_name] = property_value
 
 
+    def del_property(self, property_name:str)->None:
+        """
+        Deletes the property in the store.
+
+        :param property_name: The name of the property to delete
+        :return: None
+        """
+
+        del st.session_state[self.name][property_name]
+
 class ComponentStore(Store):
     """
     Class that creates a component session store. This can be passed to component instances.
