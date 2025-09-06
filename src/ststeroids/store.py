@@ -93,8 +93,8 @@ class ComponentStore(Store):
         :param component_id: The unique identifier for the component.
         :return: None
         """
-        if not self.has_property(component.id):
-            super().set_property(component.id, component)
+        # if not self.has_property(component.id):
+        super().set_property(component.id, component)
 
     def init_component_state(self, component_id: str, initial_state: dict) -> None:
         """
