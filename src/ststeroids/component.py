@@ -40,7 +40,6 @@ class Component:
             self._sub_initialized = True
 
         cls.__init__ = wrapped_init
-    
 
     def __init__(self, component_id: str, initial_state: dict = None):
         """
@@ -133,12 +132,16 @@ class Component:
 
         _render()
 
-    def __render_fragment(self,refresh_flow: Flow = None):
+    def __render_fragment(self, refresh_flow: Flow = None):
         self.render()
         if refresh_flow:
-                refresh_flow.execute_run()
-    
-    def execute_render(self, render_as: Literal["normal", "dialog", "fragment"]="normal", options:dict={}):
+            refresh_flow.execute_run()
+
+    def execute_render(
+        self,
+        render_as: Literal["normal", "dialog", "fragment"] = "normal",
+        options: dict = {},
+    ):
         """
         Executes the render method implemented in the subclasses, additionaly providing extra configuration based on the `render_as` parameter
         """
@@ -149,7 +152,7 @@ class Component:
                 return self._render_dialog(**options)
             case "fragment":
                 return self._render_fragment(**options)
-    
+
     def render(self) -> None:
         """
         Placeholder method for rendering the component.

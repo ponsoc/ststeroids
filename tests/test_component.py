@@ -97,17 +97,20 @@ def test__render_fragment_with_flow(component):
     mock_flow.execute_run.assert_called_once()
     component.render.assert_called_once()
 
+
 def test_execute_render_normal(component):
     component.render = MagicMock(return_value="normal_rendered")
     result = component.execute_render(render_as="normal")
     component.render.assert_called_once()
     assert result == "normal_rendered"
 
+
 def test_execute_render_dialog(component):
     component._render_dialog = MagicMock(return_value="dialog_rendered")
     result = component.execute_render(render_as="dialog", options={"title": "bar"})
     component._render_dialog.assert_called_once_with(title="bar")
     assert result == "dialog_rendered"
+
 
 def test_execute_render_fragment(component):
     component._render_fragment = MagicMock(return_value="fragment_rendered")

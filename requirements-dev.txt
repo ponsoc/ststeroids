@@ -1,4 +1,4 @@
 pytest
 pytest-mock
-pylint
+flake8
 black

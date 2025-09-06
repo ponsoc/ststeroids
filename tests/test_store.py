@@ -11,7 +11,7 @@ def mock_session_state():
 
 
 def test_store_initialization(mock_session_state):
-    store = Store("test_store")
+    Store("test_store")
     assert "test_store" in mock_session_state
     assert mock_session_state["test_store"] == {}
 
@@ -27,12 +27,14 @@ def test_store_get_property(mock_session_state):
     store.set_property("key", "value")
     assert store.get_property("key") == "value"
 
+
 def test_store_del_property(mock_session_state):
     store = Store("test_store")
     store.set_property("key", "value")
     store.del_property("key")
     with pytest.raises(KeyError, match="'key' doesn't"):
         store.get_property("key")
+
 
 def test_store_get_property_key_error(mock_session_state):
     store = Store("test_store")
@@ -50,7 +52,7 @@ def test_store_has_property(mock_session_state):
 
 
 def test_component_store_initialization(mock_session_state):
-    component_store = ComponentStore()
+    ComponentStore()
     assert "components" in mock_session_state
     assert mock_session_state["components"] == {}
 
@@ -76,4 +78,3 @@ def test_component_store_set_get_property(mock_session_state):
     component_store.init_component_state("comp1", {})
     component_store.set_property("comp1", "prop", "value")
     assert component_store.get_property("comp1", "prop") == "value"
-
