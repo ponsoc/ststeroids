@@ -10,7 +10,6 @@ class MetricComponent(Component):
     ):
         super().__init__(component_id, {"value": None})
         self.header = header
-        print("init")
 
     def render(self):
         st.metric(self.header, self.state.value)
