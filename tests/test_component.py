@@ -10,14 +10,14 @@ def mock_session_state():
         yield mock_state
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def mock_store():
     # Mocking the ComponentStore for testing purposes
     store = MagicMock(spec=ComponentStore)
     return store
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def component(mock_store):
     # Creating a sample component for testing
     component = Component(component_id="test_component", initial_state={"key": "value"})
@@ -26,6 +26,14 @@ def component(mock_store):
     )
     return component
 
+def test_component_creation_without_id():
+    with pytest.raises(KeyError):
+        component = Component(initial_state={"key": "value"})
+
+def test_component_singleton():
+    first_instance = Component(component_id="test_component", initial_state={"key": "value"})
+    second_instance = Component(component_id="test_component", initial_state={"key": "value"})
+    assert first_instance is second_instance
 
 def test_component_initialization(component):
     # Test that the component is initialized correctly
@@ -45,15 +53,15 @@ def test_state_initialization(mock_store):
     assert state._State__store == mock_store
 
 
-# def test_getattr(mock_store, component):
-#     # Test that attributes are retrieved correctly from the store
-#     assert component.state.key == "value"
+def test_getattr(component):
+    # Test that attributes are retrieved correctly from the store
+    assert component.state.key == "value"
 
 
-# def test_setattr(mock_store, component):
-#     # Test that attributes are set correctly in the store
-#     component.state.key = "new_value"
-#     assert component.state.key == "new_value"
+def test_setattr(component):
+    # Test that attributes are set correctly in the store
+    component.state.key = "new_value"
+    assert component.state.key == "new_value"
 
 
 def test_render_not_implemented(component):

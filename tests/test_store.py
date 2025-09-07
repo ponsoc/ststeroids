@@ -50,6 +50,10 @@ def test_store_has_property(mock_session_state):
     assert store.has_property("key") is True
     assert store.has_property("missing_key") is False
 
+def test_component_store_singleton():
+    first_instance = ComponentStore()
+    second_instance = ComponentStore()
+    assert first_instance is second_instance
 
 def test_component_store_initialization(mock_session_state):
     ComponentStore()

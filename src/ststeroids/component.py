@@ -19,7 +19,7 @@ class Component:
         """Creates an new instance of the component or returns it from the session."""
         component_id = kwargs.get("component_id") or (args[0] if args else None)
         if component_id is None:
-            raise ValueError("component_id is required")
+            raise KeyError("component_id is required")
 
         cls.__store = ComponentStore()
         component_instance_exists = cls.__store.has_property(component_id)
