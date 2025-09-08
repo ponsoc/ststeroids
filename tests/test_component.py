@@ -35,6 +35,24 @@ def test_component_singleton():
     second_instance = Component(component_id="test_component", initial_state={"key": "value"})
     assert first_instance is second_instance
 
+def test_subclass_init_runs_only_once():
+    calls = {"count": 0}
+
+    class Sub(Component):
+        def __init__(self, value):
+            calls["count"] += 1
+            self.value = value
+
+    obj = Sub(42)
+    assert obj.value == 42
+    assert calls["count"] == 1  # __init__ ran once
+
+    # Call __init__ again explicitly
+    obj.__init__(99)
+    assert obj.value == 42       # value didn't change
+    assert calls["count"] == 1   # __init__ not called again
+
+
 def test_component_initialization(component):
     # Test that the component is initialized correctly
     assert component.id == "test_component"
