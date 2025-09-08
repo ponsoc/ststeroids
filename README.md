@@ -289,7 +289,7 @@ app_style.apply_style()
 
 0.1.16
 
-- Improved component instance creation by making compent instances a singleton
+- Improved component instance creation by making component instances a singleton
 
 0.1.15
 
