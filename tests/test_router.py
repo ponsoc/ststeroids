@@ -21,7 +21,7 @@ def test_router_initialization(mock_session_state, router):
 
 
 def test_router_initialization_with_custom_default(mock_session_state):
-    custom_router = Router(default="dashboard")
+    Router(default="dashboard")
     assert st.session_state["ststeroids_current_route"] == "dashboard"
 
 

@@ -10,14 +10,14 @@ def mock_session_state():
         yield mock_state
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def mock_store():
     # Mocking the ComponentStore for testing purposes
     store = MagicMock(spec=ComponentStore)
     return store
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def component(mock_store):
     # Creating a sample component for testing
     component = Component(component_id="test_component", initial_state={"key": "value"})
@@ -25,6 +25,32 @@ def component(mock_store):
         mock_store  # Injecting the mock store into the component
     )
     return component
+
+def test_component_creation_without_id():
+    with pytest.raises(KeyError):
+        component = Component(initial_state={"key": "value"})
+
+def test_component_singleton():
+    first_instance = Component(component_id="test_component", initial_state={"key": "value"})
+    second_instance = Component(component_id="test_component", initial_state={"key": "value"})
+    assert first_instance is second_instance
+
+def test_subclass_init_runs_only_once():
+    calls = {"count": 0}
+
+    class Sub(Component):
+        def __init__(self, value):
+            calls["count"] += 1
+            self.value = value
+
+    obj = Sub(42)
+    assert obj.value == 42
+    assert calls["count"] == 1  # __init__ ran once
+
+    # Call __init__ again explicitly
+    obj.__init__(99)
+    assert obj.value == 42       # value didn't change
+    assert calls["count"] == 1   # __init__ not called again
 
 
 def test_component_initialization(component):
@@ -45,12 +71,12 @@ def test_state_initialization(mock_store):
     assert state._State__store == mock_store
 
 
-def test_getattr(mock_store, component):
+def test_getattr(component):
     # Test that attributes are retrieved correctly from the store
     assert component.state.key == "value"
 
 
-def test_setattr(mock_store, component):
+def test_setattr(component):
     # Test that attributes are set correctly in the store
     component.state.key = "new_value"
     assert component.state.key == "new_value"
@@ -97,17 +123,20 @@ def test__render_fragment_with_flow(component):
     mock_flow.execute_run.assert_called_once()
     component.render.assert_called_once()
 
+
 def test_execute_render_normal(component):
     component.render = MagicMock(return_value="normal_rendered")
     result = component.execute_render(render_as="normal")
     component.render.assert_called_once()
     assert result == "normal_rendered"
 
+
 def test_execute_render_dialog(component):
     component._render_dialog = MagicMock(return_value="dialog_rendered")
     result = component.execute_render(render_as="dialog", options={"title": "bar"})
     component._render_dialog.assert_called_once_with(title="bar")
     assert result == "dialog_rendered"
+
 
 def test_execute_render_fragment(component):
     component._render_fragment = MagicMock(return_value="fragment_rendered")

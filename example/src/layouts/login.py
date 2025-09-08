@@ -17,6 +17,6 @@ class LoginLayout(Layout):
         )
 
     def render(self):
-        self.login_dialog.execute_render("dialog",{"title":self.login_header})
+        self.login_dialog.execute_render("dialog", {"title": self.login_header})
         st.write("Not logged in. Please refresh or use the menu on the left.")
         self.login_dialog.show()

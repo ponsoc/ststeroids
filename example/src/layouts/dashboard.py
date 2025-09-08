@@ -15,4 +15,7 @@ class DashboardLayout(Layout):
         with left:
             self.total_movies.execute_render()
         with right:
-            self.avg_rating.execute_render("fragment",{"refresh_flow":self.refresh_flow, "refresh_interval":"2s"})
+            self.avg_rating.execute_render(
+                "fragment",
+                {"refresh_flow": self.refresh_flow, "refresh_interval": "2s"},
+            )
