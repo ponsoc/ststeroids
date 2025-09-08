@@ -287,6 +287,14 @@ app_style.apply_style()
 
 ### Release notes
 
+0.1.16
+
+- Improved component instance creation by making compent instances a singleton
+
+0.1.15
+
+- Added option to delete a property from the store
+
 0.1.14
 
 - Improved UI peformance when working with fragments.
@@ -317,3 +325,4 @@ Beta releases
 - Automate test workflow and publish to pypi
 - Ambition: directly link element values to component states
 - Describe component store
+- Layout and flow class singletons
