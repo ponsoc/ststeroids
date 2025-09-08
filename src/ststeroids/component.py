@@ -2,6 +2,7 @@ from typing import Any, Literal
 import streamlit as st
 from .store import ComponentStore
 from .flow import Flow
+from functools import wraps
 
 
 # pylint: disable=too-few-public-methods
@@ -14,6 +15,33 @@ class Component:
         state (State): The state associated with the component.
     """
 
+    def __new__(cls, *args, **kwargs):
+        """Creates an new instance of the component or returns it from the session."""
+        component_id = kwargs.get("component_id") or (args[0] if args else None)
+        if component_id is None:
+            raise ValueError("component_id is required")
+
+        cls.__store = ComponentStore()
+        component_instance_exists = cls.__store.has_property(component_id)
+        if component_instance_exists:
+            return cls.__store.get_component(component_id)
+        return super().__new__(cls)
+
+    def __init_subclass__(cls, **kwargs):
+        """Wrap subclass __init__ so it only runs once."""
+        super().__init_subclass__(**kwargs)
+        orig_init = cls.__init__
+
+        @wraps(orig_init)
+        def wrapped_init(self, *args, **kwargs):
+            if getattr(self, "_sub_initialized", False):
+                return
+            orig_init(self, *args, **kwargs)
+            self._sub_initialized = True
+
+        cls.__init__ = wrapped_init
+    
+
     def __init__(self, component_id: str, initial_state: dict = None):
         """
         Initializes the component with a unique ID and initial state.
@@ -21,7 +49,6 @@ class Component:
         :param component_id: The unique identifier for the component.
         :param initial_state: Initial state for the component. Defaults to an empty dictionary.
         """
-        self.__store = ComponentStore()
         self.id = component_id
         self.state = State(
             self.id, self.__store, initial_state if initial_state else {}
