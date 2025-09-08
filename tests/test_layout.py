@@ -3,7 +3,6 @@ from ststeroids.layout import Layout
 from unittest.mock import MagicMock
 
 
-
 def test_layout_render_raises_not_implemented_error():
     layout = Layout()
     with pytest.raises(NotImplementedError):

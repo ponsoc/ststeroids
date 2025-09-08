@@ -52,8 +52,7 @@ class Store:
         """
         st.session_state[self.name][property_name] = property_value
 
-
-    def del_property(self, property_name:str)->None:
+    def del_property(self, property_name: str) -> None:
         """
         Deletes the property in the store.
 
@@ -62,6 +61,7 @@ class Store:
         """
 
         del st.session_state[self.name][property_name]
+
 
 class ComponentStore(Store):
     """

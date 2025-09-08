@@ -13,6 +13,7 @@ def test_flow_run_raises_not_implemented_error():
     with pytest.raises(NotImplementedError):
         flow.execute_run()
 
+
 def test_subclass_run_called_by__run():
     class MyFlow(Flow):
         def run(self, x):
