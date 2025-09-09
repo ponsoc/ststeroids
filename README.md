@@ -322,7 +322,11 @@ Beta releases
 ### Todo
 
 - Improve IDE/autocomplete for state managed variables
-- Automate test workflow and publish to pypi
 - Ambition: directly link element values to component states
 - Describe component store
 - Layout and flow class singletons
+
+## Ideas
+
+- Something for RBAC
+- Something for running longtime requests
