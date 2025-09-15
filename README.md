@@ -48,7 +48,7 @@ To run the example app, execute the following commands from the project root:
 
 ```
 pip install -r requirements.txt
-streamlit run ./example/src/app.py
+streamlit run --client.showSidebarNavigation=False ./example/src/app.py
 ```
 
 To run the tests, execute the following command from the project root:
