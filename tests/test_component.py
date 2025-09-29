@@ -143,3 +143,7 @@ def test_execute_render_fragment(component):
     result = component.execute_render(render_as="fragment", options={"x": 1})
     component._render_fragment.assert_called_once_with(x=1)
     assert result == "fragment_rendered"
+
+def test_execute_render_raises_an_error_with_an_invalid_render_as(component):
+    with pytest.raises(ValueError):
+        component.execute_render(render_as="something", options={"x": 1})
