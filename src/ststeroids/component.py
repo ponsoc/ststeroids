@@ -112,7 +112,7 @@ class Component:
 
         _render()
 
-    def _render_fragment(self, refresh_interval: str = "5s", refresh_flow: Flow = None):
+    def _render_fragment(self, refresh_interval: str = None, refresh_flow: Flow = None):
         """
         Internal method for rendering the component as a fragment.
 
@@ -152,6 +152,7 @@ class Component:
                 return self._render_dialog(**options)
             case "fragment":
                 return self._render_fragment(**options)
+        raise ValueError(f"Unexpected render_as value: {render_as}")
 
     def render(self) -> None:
         """

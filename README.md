@@ -287,6 +287,11 @@ app_style.apply_style()
 
 ### Release notes
 
+0.1.17
+
+- Improved execute_render function by adding an error handler
+- Default refresh_interval for a fragment is now `None` to avoid unintended refreshes
+
 0.1.16
 
 - Improved component instance creation by making component instances a singleton
