@@ -4,3 +4,4 @@
 /venv
 .coverage
 **/__pycache__
+/build
