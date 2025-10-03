@@ -4,5 +4,6 @@ from .style import Style
 from .store import Store
 from .layout import Layout
 from .router import Router
+from .authorization import Authorization
 
-__all__ = ["Component", "Layout", "Flow", "Style", "Store", "Router"]
+__all__ = ["Component", "Layout", "Flow", "Style", "Store", "Router", "Authorization"]

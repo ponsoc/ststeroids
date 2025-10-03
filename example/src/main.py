@@ -4,11 +4,14 @@ from components import SidebarComponent
 from flows import LoginFlow, LoginSuccessFlow, RefreshFlow
 from layouts import LoginLayout, DashboardLayout, ManageDataLayout
 from service import MockBackendService
-from ststeroids import Router, Store, Style
+from ststeroids import Router, Store, Style, Authorization
+from dotenv import load_dotenv
 
 class MainApp:
 
     def __init__(self):
+        load_dotenv()
+        self.authorization = Authorization(user_provider=lambda: "hans")
         self.session_store = Store("store")
         self.router = Router("login")
 
@@ -39,9 +42,10 @@ class MainApp:
                 routes.update(
                     {
                         "dashboard": self.dashboard_layout,
-                        "manage_data": self.manage_data_layout,
-                    },
+                    }
                 )
+                if self.authorization.allow_deny("manage"):
+                    routes.update({"manage_data": self.manage_data_layout})
 
             return routes
 
