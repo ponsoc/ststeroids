@@ -4,8 +4,7 @@ from ststeroids import Component, Router
 
 class SidebarComponent(Component):
 
-    def __init__(self, component_id: str, router: Router):
-        super().__init__(component_id)
+    def __init__(self, str, router: Router):
         self.router = router
 
     def render(self):

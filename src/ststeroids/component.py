@@ -15,45 +15,60 @@ class Component:
         state (State): The state associated with the component.
     """
 
-    def __new__(cls, *args, **kwargs):
-        """Creates an new instance of the component or returns it from the session."""
-        component_id = kwargs.get("component_id") or (args[0] if args else None)
-        if component_id is None:
-            raise KeyError("component_id is required")
+    # def __new__(cls, *args, **kwargs):
+    #     """Creates an new instance of the component or returns it from the session."""
+    #     component_id = kwargs.get("component_id") or (args[0] if args else None)
+    #     if component_id is None:
+    #         raise KeyError("component_id is required")
 
-        cls.__store = ComponentStore()
-        component_instance_exists = cls.__store.has_property(component_id)
-        if component_instance_exists:
-            return cls.__store.get_component(component_id)
-        return super().__new__(cls)
+    #     cls.__store = ComponentStore()
+    #     component_instance_exists = cls.__store.has_property(component_id)
+    #     if component_instance_exists:
+    #         return cls.__store.get_component(component_id)
+    #     return super().__new__(cls)
 
-    def __init_subclass__(cls, **kwargs):
-        """Wrap subclass __init__ so it only runs once."""
-        super().__init_subclass__(**kwargs)
-        orig_init = cls.__init__
+    # def __init_subclass__(cls, **kwargs):
+    #     """Wrap subclass __init__ so it only runs once."""
+    #     super().__init_subclass__(**kwargs)
+    #     orig_init = cls.__init__
 
-        @wraps(orig_init)
-        def wrapped_init(self, *args, **kwargs):
-            if getattr(self, "_sub_initialized", False):
-                return
-            orig_init(self, *args, **kwargs)
-            self._sub_initialized = True
+    #     @wraps(orig_init)
+    #     def wrapped_init(self, *args, **kwargs):
+    #         if getattr(self, "_sub_initialized", False):
+    #             return
+    #         orig_init(self, *args, **kwargs)
+    #         self._sub_initialized = True
 
-        cls.__init__ = wrapped_init
+    #     cls.__init__ = wrapped_init
 
-    def __init__(self, component_id: str, initial_state: dict = None):
+    # def __init__(self, component_id: str):
+    #     """
+    #     Initializes the component with a unique ID and initial state.
+
+    #     :param component_id: The unique identifier for the component.
+    #     :param initial_state: Initial state for the component. Defaults to an empty dictionary.
+    #     """
+    #     self.id = component_id
+    #     # self.state = State(
+    #     #     self.id, self.__store, initial_state if initial_state else {}
+    #     # )
+    #     self.__store.init_component(self)
+
+    @classmethod
+    def create(cls, component_id:str, *args, **kwargs):
         """
-        Initializes the component with a unique ID and initial state.
-
-        :param component_id: The unique identifier for the component.
-        :param initial_state: Initial state for the component. Defaults to an empty dictionary.
+        Create a new component instance or return it from the store.
         """
-        self.id = component_id
-        self.state = State(
-            self.id, self.__store, initial_state if initial_state else {}
-        )
-        self.__store.init_component(self)
+        cls._store = ComponentStore()
 
+        if cls._store.has_property(component_id):
+            return cls._store.get_component(component_id)
+
+        instance = cls(*args, **kwargs)
+        instance.id = component_id
+        cls._store.init_component(instance)
+        return instance
+    
     def register_element(self, element_name: str):
         """
         Generates a unique key for an element based on the instance ID.
@@ -163,54 +178,3 @@ class Component:
         :raises NotImplementedError: If called directly without being implemented in a subclass.
         """
         raise NotImplementedError("Subclasses should implement this method.")
-
-
-class State:
-    """
-    Manages the state of a component, storing and retrieving properties
-    through the associated store.
-
-    Attributes:
-        __id (str): The unique identifier for the component.
-        __store (ComponentStore): The store instance that holds the component's state.
-    """
-
-    def __init__(self, component_id: str, store: ComponentStore, initial_state: dict):
-        """
-        Initializes the state for a component, setting up the store and component ID.
-
-        :param component_id: The unique identifier for the component.
-        :param store: The store instance where the state is stored.
-        :param initial_state: Initial state data for the component.
-        """
-        super().__setattr__(
-            "_State__id", component_id
-        )  # Directly set private attributes
-        super().__setattr__("_State__store", store)  # Avoid recursion
-        store.init_component_state(component_id, initial_state)
-
-    def __getattr__(self, name) -> Any:
-        """
-        Retrieves a property of the component from the store.
-
-        :param name: The name of the property to retrieve.
-        :return: The value of the property from the store.
-
-        :raises AttributeError: If the requested property is not found.
-        """
-        if not name.startswith("__"):
-            return self.__store.get_property(self.__id, name)
-
-    def __setattr__(self, name, value):
-        """
-        Sets a property of the component in the store.
-
-        :param name: The name of the property to set.
-        :param value: The value to set for the property.
-
-        This method avoids recursion for special attributes and handles normal properties.
-        """
-        if not name.startswith("__"):
-            self.__store.set_property(self.__id, name, value)
-        else:
-            super().__setattr__(name, value)  # Avoid recursion for special attributes
