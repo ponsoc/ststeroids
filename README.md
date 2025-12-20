@@ -287,6 +287,14 @@ app_style.apply_style()
 
 ### Release notes
 
+1.0.0
+
+A partial rewrite of the framework so that it has a smaller footprint and creation of objects feels more natural and is better supported by editors and debuggers.
+
+-
+
+**Note** this version is considered to be a breaking change. Make sure to adapt your code base so that it works with this new version.
+
 0.1.17
 
 - Improved execute_render function by adding an error handler
