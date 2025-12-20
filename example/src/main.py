@@ -1,6 +1,5 @@
 from collections import defaultdict
 import streamlit as st
-from components import SidebarComponent
 from flows import LoginFlow, LoginSuccessFlow, RefreshFlow
 from layouts import LoginLayout, DashboardLayout, ManageDataLayout
 from service import MockBackendService
@@ -25,11 +24,8 @@ class MainApp:
         self.login_layout = LoginLayout("App login", self.login_flow, self.login_success_flow)
         self.dashboard_layout = DashboardLayout(self.refresh_flow)
         self.manage_data_layout = ManageDataLayout()
-
-        self.sidebar = SidebarComponent("sidebar", self.router)
     
     def run(self, entry_route:str = None):
-        self.sidebar.render()
 
         def get_routes():
             routes = defaultdict(lambda: self.login_layout)

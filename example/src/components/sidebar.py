@@ -4,11 +4,12 @@ from ststeroids import Component, Router
 
 class SidebarComponent(Component):
 
-    def __init__(self, component_id: str, router: Router):
+    def __init__(self, component_id: str):
         super().__init__(component_id)
-        self.router = router
+        # self.router = router
 
     def render(self):
+        # print(self.router.get_current_route())
         with st.sidebar:
             st.page_link("pages/dashboard.py", icon=":material/search:", label="Dashboard")
             st.page_link("pages/manage.py", icon=":material/bar_chart:", label="Manage data")

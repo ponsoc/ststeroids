@@ -287,6 +287,10 @@ app_style.apply_style()
 
 ### Release notes
 
+0.1.18
+
+- Updated example app so that sidebar is actually defined and rendered a layout and not in the main app
+
 0.1.17
 
 - Improved execute_render function by adding an error handler
