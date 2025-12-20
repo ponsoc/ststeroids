@@ -20,9 +20,6 @@ class Router:
         if "ststeroids_current_route" not in st.session_state:
             st.session_state["ststeroids_current_route"] = route_name
 
-        # werkt dit of moeten nog wat op de class zetten
-        # checken of de current route goed wordt weergegeven
-
     @classmethod
     def run(cls):
         """
@@ -60,7 +57,7 @@ class Router:
         cls.routes = routes
 
     @staticmethod
-    def get_current_route(self):
+    def get_current_route():
         if "ststeroids_current_route" in st.session_state:
             return st.session_state["ststeroids_current_route"]
         return None
