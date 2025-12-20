@@ -9,7 +9,6 @@ class MainApp:
 
     def __init__(self):
         self.session_store = Store("store")
-        # self.router = Router("login")
 
         self.backend_service = MockBackendService("./example/test_data.json")
         self.login_flow = LoginFlow(self.session_store, self.backend_service)
