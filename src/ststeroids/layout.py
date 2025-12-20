@@ -1,4 +1,6 @@
-class Layout:
+from abc import ABC, abstractmethod
+
+class Layout(ABC):
     """
     Base class for a layout
     """
@@ -12,9 +14,10 @@ class Layout:
         """
         self.render()
 
+    @abstractmethod
     def render(self) -> None:
         """
-        Placeholder method for rendering the layout.
+        Abstract method for rendering the layout.
 
         This method should be implemented by subclasses to define how the layout is rendered.
 
