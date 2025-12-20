@@ -9,11 +9,11 @@ class MainApp:
 
     def __init__(self):
         self.session_store = Store("store")
-        self.router = Router("login")
+        # self.router = Router("login")
 
         self.backend_service = MockBackendService("./example/test_data.json")
         self.login_flow = LoginFlow(self.session_store, self.backend_service)
-        self.login_success_flow = LoginSuccessFlow(self.router, self.session_store, self.backend_service)
+        self.login_success_flow = LoginSuccessFlow(self.session_store, self.backend_service)
         self.refresh_flow = RefreshFlow(self.session_store, self.backend_service)
 
         st.set_page_config(page_title="StSteroids Example app", layout="wide")
@@ -41,7 +41,7 @@ class MainApp:
 
             return routes
 
-        self.router.register_routes(get_routes())
+        Router.register_routes(get_routes())
         if entry_route:
-            self.router.route(entry_route)
-        self.router.run()
+            Router.route(entry_route)
+        Router.run()

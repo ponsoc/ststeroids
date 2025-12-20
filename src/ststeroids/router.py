@@ -4,51 +4,62 @@ from .layout import Layout
 
 class Router:
     """
-    A routing system for Streamlit applications, allowing navigation between different pages.
+    A routing system for Streamlit applications, handles which layout is rendered.
     """
 
-    def __init__(self, default: str = "home"):
+    routes = {}
+    st.session_state["ststeroids_current_route"] = "home"
+    
+    @staticmethod
+    def update_default_route(route_name: str):
         """
-        Initializes the Router instance with a default page.
+        Updates the Router's default route.
 
-        :param default: The default page to load when the app starts. Defaults to "home".
+        :param route_name: The default route for when the app starts.
         """
-        self.routes = {}
         if "ststeroids_current_route" not in st.session_state:
-            st.session_state["ststeroids_current_route"] = default
+            st.session_state["ststeroids_current_route"] = route_name
 
-    def run(self):
+        # werkt dit of moeten nog wat op de class zetten
+        # checken of de current route goed wordt weergegeven
+
+    @classmethod
+    def run(cls):
         """
         Executes the function associated with the currently active route.
 
         :return: None
         """
         try:
-            route = self.routes[st.session_state["ststeroids_current_route"]]
+            route = cls.routes[st.session_state["ststeroids_current_route"]]
         except KeyError as exc:
             raise KeyError(
                 f"The current route '{st.session_state['ststeroids_current_route']}' is not a registered route."
             ) from exc
         route()
 
-    def route(self, route_name: str):
+    @staticmethod
+    def route(route_name: str):
         """
-        Updates the current page in the session state.
+        Updates the current route in the session state.
 
         :param route_name: The name of the route to navigate to.
         :return: None
         """
         st.session_state["ststeroids_current_route"] = route_name
 
-    def register_routes(self, routes: dict[str, Layout]):
+    
+    @classmethod
+    def register_routes(cls, routes: dict[str, Layout]):
         """
         Registers a dictionary of routes where keys are route names and values are layouts.
 
         :param routes: A dictionary mapping route names to layouts.
         :return: None
         """
-        self.routes = routes
+        cls.routes = routes
 
+    @staticmethod
     def get_current_route(self):
         if "ststeroids_current_route" in st.session_state:
             return st.session_state["ststeroids_current_route"]
