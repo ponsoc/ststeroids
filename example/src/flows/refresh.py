@@ -18,7 +18,6 @@ class RefreshFlow(Flow):
         cp_avg_rating: MetricComponent = self.component_store.get_component(
             ComponentIDs.avg_rating
         )
-        print(cp_avg_rating.value)
         response = self.backend_service.get_movies()
         if response.ok:
             data = response.json()
