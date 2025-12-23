@@ -12,11 +12,14 @@ class StSteroids:
     def route(self, name: str) -> "RouteBuilder":
         return RouteBuilder(self, name)
 
-    def default(self, target) -> None:
+    def default_route(self, target) -> None:
         self._default = Route("__default__", target)
 
     def register(self, route: "Route"):
         self._routes[route.name] = route
+
+    def current_route(self):
+        return self._router.current_route()
     
     def run(self, entry_route: str | None = None):
         routes = {}

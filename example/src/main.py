@@ -27,7 +27,7 @@ class MainApp:
 
         self.app = StSteroids()
 
-        self.app.default(self.login_layout)
+        self.app.default_route(self.login_layout)
 
         self.app.route("login").to(self.login_layout).register()
         self.app.route("dashboard").to(self.dashboard_layout).when(lambda: self.session_store.has_property("access_token")).register()

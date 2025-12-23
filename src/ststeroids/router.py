@@ -11,7 +11,7 @@ class Router:
         """
         Initializes the Router instance with a default layout.
 
-        :param default: The default layout to use when no current route is selected.
+        :param default: The default route to use when no current route is selected.
         """
         self._routes: dict[str, Route] = {}
         self._current: str | None = None
@@ -31,7 +31,7 @@ class Router:
         """
         self._current = route_name
 
-    def get_current_route(self) -> str | None:
+    def current_route(self) -> str | None:
         """
         Returns the name of the currently selected layout.
         """
