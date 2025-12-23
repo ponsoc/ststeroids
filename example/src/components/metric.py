@@ -9,7 +9,6 @@ class MetricComponent(Component):
     ):
         self.header = header
         self.value = 0
-        print("running")
 
     def render(self):
         st.metric(self.header, self.value)
