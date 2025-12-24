@@ -4,9 +4,6 @@ from ststeroids import Component, Router
 
 class SidebarComponent(Component):
 
-    def __init__(self, str, router: Router):
-        self.router = router
-
     def render(self):
         with st.sidebar:
             st.page_link(

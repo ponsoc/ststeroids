@@ -12,6 +12,7 @@ class DataViewerComponent(Component):
         self.header = header
         self.column_config = column_config
         self.column_order = column_order
+        self.data = None
 
     def render(self):
         st.subheader(self.header)
