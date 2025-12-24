@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 import streamlit as st
 from .store import ComponentStore
 from .flow import Flow
-from functools import wraps
+
 
 
 # pylint: disable=too-few-public-methods
@@ -24,11 +24,21 @@ class Component(ABC):
 
         if cls._store.has_property(component_id):
             return cls._store.get_component(component_id)
-
-        instance = cls(*args, **kwargs)
-        instance.id = component_id
-        cls._store.init_component(instance)
-        return instance
+        try:
+            instance = cls(*args, **kwargs)
+            instance.id = component_id
+            cls._store.init_component(instance)
+            return instance
+        except TypeError as e:
+            raise TypeError(f"{str(e)}. This usually happens when you are trying to get a component without creating it first.")
+    
+    
+    @classmethod
+    def get(cls, component_id: str) :
+        """
+        Alias for create() — creation is implicit.
+        """
+        return cls.create(component_id)
     
     def register_element(self, element_name: str):
         """
