@@ -1,4 +1,3 @@
-import uuid
 import streamlit as st
 from ststeroids import Component
 
