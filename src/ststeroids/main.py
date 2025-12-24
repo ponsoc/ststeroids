@@ -2,8 +2,9 @@ from .route import Route
 from .route_builder import RouteBuilder
 from .router import Router
 
+
 class StSteroids:
-    
+
     def __init__(self):
         self._router = Router()
         self._routes: dict[str, Route] = {}
@@ -17,13 +18,13 @@ class StSteroids:
 
     def register(self, route: "Route"):
         self._routes[route.name] = route
-    
+
     def run(self, entry_route: str | None = None):
         routes = {}
 
         if self._default:
             routes["__default__"] = self._default
-            
+
         for route in self._routes.values():
             if route.condition:
                 if route.condition():

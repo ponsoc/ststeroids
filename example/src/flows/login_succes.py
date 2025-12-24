@@ -6,9 +6,7 @@ import streamlit as st
 
 
 class LoginSuccessFlow(Flow):
-    def __init__(
-        self, session_store: Store, backend_service: MockBackendService
-    ):
+    def __init__(self, session_store: Store, backend_service: MockBackendService):
         super().__init__()
         self.session_store = session_store
         self.backend_service = backend_service

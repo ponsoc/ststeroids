@@ -1,5 +1,6 @@
 from .route import Route
 
+
 class RouteBuilder:
     def __init__(self, app, name: str):
         self.app = app
@@ -10,10 +11,10 @@ class RouteBuilder:
     def to(self, target):
         self._target = target
         return self
-    
+
     def when(self, condition: callable):
         self._condition = condition
         return self
 
     def register(self):
-         self.app.register(Route(self._name, self._target, self._condition))
+        self.app.register(Route(self._name, self._target, self._condition))
