@@ -17,9 +17,6 @@ class StSteroids:
 
     def register(self, route: "Route"):
         self._routes[route.name] = route
-
-    def current_route(self):
-        return self._router.current_route()
     
     def run(self, entry_route: str | None = None):
         routes = {}
