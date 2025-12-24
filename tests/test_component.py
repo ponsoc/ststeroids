@@ -26,14 +26,21 @@ def component(mock_store):
     )
     return component
 
+
 def test_component_creation_without_id():
     with pytest.raises(KeyError):
         component = Component(initial_state={"key": "value"})
 
+
 def test_component_singleton():
-    first_instance = Component(component_id="test_component", initial_state={"key": "value"})
-    second_instance = Component(component_id="test_component", initial_state={"key": "value"})
+    first_instance = Component(
+        component_id="test_component", initial_state={"key": "value"}
+    )
+    second_instance = Component(
+        component_id="test_component", initial_state={"key": "value"}
+    )
     assert first_instance is second_instance
+
 
 def test_subclass_init_runs_only_once():
     calls = {"count": 0}
@@ -49,8 +56,8 @@ def test_subclass_init_runs_only_once():
 
     # Call __init__ again explicitly
     obj.__init__(99)
-    assert obj.value == 42       # value didn't change
-    assert calls["count"] == 1   # __init__ not called again
+    assert obj.value == 42  # value didn't change
+    assert calls["count"] == 1  # __init__ not called again
 
 
 def test_component_initialization(component):
@@ -143,6 +150,7 @@ def test_execute_render_fragment(component):
     result = component.execute_render(render_as="fragment", options={"x": 1})
     component._render_fragment.assert_called_once_with(x=1)
     assert result == "fragment_rendered"
+
 
 def test_execute_render_raises_an_error_with_an_invalid_render_as(component):
     with pytest.raises(ValueError):

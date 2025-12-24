@@ -15,9 +15,7 @@ class RefreshFlow(Flow):
         self.backend_service = backend_service
 
     def run(self):
-        cp_avg_rating=  MetricComponent.get(
-            ComponentIDs.avg_rating
-        )
+        cp_avg_rating = MetricComponent.get(ComponentIDs.avg_rating)
         response = self.backend_service.get_movies()
         if response.ok:
             data = response.json()

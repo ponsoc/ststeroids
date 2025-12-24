@@ -5,7 +5,9 @@ from ststeroids import Layout
 
 class ManageDataLayout(Layout):
     def __init__(self):
-        self.data_viewer = DataViewerComponent.create(ComponentIDs.data_viewer, "Movies")
+        self.data_viewer = DataViewerComponent.create(
+            ComponentIDs.data_viewer, "Movies"
+        )
 
     def render(self):
         self.data_viewer.render()

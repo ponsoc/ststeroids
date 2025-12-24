@@ -7,9 +7,10 @@ from ststeroids import Layout, Flow
 class DashboardLayout(Layout):
     def __init__(self, refresh_flow: Flow):
         self.refresh_flow = refresh_flow
-        self.total_movies = MetricComponent.create(ComponentIDs.total_movies, "Total movies")
+        self.total_movies = MetricComponent.create(
+            ComponentIDs.total_movies, "Total movies"
+        )
         self.avg_rating = MetricComponent.create(ComponentIDs.avg_rating, "Avg. Rating")
-    
 
     def render(self):
         left, right = st.columns([1, 1])

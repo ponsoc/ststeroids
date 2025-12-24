@@ -5,7 +5,6 @@ from .store import ComponentStore
 from .flow import Flow
 
 
-
 # pylint: disable=too-few-public-methods
 class Component(ABC):
     """
@@ -16,7 +15,7 @@ class Component(ABC):
     """
 
     @classmethod
-    def create(cls, component_id:str, *args, **kwargs):
+    def create(cls, component_id: str, *args, **kwargs):
         """
         Create a new component instance or return it from the store.
         """
@@ -30,16 +29,17 @@ class Component(ABC):
             cls._store.init_component(instance)
             return instance
         except TypeError as e:
-            raise TypeError(f"{str(e)}. This usually happens when you are trying to get a component without creating it first.")
-    
-    
+            raise TypeError(
+                f"{str(e)}. This usually happens when you are trying to get a component without creating it first."
+            )
+
     @classmethod
-    def get(cls, component_id: str) :
+    def get(cls, component_id: str):
         """
         Alias for create() — creation is implicit.
         """
         return cls.create(component_id)
-    
+
     def register_element(self, element_name: str):
         """
         Generates a unique key for an element based on the instance ID.
@@ -139,7 +139,7 @@ class Component(ABC):
             case "fragment":
                 return self._render_fragment(**options)
         raise ValueError(f"Unexpected render_as value: {render_as}")
-    
+
     @abstractmethod
     def render(self) -> None:
         """

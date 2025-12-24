@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class Layout(ABC):
     """
     Base class for a layout
