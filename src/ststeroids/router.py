@@ -29,7 +29,7 @@ class Router:
             raise KeyError(
                 f"The current route '{st.session_state['ststeroids_current_route']}' is not a registered route."
             ) from exc
-        route.execute_render()
+        route.render()
 
     def route(self, route_name: str):
         """

@@ -9,7 +9,7 @@ class ToastComponent(Component):
         self.visible = False
         self.message = None
 
-    def render(self):
+    def display(self):
         if self.visible:
             st.toast(self.message)
             self.visible = False

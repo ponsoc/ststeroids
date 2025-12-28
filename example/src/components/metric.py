@@ -10,7 +10,7 @@ class MetricComponent(Component):
         self.header = header
         self.value = 0
 
-    def render(self):
+    def display(self):
         st.metric(self.header, self.value)
 
     def set_value(self, value: int):

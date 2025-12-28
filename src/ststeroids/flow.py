@@ -10,18 +10,18 @@ class Flow(ABC):
     @classmethod
     def create(cls, *args, **kwargs):
         """
-        Create a new flow instance.
+        Creates a new flow instance.
         """
         return cls(*args, **kwargs)
 
-    def execute_run(self, *args, **kwargs):
+    def dispatch(self):
         """
         Executes the run method implemented in the subclasses.
         """
-        return self.run(*args, **kwargs)
+        return self.run()
 
     @abstractmethod
-    def run(self, *args, **kwargs):
+    def run(self):
         """
         Abstract methods that executes the flow logic.
 

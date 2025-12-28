@@ -13,12 +13,6 @@ class Layout(ABC):
         """
         return cls(*args, **kwargs)
 
-    def execute_render(self):
-        """
-        Executes the render method implemented in the subclasses.
-        """
-        self.render()
-
     @abstractmethod
     def render(self) -> None:
         """

@@ -94,7 +94,7 @@ class Component(ABC):
 
         @st.dialog(title)
         def _render():
-            self.render()
+            self.display()
 
         _render()
 
@@ -119,11 +119,11 @@ class Component(ABC):
         _render()
 
     def __render_fragment(self, refresh_flow: Flow = None):
-        self.render()
+        self.display()
         if refresh_flow:
-            refresh_flow.execute_run()
+            refresh_flow.dispatch()
 
-    def execute_render(
+    def render(
         self,
         render_as: Literal["normal", "dialog", "fragment"] = "normal",
         options: dict = {},
@@ -133,7 +133,7 @@ class Component(ABC):
         """
         match render_as:
             case "normal":
-                return self.render()
+                return self.display()
             case "dialog":
                 return self._render_dialog(**options)
             case "fragment":
@@ -141,9 +141,9 @@ class Component(ABC):
         raise ValueError(f"Unexpected render_as value: {render_as}")
 
     @abstractmethod
-    def render(self) -> None:
+    def display(self) -> None:
         """
-        Abstract method for rendering the component.
+        Abstract method for displaying the component.
 
         This method should be implemented by subclasses to define how the component is rendered.
         """

@@ -14,7 +14,7 @@ class DataViewerComponent(Component):
         self.column_order = column_order
         self.data = None
 
-    def render(self):
+    def display(self):
         st.subheader(self.header)
         st.dataframe(
             self.data,
