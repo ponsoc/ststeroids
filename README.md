@@ -10,24 +10,54 @@ Ststeroids was designed to supercharge the development of complex multi-page app
 The main concepts of Ststeroids are:
 
 - Reusable Components
-- Logics Flows
+- Logic Flows
 - Declarative Layouts
-- Routers
+- A Router
+- A Store
 
 In addition, StSteroids provides an easy way to load style sheets into your Streamlit application and offers a wrapper around `st.session_state` to separate states into stores. This wrapper is also used within components to store the component and its state in the session state.
 
 #### Components
 Components are at the core of StSteroids. A component represents a specific visual element of your application along with its rendering logic. Examples include a login dialog or a person details component.
 
-Each component contains only the logic necessary for its functionality, such as basic input validation or button interactions that trigger a [flow](#flows). Components and their state are stored in the ComponentStore.
+Each component contains only the logic necessary for its functionality, such as basic input validation or button interactions that trigger a [flow](#flows). Components and their attributes are stored in the ComponentStore which is a special instance of a Store.
+
+Component concepts:
+
+- components never decide on domain logic, so no domain error handeling for example
+- a component contains interaction elements, unless
+    - the component is still meaningful and usable without a the interaction element → split the element out
+- a component doesn't navigate pages
+- should have functions for updating it's attributes (explicit state changes) (so that the flow doesn't need to all the attributes)
+
+For example, a metric component that can be reused for multiple purposes.
 
 #### Flows
-Flows contain the business logic of the application, handling its core functionality and, in some cases, linking components to backend services.
 
-For example, a login flow might call an authentication service, validate the response, extract the access token, and store it in the session store.
+Flows encapsulate the application’s interaction and orchestration logic.  
+They handle user-initiated actions, coordinate state changes across components, and invoke domain services to perform business operations.
+
+Flow concepts:
+
+- Flows act as handlers for user and system interactions (e.g. button clicks, page entry, form submission)
+- Flows orchestrate application behavior, calling services and updating component state
+- Flows coordinate multiple components and stores as part of a single interaction
+- Flows determine navigation and control flow between layouts or pages
+- Flows own error handling and recovery logic for the interactions they manage
+- Flows may contain light business rules, but core domain logic should live in services
+
+For example, a login flow might call an authentication service, evaluate the result, store relevant session data, and update one or more components to reflect the outcome.
+
+When multiple flows share orchestration resources—such as access to the same components, stores, or helper logic—it is recommended to introduce a shared base flow to centralize this responsibility and avoid duplication.
 
 #### Layouts
-Layouts bring components together to create a multi-page application. Each layout functions as a page, rendering one or more components and defining their arrangement.
+Layouts bring components together to create a multi-page application. Each layout functions as a page, rendering one or more components and defining their arrangement and rendering.
+
+Layout concepts:
+
+- layouts are responsible for initializing and wiring components
+- layouts are responsible for the visual arrangement of components
+- layouts are responsible for conditional rendering based on application state or context (for example, authorisation)
 
 For example, a layout might define multiple Streamlit columns and place components within them.
 
@@ -61,49 +91,52 @@ pytest
 
 #### Components
 
-Defining a new component.
+Example of defining a new component.
+
 ```python
 from ststeroids import Component
 
-class YourXComponent(Component):
-    def __init__(self, component_id: str):
-        super().__init__(component_id) # This line is important to initialize the base class.
+class MetricComponent(Component):
+    def __init__(
+        self,
+        header: str,
+    ):
+        self.header = header
+        self.value = 0
 
-    def render(self):
-        # Your render logic
+    def display(self):
+        st.metric(self.header, self.value)
+
+    def set_value(self, value: int):
+        self.value = value
 ```
 
-Additionaly an initial state (dict) can be passed as a second paramters while initing the base class.
+The header attribute and set_value method are specific to this example. They illustrate how components can have instance-bound attributes and provide an explicit API for updating their state. Components should own their state and expose such functions rather than allowing external code to directly mutate their attributes.
 
 ##### API Reference
 
 `id`
 
-Holds the component id
+Holds the component id, is automaticly added from the base component.
 
-`state`
+`create(cls, component_id: str, *args, **kwargs)`
 
-Manages the component state. Although technically an instance of the StSteroids `State` class, it functions like a dictionary, allowing properties to be accessed using getters and setters.  
+Creates a new component instance with the given `component_id` and stores it in the `ComponentStore`.  
+This is typically called in layouts to initialize components. Additional arguments are passed to the component's constructor.
 
-When outside the component:
-```python
-myvalue = yourcomponent.state.yourproperty
-yourcomponent.state.yourproperty = "yourvalue"
-```
+`get(cls, component_id: str)`
 
-When inside the component:
-```python
-myvalue = self.state.yourproperty
-self.state.yourproperty = "yourvalue"
-```
+Retrieves an existing component instance from the `ComponentStore` by its `component_id`.  
+`create()` must have been called first; otherwise, an error will be raised.  
+This is typically used in flows that needs to interact with a component after it has been initialized.
 
-`render()`
+`display()`
 
-This method needs to be implemented by the subclass. To call it in a layout, use `execute_render()`
+This method needs to be implemented by the subclass. To call it in a layout, use `render()`
 
-`execute_render(render_as: Literal["normal", "dialog", "fragment"]="normal", options:dict={})`
+`render(render_as: Literal["normal", "dialog", "fragment"]="normal", options:dict={})`
 
-Executes the render method of an instance of a component. Additionaly provide the `render_as` parameter with the `options` parameter.
+Executes the display method of an instance of a component. Additionaly provide the `render_as` parameter with the `options` parameter.
 
 Dialog options:
 
@@ -158,65 +191,55 @@ from ststeroids import Flow
 
 class YourXFlow(Flow):
     def __init__(self):
-        super().__init__() # This line is important to initialize the base class.
+        
 
     def run(self):
         # Your flow logic
 ```
 
+<!-- ## example of shared resoruces here -->
+
 ##### API Reference
 
 `run()`
 
-This method needs to be implemented by the subclass. To call it, use `execute_run()`
+This method needs to be implemented by the subclass. To call it, use `dispatch()`
 
-`execute_run()`
+`dispatch()`
 
 Executes the run method implemented in the subclass.
 
-`component_store`
-
-The component store containing the instances of components and their states.
-
-Use `component_store.get_component(component_id: str)` to retrieve an instance of a component.
-
-```python
-from components import YourXComponent
-
-your_x_component_instance: YourXComponent = self.component_store.get_component("your_x_component_id")
-```
-
-Notice the `: YourXComponent` this tells your IDE what type of component you are getting and helps the autocomplete.
-
 #### Layouts
 
-Defining a new layout.
+Example of defining a new layout.
+
 ```python
 from ststeroids import Layout
 
-class YourXLayout(Layout):
+class ManageDataLayout(Layout):
     def __init__(self):
+        self.data_viewer = DataViewerComponent.create(
+            ComponentIDs.data_viewer, "Movies"
+        )
 
     def render(self):
-        # Your layout render logic
+        self.data_viewer.render()
 ```
 
-An instance of a layout can be rendered by calling either the `render()` function or by calling the instance of the layout.
+An instance of a layout can be rendered by calling either the `render()` function.
 
 Calling the instance
 ```python
 my_x_layout = YourXLayout()
-my_x_layout()
+my_x_layout.render()
 ```
+<!-- explain that this not must be done direclty but trough a router -->
+
 ##### API Reference
 
  `render()`
 
-This method needs to be implemented by the subclass. To call it in the application, use `execute_render()`
-
-`execute_render()`
-
-Executes the render method of an instance of a layout. 
+This method needs to be implemented by the subclass.
 
 #### Routers
 Intializing a router
