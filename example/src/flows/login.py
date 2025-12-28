@@ -28,11 +28,11 @@ class LoginFlow(Flow):
     def run(self):
         response = self.backend_service.authenticate(self.cp_login_dialog.username, self.cp_login_dialog.password)
         if response.ok:
-            self.login_succes(response)
+            self._login_success(response)
         else:
-            self.login_failed()
+            self._login_failed()
 
-    def login_succes(self, response):
+    def _login_success(self, response):
         token_data = response.json()
         self.session_store.set_property("access_token", token_data["access_token"])
         self.cp_login_dialog.hide()
@@ -52,5 +52,5 @@ class LoginFlow(Flow):
 
         
 
-    def login_failed(self):
+    def _login_failed(self):
         self.cp_login_dialog.set_error("Login failed, check your username and password")
