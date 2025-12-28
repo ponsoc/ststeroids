@@ -14,24 +14,24 @@ class MainApp:
         self.router = Router("login")
 
         self.backend_service = MockBackendService("./example/test_data.json")
-        self.login_flow = LoginFlow(self.session_store, self.backend_service)
-        self.login_success_flow = LoginSuccessFlow(
+        self.login_flow = LoginFlow.create(self.session_store, self.backend_service)
+        self.login_success_flow = LoginSuccessFlow.create(
             self.router, self.session_store, self.backend_service
         )
-        self.refresh_flow = RefreshFlow(self.session_store, self.backend_service)
+        self.refresh_flow = RefreshFlow.create(self.session_store, self.backend_service)
 
         st.set_page_config(page_title="StSteroids Example app", layout="wide")
 
         app_style = Style("./example/src/assets/style.css")
         app_style.apply_style()
 
-        self.login_layout = LoginLayout(
+        self.login_layout = LoginLayout.create(
             "App login", self.login_flow, self.login_success_flow
         )
-        self.dashboard_layout = DashboardLayout(self.refresh_flow)
-        self.manage_data_layout = ManageDataLayout()
+        self.dashboard_layout = DashboardLayout.create(self.refresh_flow)
+        self.manage_data_layout = ManageDataLayout.create()
 
-        self.sidebar = SidebarComponent("sidebar", self.router)
+        self.sidebar = SidebarComponent.create("sidebar")
 
     def run(self, entry_route: str = None):
         self.sidebar.render()

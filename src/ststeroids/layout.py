@@ -6,8 +6,12 @@ class Layout(ABC):
     Base class for a layout
     """
 
-    def __call__(self):
-        self.render()
+    @classmethod
+    def create(cls, *args, **kwargs):
+        """
+        Creates a new layout instance.
+        """
+        return cls(*args, **kwargs)
 
     def execute_render(self):
         """

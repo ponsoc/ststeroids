@@ -7,6 +7,13 @@ class Flow(ABC):
     Base class for a flow
     """
 
+    @classmethod
+    def create(cls, *args, **kwargs):
+        """
+        Create a new flow instance.
+        """
+        return cls(*args, **kwargs)
+
     def execute_run(self, *args, **kwargs):
         """
         Executes the run method implemented in the subclasses.
