@@ -1,22 +1,20 @@
-from collections import defaultdict
 import streamlit as st
-from components import SidebarComponent
 from flows import LoginFlow, LoginSuccessFlow, RefreshFlow
 from layouts import LoginLayout, DashboardLayout, ManageDataLayout
 from service import MockBackendService
-from ststeroids import Router, Store, Style
+from ststeroids import Store, Style, StSteroids
+
 
 
 class MainApp:
 
     def __init__(self):
-        self.session_store = Store.create("session")
-        self.router = Router("login")
+        self.session_store = Store.create("store")
 
         self.backend_service = MockBackendService("./example/test_data.json")
         self.login_flow = LoginFlow.create(self.session_store, self.backend_service)
         self.login_success_flow = LoginSuccessFlow.create(
-            self.router, self.session_store, self.backend_service
+            self.session_store, self.backend_service
         )
         self.refresh_flow = RefreshFlow.create(self.session_store, self.backend_service)
 
@@ -26,31 +24,20 @@ class MainApp:
         app_style.apply_style()
 
         self.login_layout = LoginLayout.create(
-            self.session_store, "App login", self.login_flow, self.login_success_flow
+            self.session_store,
+            "App login", self.login_flow, self.login_success_flow
         )
         self.dashboard_layout = DashboardLayout.create(self.refresh_flow)
         self.manage_data_layout = ManageDataLayout.create()
 
-        self.sidebar = SidebarComponent.create("sidebar")
+        self.app = StSteroids()
 
-    def run(self, entry_route: str = None):
-        self.sidebar.render()
+        self.app.default_route(self.login_layout)
 
-        def get_routes():
-            routes = defaultdict(lambda: self.login_layout)
-            routes["login"] = self.login_layout
-
-            if self.session_store.has_property("access_token"):
-                routes.update(
-                    {
-                        "dashboard": self.dashboard_layout,
-                        "manage_data": self.manage_data_layout,
-                    },
-                )
-
-            return routes
-
-        self.router.register_routes(get_routes())
-        if entry_route:
-            self.router.route(entry_route)
-        self.router.run()
+        self.app.route("login").to(self.login_layout).register()
+        self.app.route("dashboard").to(self.dashboard_layout).when(
+            lambda: self.session_store.has_property("access_token")
+        ).register()
+        self.app.route("manage_data").to(self.manage_data_layout).when(
+            lambda: self.session_store.has_property("access_token")
+        ).register()

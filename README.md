@@ -376,6 +376,8 @@ A partial rewrite of the framework so that it has a smaller footprint and creati
 -
 
 **Note** this version is considered to be a breaking change. Make sure to adapt your code base so that it works with this new version.
+- Updated example app so that sidebar is actually defined and rendered a layout and not in the main app
+- Rewrite of the whole router concept. Making it easier to work with routes and conditional routes. Also moves application routing logic to the framework.
 
 0.1.17
 

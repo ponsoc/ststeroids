@@ -2,4 +2,4 @@ from main import MainApp
 
 app = MainApp()
 
-app.run("manage_data")
+app.app.run("manage_data")
