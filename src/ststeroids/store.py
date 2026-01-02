@@ -68,14 +68,6 @@ class ComponentStore(Store):
 
     """
 
-    # def __init__(self):
-    #     """
-    #     Initializes the component store with the name 'components'.
-
-    #     This store is used specifically for storing component-related state in the session.
-    #     """
-    #     super().__init__("components")
-
     def init_component(self, component: object) -> None:
         """
         Initializes a component in the session store with its ID
