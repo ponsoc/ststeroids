@@ -1,24 +1,28 @@
 import streamlit as st
 from components import LoginDialogComponent, SidebarComponent
 from shared import ComponentIDs
-from ststeroids import Flow, Layout
+from ststeroids import Flow, Layout, Store
 
 
 class LoginLayout(Layout):
     def __init__(
         self,
+        session_store: Store,
         login_header: str,
         login_flow: Flow,
         login_success_flow: Flow,
     ):
-        self.sidebar = SidebarComponent("sidebar")
+        self.session_store = session_store
         self.login_header = login_header
-        self.login_dialog = LoginDialogComponent(
+        self.sidebar = SidebarComponent.create(ComponentIDs.sidebar)
+        self.login_dialog = LoginDialogComponent.create(
             ComponentIDs.dialog_login, login_flow, login_success_flow
         )
 
     def render(self):
-        self.sidebar.execute_render()
-        self.login_dialog.execute_render("dialog", {"title": self.login_header})
+        self.sidebar.render()
+        if not self.session_store.has_property("access_token"):
+            self.login_dialog.show()
+        self.login_dialog.render("dialog", {"title": self.login_header})
         st.write("Not logged in. Please refresh or use the menu on the left.")
-        self.login_dialog.show()
+ 

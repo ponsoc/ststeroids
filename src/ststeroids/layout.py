@@ -1,23 +1,23 @@
-class Layout:
+from abc import ABC, abstractmethod
+
+
+class Layout(ABC):
     """
     Base class for a layout
     """
 
-    def __call__(self):
-        self.render()
-
-    def execute_render(self):
+    @classmethod
+    def create(cls, *args, **kwargs):
         """
-        Executes the render method implemented in the subclasses.
+        Creates a new layout instance.
         """
-        self.render()
+        return cls(*args, **kwargs)
 
+    @abstractmethod
     def render(self) -> None:
         """
-        Placeholder method for rendering the layout.
+        Abstract method for rendering the layout.
 
         This method should be implemented by subclasses to define how the layout is rendered.
-
-        :raises NotImplementedError: If called directly without being implemented in a subclass.
         """
-        raise NotImplementedError("Subclasses should implement this method.")
+        pass

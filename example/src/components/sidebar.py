@@ -4,10 +4,7 @@ from ststeroids import Component
 
 class SidebarComponent(Component):
 
-    def __init__(self, component_id: str):
-        super().__init__(component_id)
-
-    def render(self):
+    def display(self):
         with st.sidebar:
             st.page_link(
                 "pages/dashboard.py", icon=":material/search:", label="Dashboard"

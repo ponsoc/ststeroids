@@ -1,33 +1,30 @@
-from .store import ComponentStore
+from abc import ABC, abstractmethod
 
 
 # pylint: disable=too-few-public-methods
-class Flow:
+class Flow(ABC):
     """
-    Base class for a flow that can interact with the component store
+    Base class for a flow
     """
 
-    def __init__(self):
+    @classmethod
+    def create(cls, *args, **kwargs): 
         """
-        Initializes the Flow class and creates a ComponentStore instance.
+        Creates a new flow instance.
         """
-        self.component_store = ComponentStore()
+        return cls(*args, **kwargs)
 
-    def execute_run(self, *args, **kwargs):
+    def dispatch(self) -> None:
         """
         Executes the run method implemented in the subclasses.
         """
-        return self.run(*args, **kwargs)
+        return self.run()
 
-    def run(self, *args, **kwargs):
+    @abstractmethod
+    def run(self) -> None:
         """
-        Executes the flow logic.
+        Abstract methods that executes the flow logic.
 
         Each derived class should implement its own `run` method.
-
-        :param args: Positional arguments for the run method.
-        :param kwargs: Keyword arguments for the run method.
-        :return: None
-        :raises NotImplementedError: If the method is not implemented in a subclass.
         """
-        raise NotImplementedError("Subclasses must implement the run method.")
+        pass

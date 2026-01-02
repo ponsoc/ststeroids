@@ -15,7 +15,7 @@ class Style:
         """
         self.style_file = style_file
 
-    def apply_style(self):
+    def apply_style(self) -> None:
         """
         Reads the CSS file and applies its styles to the Streamlit app.
 

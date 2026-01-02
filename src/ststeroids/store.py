@@ -13,15 +13,14 @@ class Store:
     """
 
     def __init__(self, store_name: str):
-        """
-        Initializes the session store with the given name.
-
-        :param store_name: The name of the store to create in session state.
-        """
         self.name = store_name
         if store_name not in st.session_state:
-            st.session_state[self.name] = {}
+            st.session_state[store_name] = {}
 
+    @classmethod
+    def create(cls, store_name: str):
+        return cls(store_name)
+    
     def has_property(self, property_name: str) -> bool:
         """
         Checks if a property exists in the store.
@@ -65,74 +64,19 @@ class Store:
 
 class ComponentStore(Store):
     """
-    Class that creates a component session store. This can be passed to component instances.
+    Class that creates a component session store.
 
-    :param component_id: The unique identifier for the component.
-    :param initial_state: The initial state of the component.
     """
-
-    _instance = None
-
-    def __new__(cls, *args, **kwargs):
-        if cls._instance is None:
-            cls._instance = super().__new__(cls)
-        return cls._instance
-
-    def __init__(self):
-        """
-        Initializes the component store with the name 'components'.
-
-        This store is used specifically for storing component-related state in the session.
-        """
-        super().__init__("components")
 
     def init_component(self, component: object) -> None:
         """
         Initializes a component in the session store with its ID
 
-        :param component_id: The unique identifier for the component.
+        :param component: The component instance.
         :return: None
         """
         if not self.has_property(component.id):
             super().set_property(component.id, component)
-
-    def init_component_state(self, component_id: str, initial_state: dict) -> None:
-        """
-        Initializes a component state in the session store with its ID and initial state.
-
-        :param component_id: The unique identifier for the component.
-        :param initial_state: The initial state to set for the component.
-        :return: None
-        """
-        if not self.has_property(f"{component_id}_state"):
-            super().set_property(f"{component_id}_state", initial_state)
-
-    def get_property(  # pylint: disable=arguments-differ
-        self, component_id: str, property_name: str
-    ) -> Any:
-        """
-        Retrieves the value of a property from a component's state.
-
-        :param component_id: The unique identifier for the component.
-        :param property_name: The name of the property to retrieve.
-        :return: The value of the property from the component's state.
-        """
-        return super().get_property(f"{component_id}_state")[property_name]
-
-    def set_property(  # pylint: disable=arguments-differ
-        self, component_id: str, property_name: str, property_value: Any
-    ) -> None:
-        """
-        Sets the value of a property in a component's state.
-
-        :param component_id: The unique identifier for the component.
-        :param property_name: The name of the property to set.
-        :param property_value: The value to set for the property.
-        :return: None
-        """
-        component_state = super().get_property(f"{component_id}_state")
-        component_state[property_name] = property_value
-        super().set_property(f"{component_id}_state", component_state)
 
     def get_component(self, component_id: str):
         """

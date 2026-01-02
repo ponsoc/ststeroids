@@ -12,15 +12,9 @@ class LoginSuccessFlow(Flow):
         self.backend_service = backend_service
 
     def run(self):
-        cp_login_dialog: LoginDialogComponent = self.component_store.get_component(
-            ComponentIDs.dialog_login
-        )
-        cp_data_viewer: DataViewerComponent = self.component_store.get_component(
-            ComponentIDs.data_viewer
-        )
-        cp_total_movies: MetricComponent = self.component_store.get_component(
-            ComponentIDs.total_movies
-        )
+        cp_login_dialog = LoginDialogComponent.get(ComponentIDs.dialog_login)
+        cp_data_viewer = DataViewerComponent.get(ComponentIDs.data_viewer)
+        cp_total_movies = MetricComponent.get(ComponentIDs.total_movies)
         response = self.backend_service.get_movies()
         if response.ok:
             data = response.json()

@@ -49,4 +49,4 @@ class Router:
             raise RuntimeError(
                 "No current route selected and no default route registered."
             )
-        route.target()
+        route.target.render()
