@@ -23,7 +23,7 @@ class Component(ABC):
         :param component_id: A unique identifier for the instance of the component
 
         """
-        cls._store = ComponentStore()
+        cls._store = ComponentStore.create("components")
 
         if cls._store.has_property(component_id):
             return cls._store.get_component(component_id)

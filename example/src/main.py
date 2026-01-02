@@ -10,7 +10,7 @@ from ststeroids import Router, Store, Style
 class MainApp:
 
     def __init__(self):
-        self.session_store = Store("store")
+        self.session_store = Store.create("session")
         self.router = Router("login")
 
         self.backend_service = MockBackendService("./example/test_data.json")
