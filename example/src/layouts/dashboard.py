@@ -7,7 +7,7 @@ from ststeroids import Layout, Flow
 class DashboardLayout(Layout):
     def __init__(self, refresh_flow: Flow):
         self.refresh_flow = refresh_flow
-        self.toast = ToastComponent.create("toast")
+        self.toast = ToastComponent.create(ComponentIDs.toast)
         self.total_movies = MetricComponent.create(
             ComponentIDs.total_movies, "Total movies"
         )

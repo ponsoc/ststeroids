@@ -4,3 +4,4 @@ class ComponentIDs:
     data_viewer = "data_view"
     total_movies = "total_movies"
     avg_rating = "avg_rating"
+    toast = "toast"

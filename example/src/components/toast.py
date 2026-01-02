@@ -15,6 +15,5 @@ class ToastComponent(Component):
             self.visible = False
 
     def set_message(self, message: str):
-        print("set called")
         self.message = message
         self.visible = True

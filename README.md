@@ -185,19 +185,50 @@ Sets the value of a registered element.
 
 #### Flows
 
-Defining a new flow.
+Example of defining a new flow:
+
 ```python
 from ststeroids import Flow
 
-class YourXFlow(Flow):
-    def __init__(self):
-        
+class AddDocumentFlow(Flow):
+    def __init__(self, session_store: Store):
+        self.session_store = session_store
+
+    @property
+    def cp_document_table(self):
+        return TableComponent.get(ComponentIDs.documents)
 
     def run(self):
-        # Your flow logic
+        # Flow logic for adding a document
 ```
 
-<!-- ## example of shared resoruces here -->
+Now imagine your application supports multiple document-related actions (for example: add, delete, or update documents).
+These actions often share the same orchestration context, such as access to the session store or a document table component.
+
+To avoid duplicating this setup in every action flow, it is recommended to introduce a base flow that provides shared orchestration resources.
+
+First, rename the flow above to a base flow:
+
+```python
+class DocumentActionBaseFlow(Flow):
+    def __init__(self, session_store: Store):
+        self.session_store = session_store
+
+    @property
+    def cp_document_table(self):
+        return TableComponent.get(ComponentIDs.documents)
+```
+
+Then, create a dedicated flow for each document action:
+
+```python
+class AddDocumentFlow(DocumentActionBaseFlow):
+    def run(self):
+        # Flow logic for adding a document
+```
+
+In this example, AddDocumentFlow represents a single user action, while DocumentActionBaseFlow provides shared orchestration context.
+This keeps flows focused, avoids duplication, and clearly separates reusable setup from action-specific logic.R
 
 ##### API Reference
 
@@ -226,14 +257,30 @@ class ManageDataLayout(Layout):
         self.data_viewer.render()
 ```
 
-An instance of a layout can be rendered by calling either the `render()` function.
+Layouts are responsible for creating and rendering components.  
+They must not contain business logic, checks, or flow control.
 
-Calling the instance
+Component creation should always happen in the layout constructor using
+`Component.create(...)`.
+
+##### Rendering a layout
+
+A layout instance can be rendered by calling its `render()` method.
+
 ```python
-my_x_layout = YourXLayout()
+my_x_layout = YourXLayout.create()
 my_x_layout.render()
 ```
-<!-- explain that this not must be done direclty but trough a router -->
+
+Calling `render()` on a layout is restricted to the router.
+
+This ensures:
+- a single, predictable render entry point
+- consistent routing behavior
+- a clear separation of concerns
+
+Layouts describe what is rendered.  
+The router decides when it is rendered.
 
 ##### API Reference
 

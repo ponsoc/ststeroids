@@ -23,7 +23,7 @@ class LoginFlow(Flow):
     
     @property
     def cp_toast(self):
-        return ToastComponent.get("toast")
+        return ToastComponent.get(ComponentIDs.toast)
     
     def run(self):
         response = self.backend_service.authenticate(self.cp_login_dialog.username, self.cp_login_dialog.password)
@@ -48,9 +48,6 @@ class LoginFlow(Flow):
         else:
             self.cp_toast.set_message("error")
         st.switch_page("pages/dashboard.py")
-
-
-        
 
     def _login_failed(self):
         self.cp_login_dialog.set_error("Login failed, check your username and password")
