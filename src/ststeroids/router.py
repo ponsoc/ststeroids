@@ -16,13 +16,13 @@ class Router:
         self._current: str | None = None
         self._default: str = default
 
-    def register_routes(self, routes: dict[str, Route]):
+    def register_routes(self, routes: dict[str, Route]) -> None:
         """
         Registers a dictionary of routes where keys are route names and values are layout callables.
         """
         self._routes = routes
 
-    def route(self, route_name: str):
+    def route(self, route_name: str) -> None:
         """
         Sets the current route to execute.
 
@@ -36,7 +36,7 @@ class Router:
         """
         return self._current
 
-    def run(self):
+    def run(self) -> None:
         """
         Executes the callable associated with the current layout.
         Falls back to the default route if none is selected.
