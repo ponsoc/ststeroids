@@ -37,7 +37,8 @@ class LoginFlow(Flow):
         self.session_store.set_property("access_token", token_data["access_token"])
         self.cp_login_dialog.hide()
         response = self.backend_service.get_movies()
-        response.ok = False
+        # enable the line below for example of an error scenario
+        # response.ok = False
         if response.ok:
             data = response.json()
             self.session_store.set_property(
