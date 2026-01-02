@@ -12,12 +12,16 @@ class Component(ABC):
 
     Attributes:
         id (str): The unique identifier for the component.
+        visible (bool) Controls if the component is visible or not.
     """
 
     @classmethod
     def create(cls, component_id: str, *args, **kwargs):
         """
         Create a new component instance or return it from the store.
+
+        :param component_id: A unique identifier for the instance of the component
+
         """
         cls._store = ComponentStore()
 
@@ -38,19 +42,20 @@ class Component(ABC):
     @classmethod
     def get(cls, component_id: str):
         """
-        Alias for create() — creation is implicit.
+        Alias for create() — note that create has to be called first.
+
+        :param component_id: The unique identifier for the instance of the component to return.
         """
+
         return cls.create(component_id)
 
     def register_element(self, element_name: str):
-        """
+        """ 
         Generates a unique key for an element based on the instance ID.
 
-        Args:
-            element_name (str): The name of the element to register.
+        param: element_name: The name of the element to register.
 
-        Returns:
-            str: A unique key for the element.
+        return: A unique key for the element.
         """
         key = f"{self.id}_{element_name}"
         return key
@@ -59,11 +64,8 @@ class Component(ABC):
         """
         Retrieves the value of a registered element from the session state.
 
-        Args:
-            element_name (str): The name of the element to retrieve.
-
-        Returns:
-            Any: The value of the element if it exists in the session state, otherwise None.
+        param: element_name: The name of the element to retrieve.
+        return: The value of the element if it exists in the session state, otherwise None.
         """
         key = f"{self.id}_{element_name}"
         if key not in st.session_state:
@@ -74,12 +76,9 @@ class Component(ABC):
         """
         Sets the value of a registered element in the session state.
 
-        Args:
-            element_name (str): The name of the element to set.
-            element_value (Any): The value to assign to the element.
-
-        Returns:
-            None
+        param: element_name: The name of the element to set.
+        param: element_value: The value to assign to the element.
+        return: None
         """
         key = f"{self.id}_{element_name}"
 
