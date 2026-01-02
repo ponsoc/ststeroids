@@ -287,6 +287,11 @@ app_style.apply_style()
 
 ### Release notes
 
+1.0.0
+
+- Updated example app so that sidebar is actually defined and rendered a layout and not in the main app
+- Rewrite of the whole router concept. Making it easier to work with routes and conditional routes. Also moves application routing logic to the framework.
+
 0.1.17
 
 - Improved execute_render function by adding an error handler
