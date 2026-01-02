@@ -57,6 +57,7 @@ Layout concepts:
 - layouts are responsible for initializing and wiring components
 - layouts are responsible for the visual arrangement of components
 - layouts are responsible for conditional rendering based on application state or context (for example, authorisation)
+- layout shouldn't handle domain errors
 
 For example, a layout might define multiple Streamlit columns and place components within them.
 
@@ -408,6 +409,9 @@ Partially rewritten the framework to reduce its footprint and make object creati
 **Note** this version is considered to be a breaking change. Make sure to adapt your code base so that it works with this new version. A small migration guide:
 
 - Update the `__init__` of your components to match the new style
+    - component_id is no longer needed
+    - the `super().__init__()` no longer needs to be called
+- accessing `.state` is no longer possible, you can directly access the attributes on a component instead
 - Rename `render` in your components to `display`
 - Remove any `show` and `hide` methods from your components as well as the `visible` property. They are now controlled by the framework
 - In Flows use `YourComponent.get(component_id)` instead of `self.component_store.get_component(component_id)
@@ -417,7 +421,7 @@ Partially rewritten the framework to reduce its footprint and make object creati
 - When creating instances of StSteroids classes use `create` instead of calling `ClassName()`. This does not apply to the `Style` class
 - The flow's `run` method can no longer take parameters. Access a components state instead to aquire the require parameters
 - When calling a flow, use `dispatch()` instead of `run()`
-- If you previously implemented your own logic for using the `router` class. Please consider using the new Steroids app style.
+- If you previously implemented your own logic for using the `router` class. Please consider using the new Steroids app style
 
 0.1.17
 
