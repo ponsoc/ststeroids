@@ -12,7 +12,6 @@ The main concepts of Ststeroids are:
 - Reusable Components
 - Logic Flows
 - Declarative Layouts
-- A Router
 - A Store
 
 In addition, StSteroids provides an easy way to load style sheets into your Streamlit application and offers a wrapper around `st.session_state` to separate states into stores. This wrapper is also used within components to store the component and its state in the session state.
@@ -61,18 +60,15 @@ Layout concepts:
 
 For example, a layout might define multiple Streamlit columns and place components within them.
 
-#### Routers
-Routers enable multi-page applications by defining routes and linking them to layouts. These routes are internal, meaning they cannot be accessed directly via a URL (due to current Streamlit limitations) and should be triggered through user interactions.
-
 ### Installation
 
 ```
 pip install ststeroids
 ```
 
-### Usage
+### Getting started
 
-StSteroids allows you to define components, layouts, and flows, then connect everything in `app.py` using a router. See the `example` folder in this repository.
+StSteroids allows you to define components, layouts, and flows, then connect everything in a `main.py` by creating a StSteroids app. See the `example` folder in this repository.
 
 To run the example app, execute the following commands from the project root:
 
@@ -88,6 +84,49 @@ pip install -r requirements.txt
 pip install -r requirements-dev.txt
 pytest
 ```
+
+#### The basics
+
+To create an application using StSteroids, follow these steps:
+
+1. Create components – Define the individual UI elements of your application, such as dialogs, tables, or metrics, using the Component base class.
+2. Create flows – Implement the business or orchestration logic that interacts with components, services, and session state.
+3. Create layouts – Group and initialize components, arrange them visually, and pass the necessary flows to the components. Layouts define how your pages are structured.
+4. Create the StSteroids app – Instantiate the app, register routes for each layout, and define a default route if needed.
+
+This sequence ensures a clear separation of concerns and keeps your app modular, testable, and easy to maintain.
+
+#### Routes
+
+Example of creatinga a StSteroids application.
+
+```python
+app = StSteroids()
+
+# Register a layout as a route
+app.route("dashboard").to(DashboardLayout).register()
+
+# Set a default route (optional)
+app.default_route(DashboardLayout)
+
+# Run the app (optionally specify an entry route)
+app.run()
+``` 
+
+`app.route(name).to(layout).register()`
+
+Registers a layout or page as a route in your app.
+- name is the route identifier.
+- layout is the layout class or callable to render when this route is selected.
+
+`app.default_route(layout)`
+
+Sets a default layout to display if no route is specified.
+
+`app.run(entry_route)`
+
+Starts the app and navigates to entry_route if provided; otherwise, uses the default route.
+
 
 #### Components
 
@@ -300,13 +339,6 @@ The router decides when it is rendered.
 
 This method needs to be implemented by the subclass.
 
-#### Routers
-Intializing a router
-
-```python
-from ststeroids import Router
-router = Router()
-```
 
 ##### API Reference
 
@@ -333,7 +365,7 @@ A wrapper around `st.session_state` to separate states into stores.
 Usage:
 
 ```python
-session_store = Store("yourstore")
+session_store = Store.create("yourstore")
 ```
 
 ##### API reference
@@ -371,11 +403,10 @@ app_style.apply_style()
 
 1.0.0
 
-A partial rewrite of the framework so that it has a smaller footprint and creation of objects feels more natural and is better supported by editors and debuggers.
+We’ve partially rewritten the framework to reduce its footprint and make object creation more intuitive. Editor and debugger support has been improved, making development smoother and more productive. The router system has also been greatly enhanced, now supporting conditional routes directly within the framework, giving you more control over navigation and layout rendering.
 
--
+**Note** this version is considered to be a breaking change. Make sure to adapt your code base so that it works with this new version. A small migration guide:
 
-**Note** this version is considered to be a breaking change. Make sure to adapt your code base so that it works with this new version.
 - Updated example app so that sidebar is actually defined and rendered a layout and not in the main app
 - Rewrite of the whole router concept. Making it easier to work with routes and conditional routes. Also moves application routing logic to the framework.
 
