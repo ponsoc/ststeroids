@@ -1,6 +1,7 @@
 from .layout import Layout
 from .route import Route
 
+
 class RouteBuilder:
     """
     A builder class for defining and registering routes in the application.
@@ -53,5 +54,7 @@ class RouteBuilder:
             ValueError: If no target has been set for the route.
         """
         if self._target is None:
-            raise ValueError(f"Route '{self._name}' cannot be registered without a target.")
+            raise ValueError(
+                f"Route '{self._name}' cannot be registered without a target."
+            )
         self.app.register(Route(self._name, self._target, self._condition))

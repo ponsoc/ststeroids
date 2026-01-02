@@ -11,8 +11,8 @@ class ToastComponent(Component):
 
     def display(self):
         # if self.visible:
-            st.toast(self.message)
-            self.hide()
+        st.toast(self.message)
+        self.hide()
 
     def set_message(self, message: str):
         self.message = message

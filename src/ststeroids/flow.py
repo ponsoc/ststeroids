@@ -8,7 +8,7 @@ class Flow(ABC):
     """
 
     @classmethod
-    def create(cls, *args, **kwargs): 
+    def create(cls, *args, **kwargs):
         """
         Creates a new flow instance.
         """

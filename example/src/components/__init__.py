@@ -5,4 +5,10 @@ from .metric import MetricComponent
 from .toast import ToastComponent
 
 
-__all__ = [LoginDialogComponent, SidebarComponent, DataViewerComponent, MetricComponent, ToastComponent]
+__all__ = [
+    LoginDialogComponent,
+    SidebarComponent,
+    DataViewerComponent,
+    MetricComponent,
+    ToastComponent,
+]

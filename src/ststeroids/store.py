@@ -20,7 +20,7 @@ class Store:
     @classmethod
     def create(cls, store_name: str):
         return cls(store_name)
-    
+
     def has_property(self, property_name: str) -> bool:
         """
         Checks if a property exists in the store.

@@ -1,8 +1,14 @@
 from service import MockBackendService
 from ststeroids import Flow, Store
-from components import LoginDialogComponent, DataViewerComponent, MetricComponent, ToastComponent
+from components import (
+    LoginDialogComponent,
+    DataViewerComponent,
+    MetricComponent,
+    ToastComponent,
+)
 from shared import ComponentIDs
 import streamlit as st
+
 
 class LoginFlow(Flow):
     def __init__(self, session_store: Store, backend_service: MockBackendService):
@@ -11,22 +17,24 @@ class LoginFlow(Flow):
 
     @property
     def cp_login_dialog(self):
-        return  LoginDialogComponent.get(ComponentIDs.dialog_login)
-    
+        return LoginDialogComponent.get(ComponentIDs.dialog_login)
+
     @property
     def cp_data_viewer(self):
-        return  DataViewerComponent.get(ComponentIDs.data_viewer)
-    
+        return DataViewerComponent.get(ComponentIDs.data_viewer)
+
     @property
     def cp_total_movies(self):
         return MetricComponent.get(ComponentIDs.total_movies)
-    
+
     @property
     def cp_toast(self):
         return ToastComponent.get(ComponentIDs.toast)
-    
+
     def run(self):
-        response = self.backend_service.authenticate(self.cp_login_dialog.username, self.cp_login_dialog.password)
+        response = self.backend_service.authenticate(
+            self.cp_login_dialog.username, self.cp_login_dialog.password
+        )
         if response.ok:
             self._login_success(response)
         else:

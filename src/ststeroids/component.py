@@ -50,7 +50,7 @@ class Component(ABC):
         return cls.create(component_id)
 
     def register_element(self, element_name: str):
-        """ 
+        """
         Generates a unique key for an element based on the instance ID.
 
         param: element_name: The name of the element to register.
@@ -128,7 +128,7 @@ class Component(ABC):
         self,
         render_as: Literal["normal", "dialog", "fragment"] = "normal",
         options: dict = {},
-    ):  
+    ):
         """
         Executes the render method implemented in the subclasses, additionaly providing extra configuration based on the `render_as` parameter
         """
@@ -144,10 +144,10 @@ class Component(ABC):
             case "fragment":
                 return self._render_fragment(**options)
         raise ValueError(f"Unexpected render_as value: {render_as}")
-    
+
     def show(self):
         self.visible = True
-    
+
     def hide(self):
         self.visible = False
 

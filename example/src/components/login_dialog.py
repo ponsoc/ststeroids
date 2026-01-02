@@ -24,5 +24,3 @@ class LoginDialogComponent(Component):
 
     def set_error(self, message: str):
         self.error_message = message
-
-
