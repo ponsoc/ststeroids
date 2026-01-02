@@ -10,24 +10,17 @@ class LoginDialogComponent(Component):
     ):
         self.header = header
         self.login_flow = login_flow
-        self.visible = False
         self.error_message = None
+        self.hide()
 
     def display(self):
-        if self.visible:
-            self.username = st.text_input("Username")
-            self.password = st.text_input("Password", type="password")
-            if st.button("Login", use_container_width=True):
-                self.login_flow.dispatch()
-            if self.error_message:
-                st.error(self.error_message)
-                # clearing the error message?
-    
-    def show(self):
-        self.visible = True
-
-    def hide(self):
-        self.visible = False
+        self.username = st.text_input("Username")
+        self.password = st.text_input("Password", type="password")
+        if st.button("Login", use_container_width=True):
+            self.login_flow.dispatch()
+        if self.error_message:
+            st.error(self.error_message)
+            # clearing the error message?
 
     def set_error(self, message: str):
         self.error_message = message

@@ -26,7 +26,7 @@ class MainApp:
         app_style.apply_style()
 
         self.login_layout = LoginLayout.create(
-            "App login", self.login_flow, self.login_success_flow
+            self.session_store, "App login", self.login_flow, self.login_success_flow
         )
         self.dashboard_layout = DashboardLayout.create(self.refresh_flow)
         self.manage_data_layout = ManageDataLayout.create()

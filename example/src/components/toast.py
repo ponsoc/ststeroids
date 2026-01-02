@@ -6,14 +6,15 @@ class ToastComponent(Component):
     def __init__(
         self,
     ):
-        self.visible = False
         self.message = None
+        self.hide()
 
     def display(self):
-        if self.visible:
+        # if self.visible:
             st.toast(self.message)
-            self.visible = False
+            self.hide()
 
     def set_message(self, message: str):
         self.message = message
-        self.visible = True
+        self.show()
+        # self.visible = True

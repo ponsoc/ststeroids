@@ -28,7 +28,7 @@ Component concepts:
 - a component contains interaction elements, unless
     - the component is still meaningful and usable without a the interaction element → split the element out
 - a component doesn't navigate pages
-- should have functions for updating it's attributes (explicit state changes) (so that the flow doesn't need to all the attributes)
+- should have methods for updating it's attributes (explicit state changes) (so that the flow doesn't need to all the attributes)
 
 For example, a metric component that can be reused for multiple purposes.
 
@@ -111,13 +111,25 @@ class MetricComponent(Component):
         self.value = value
 ```
 
-The header attribute and set_value method are specific to this example. They illustrate how components can have instance-bound attributes and provide an explicit API for updating their state. Components should own their state and expose such functions rather than allowing external code to directly mutate their attributes.
+The header attribute and set_value method are specific to this example. They illustrate how components can have instance-bound attributes and provide an explicit API for updating their state. Components should own their state and expose such methods rather than allowing external code to directly mutate their attributes.
 
 ##### API Reference
 
 `id`
 
 Holds the component id, is automaticly added from the base component.
+
+`visible`
+
+Controls if the component is visible. Defaults to `True` Control using the `show` and `hide` methods.
+
+`show()`
+
+Sets the `visible` property of the component to `True`
+
+`hide()`
+
+Sets the `visible` property of the component to `False`
 
 `create(cls, component_id: str, *args, **kwargs)`
 
@@ -157,7 +169,7 @@ The refresh interval, for example: `2s`.
 
 `register_element(element_name: str)`
 
-Registers a Streamlit element onto the component by generating component bound key. Use this function when setting a key for an element within the component.
+Registers a Streamlit element onto the component by generating component bound key. Use this method when setting a key for an element within the component.
 
 Usage:
 
@@ -367,7 +379,7 @@ A partial rewrite of the framework so that it has a smaller footprint and creati
 
 0.1.17
 
-- Improved execute_render function by adding an error handler
+- Improved execute_render method by adding an error handler
 - Default refresh_interval for a fragment is now `None` to avoid unintended refreshes
 
 0.1.16
@@ -385,8 +397,8 @@ A partial rewrite of the framework so that it has a smaller footprint and creati
 
 0.1.13
 
-- Adds a function to set a registered element's value.
-- Adds a function for rendering a component as a fragment.
+- Adds a method to set a registered element's value.
+- Adds a method for rendering a component as a fragment.
 
 0.1.12
 

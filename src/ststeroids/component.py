@@ -26,6 +26,8 @@ class Component(ABC):
         try:
             instance = cls(*args, **kwargs)
             instance.id = component_id
+            if not hasattr(instance, "visible"):
+                instance.visible = True
             cls._store.init_component(instance)
             return instance
         except TypeError as e:
@@ -127,10 +129,14 @@ class Component(ABC):
         self,
         render_as: Literal["normal", "dialog", "fragment"] = "normal",
         options: dict = {},
-    ):
+    ):  
         """
         Executes the render method implemented in the subclasses, additionaly providing extra configuration based on the `render_as` parameter
         """
+
+        if not self.visible:
+            return
+
         match render_as:
             case "normal":
                 return self.display()
@@ -139,6 +145,12 @@ class Component(ABC):
             case "fragment":
                 return self._render_fragment(**options)
         raise ValueError(f"Unexpected render_as value: {render_as}")
+    
+    def show(self):
+        self.visible = True
+    
+    def hide(self):
+        self.visible = False
 
     @abstractmethod
     def display(self) -> None:
