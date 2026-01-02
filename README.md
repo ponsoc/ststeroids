@@ -116,8 +116,8 @@ app.run()
 `app.route(name).to(layout).register()`
 
 Registers a layout or page as a route in your app.
-- name is the route identifier.
-- layout is the layout class or callable to render when this route is selected.
+- name is the route identifier
+- layout is the layout class or callable to render when this route is selected
 
 `app.default_route(layout)`
 
@@ -407,8 +407,17 @@ We’ve partially rewritten the framework to reduce its footprint and make objec
 
 **Note** this version is considered to be a breaking change. Make sure to adapt your code base so that it works with this new version. A small migration guide:
 
-- Updated example app so that sidebar is actually defined and rendered a layout and not in the main app
-- Rewrite of the whole router concept. Making it easier to work with routes and conditional routes. Also moves application routing logic to the framework.
+- Update the `__init__` of your components to match the new style
+- Rename `render` in your components to `display`
+- Remove any `show` and `hide` methods from your components as well as the `visible` property. They are now controlled by the framework
+- In Flows use `YourComponent.get(component_id)` instead of `self.component_store.get_component(component_id)
+- Remove `Router` from your Flows, use `st.switch_page` instead if you didn't already
+- Move the initialization of the sidebar to layouts instead of the `main` of the app
+- When rendering a component call `render` instead of `execute_render`
+- When creating instances of StSteroids classes use `create` instead of calling `ClassName()`. This does not apply to the `Style` class
+- The flow's `run` method can no longer take parameters. Access a components state instead to aquire the require parameters
+- When calling a flow, use `dispatch()` instead of `run()`
+- If you previously implemented your own logic for using the `router` class. Please consider using the new Steroids app style.
 
 0.1.17
 
