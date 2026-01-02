@@ -403,7 +403,7 @@ app_style.apply_style()
 
 1.0.0
 
-We’ve partially rewritten the framework to reduce its footprint and make object creation more intuitive. Editor and debugger support has been improved, making development smoother and more productive. The router system has also been greatly enhanced, now supporting conditional routes directly within the framework, giving you more control over navigation and layout rendering.
+Partially rewritten the framework to reduce its footprint and make object creation more intuitive. Editor and debugger support has been improved, making development smoother and more productive. The router system has also been greatly enhanced, now supporting conditional routes directly within the framework, giving you more control over navigation and layout rendering.
 
 **Note** this version is considered to be a breaking change. Make sure to adapt your code base so that it works with this new version. A small migration guide:
 
