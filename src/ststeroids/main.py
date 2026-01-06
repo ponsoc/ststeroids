@@ -5,6 +5,7 @@ from .layout import Layout
 from .flow import Flow
 import streamlit as st
 
+
 class StSteroids:
     """
     The main application class for managing routes and navigation.
@@ -58,7 +59,17 @@ class StSteroids:
         """
         self._routes[route.name] = route
 
-    def on_app_run_once(self, callback: Flow):
+    def on_app_run_once(self, callback: Flow) -> None:
+        """
+        Registers a flow to be executed once when the application starts.
+
+        This flow will be triggered only the first time the app runs.
+        Subsequent reruns of the app will not re-execute this flow.
+
+        :param callback: The Flow instance to execute on the first app run.
+        :raises RuntimeError: If an on_app_run_once flow has already been registered.
+        :return: None
+        """
         if self._on_app_run_once:
             raise RuntimeError("on_app_run_once already registered.")
         self._on_app_run_once = callback
@@ -74,7 +85,7 @@ class StSteroids:
         :param entry_route: Optional name of the route to navigate to immediately.
         :return: None
         """
-        if not "_on_app_run_once_done" in st.session_state and self._on_app_run_once:
+        if "_on_app_run_once_done" not in st.session_state and self._on_app_run_once:
             self._on_app_run_once.dispatch()
             st.session_state["_on_app_run_once_done"] = True
 

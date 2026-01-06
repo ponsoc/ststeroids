@@ -1,11 +1,16 @@
 import streamlit as st
-from components import MetricComponent, SidebarComponent, ToastComponent
+from components import (
+    MetricComponent,
+    SidebarComponent,
+    ToastComponent,
+    ButtonComponent,
+)
 from shared import ComponentIDs
 from ststeroids import Layout, Flow
 
 
 class DashboardLayout(Layout):
-    def __init__(self, refresh_flow: Flow):
+    def __init__(self, refresh_flow: Flow, logout_flow: Flow):
         self.refresh_flow = refresh_flow
         self.sidebar = SidebarComponent.create(ComponentIDs.sidebar)
         self.toast = ToastComponent.create(ComponentIDs.toast)
@@ -13,6 +18,9 @@ class DashboardLayout(Layout):
             ComponentIDs.total_movies, "Total movies"
         )
         self.avg_rating = MetricComponent.create(ComponentIDs.avg_rating, "Avg. Rating")
+        self.logout_button = ButtonComponent.create(ComponentIDs.logout, "Logout")
+
+        self.logout_button.on("button_click", logout_flow)
 
     def render(self):
         self.sidebar.render()
@@ -25,6 +33,5 @@ class DashboardLayout(Layout):
                 "fragment",
                 {"refresh_flow": self.refresh_flow, "refresh_interval": "2s"},
             )
-
-        if st.button("logout"):
-            del st.session_state["store"]["access_token"]
+        st.divider()
+        self.logout_button.render()

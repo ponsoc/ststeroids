@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Literal, Any
 from abc import ABC, abstractmethod
 import streamlit as st
 from .store import ComponentStore
@@ -14,6 +14,8 @@ class Component(ABC):
         id (str): The unique identifier for the component.
         visible (bool) Controls if the component is visible or not.
     """
+
+    id: str
 
     @classmethod
     def create(cls, component_id: str, *args, **kwargs):
@@ -32,6 +34,8 @@ class Component(ABC):
             instance.id = component_id
             if not hasattr(instance, "visible"):
                 instance.visible = True
+            instance._events = {}
+
             cls._store.init_component(instance)
             return instance
         except TypeError as e:
@@ -49,7 +53,7 @@ class Component(ABC):
 
         return cls.create(component_id)
 
-    def register_element(self, element_name: str):
+    def register_element(self, element_name: str) -> str:
         """
         Generates a unique key for an element based on the instance ID.
 
@@ -60,7 +64,7 @@ class Component(ABC):
         key = f"{self.id}_{element_name}"
         return key
 
-    def get_element(self, element_name: str):
+    def get_element(self, element_name: str) -> Any:
         """
         Retrieves the value of a registered element from the session state.
 
@@ -72,7 +76,7 @@ class Component(ABC):
             return None
         return st.session_state[key]
 
-    def set_element(self, element_name: str, element_value):
+    def set_element(self, element_name: str, element_value) -> None:
         """
         Sets the value of a registered element in the session state.
 
@@ -83,6 +87,30 @@ class Component(ABC):
         key = f"{self.id}_{element_name}"
 
         st.session_state[key] = element_value
+
+    def on(self, event_name: str, callback: Flow) -> None:
+        """
+        Register a Flow callback for a named event on this component.
+
+        :param event_name: The unique name of the event to bind the callback to.
+                        Should ideally be a class-level constant to enable autocomplete.
+        :param callback: The Flow instance to execute when this event is triggered.
+        :return: None
+        """
+        self._events[event_name] = callback
+
+    def trigger(self, event_name: str) -> None:
+        """
+        Trigger a previously registered event callback.
+
+        :param event_name: The name of the event to trigger.
+        :raises RuntimeError: If no callback has been registered for this event.
+        :return: None
+        """
+        callback = self._events.get(event_name, None)
+        if not callback:
+            raise RuntimeError(f"{event_name} has not been registered.")
+        callback.dispatch(self.id)
 
     def _render_dialog(self, title: str):
         """
@@ -128,7 +156,7 @@ class Component(ABC):
         self,
         render_as: Literal["normal", "dialog", "fragment"] = "normal",
         options: dict = {},
-    ):
+    ) -> None:
         """
         Executes the render method implemented in the subclasses, additionaly providing extra configuration based on the `render_as` parameter
         """

@@ -13,7 +13,7 @@ class RefreshFlow(Flow):
         self.session_store = session_store
         self.backend_service = backend_service
 
-    def run(self):
+    def run(self, component_id: str | None = None):
         cp_avg_rating = MetricComponent.get(ComponentIDs.avg_rating)
         response = self.backend_service.get_movies()
         if response.ok:

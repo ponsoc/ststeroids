@@ -5,3 +5,4 @@ class ComponentIDs:
     total_movies = "total_movies"
     avg_rating = "avg_rating"
     toast = "toast"
+    logout = "logout"

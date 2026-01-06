@@ -3,7 +3,7 @@ from .sidebar import SidebarComponent
 from .data_viewer import DataViewerComponent
 from .metric import MetricComponent
 from .toast import ToastComponent
-
+from .button import ButtonComponent
 
 __all__ = [
     LoginDialogComponent,
@@ -11,4 +11,5 @@ __all__ = [
     DataViewerComponent,
     MetricComponent,
     ToastComponent,
+    ButtonComponent,
 ]

@@ -50,6 +50,7 @@ For example, a login flow might call an authentication service, evaluate the res
 When multiple flows share orchestration resources—such as access to the same components, stores, or helper logic—it is recommended to introduce a shared base flow to centralize this responsibility and avoid duplication.
 
 #### Layouts
+
 Layouts bring components together to create a multi-page application. Each layout functions as a page, rendering one or more components and defining their arrangement and rendering.
 
 Layout concepts:
@@ -118,7 +119,7 @@ app.run()
 
 `app.route(name).to(layout).register()`
 
-Registers a route that maps a route name to a layout class .
+Registers a route that maps the route name to a layout class.
 The layout is rendered when the route becomes active.
 
 The full route builder API is as follows.
@@ -126,11 +127,11 @@ The full route builder API is as follows.
 `app.route(name).to(layout).when(callable).on_enter(flow).register()`
 
 - `when` sets up a condition by specififying a callable. The route is only registered if the callable evaluates to True
-- `on_enter` registers a flow for the on enter event. The flow is dispatched once when the route becomes active, before the layout is rendered
+- `on_enter` registers a flow for the on enter event. The flow is dispatched once when the route becomes active, before the layout is rendered. Note! that an on enter event flow should not switch page as it will break the routing concept
 
 `app.on_app_run_once(flow)`
 
-Registers an on app run once event handler flow. You can use this to have an initial flow that runs once at the start of the application.
+Registers an on app run once event handler flow. You can use this to have an initial flow that runs once at the start of the application. Note! that an on app run once event flow should not switch page as it will break the app run concept
 
 `app.default_route(layout)`
 
@@ -222,7 +223,7 @@ The refresh interval, for example: `2s`.
 
 `register_element(element_name: str)`
 
-Registers a Streamlit element onto the component by generating component bound key. Use this method when setting a key for an element within the component.
+Registers a Streamlit element onto the component by generating component bound key. Use this method when setting a key for an element within the component. For more information about using keys, please refer to the official Streamlit documentation.
 
 Usage:
 
@@ -248,6 +249,14 @@ Usage:
 
 Sets the value of a registered element.
 
+`on(event_name: str, callback: Flow)`
+
+Registers a flow as an event handler for the given event name on the component. The flow will be dispatched when the event is triggered.
+
+`trigger(event_name: str)` 
+
+Triggers the specified event and dispatches the flow registered for it. Raises an error if no flow has been registered for that event.
+
 #### Flows
 
 Example of defining a new flow:
@@ -263,7 +272,7 @@ class AddDocumentFlow(Flow):
     def cp_document_table(self):
         return TableComponent.get(ComponentIDs.documents)
 
-    def run(self):
+    def run(self, component_id: str | None = None) -> None:
         # Flow logic for adding a document
 ```
 
@@ -427,6 +436,7 @@ Partially rewritten the framework to reduce its footprint and make object creati
 - accessing `.state` is no longer possible, you can directly access the attributes on a component instead
 - Rename `render` in your components to `display`
 - Remove any `show` and `hide` methods from your components as well as the `visible` property. They are now controlled by the framework
+- Use a component’s on method to register flows as event handlers for specific component events, typically during layout initialization. Call trigger on the component to emit events and dispatch the registered flows.
 - In Flows use `YourComponent.get(component_id)` instead of `self.component_store.get_component(component_id)
 - Remove `Router` from your Flows, use `st.switch_page` instead if you didn't already
 - Move the initialization of the sidebar to layouts instead of the `main` of the app
@@ -477,6 +487,7 @@ Beta releases
 
 ## Ideas
 
-- Improve event examples
+- Improve event examples in the example app
+- Move logout to sidebar in the example app and show another example for a separate button
 - Something for RBAC
 - Something for running longtime requests

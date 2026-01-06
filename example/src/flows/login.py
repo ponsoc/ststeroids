@@ -31,7 +31,7 @@ class LoginFlow(Flow):
     def cp_toast(self):
         return ToastComponent.get(ComponentIDs.toast)
 
-    def run(self):
+    def run(self, component_id: str | None = None):
         response = self.backend_service.authenticate(
             self.cp_login_dialog.username, self.cp_login_dialog.password
         )

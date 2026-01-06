@@ -2,6 +2,7 @@ from .layout import Layout
 from .route import Route
 from .flow import Flow
 
+
 class RouteBuilder:
     """
     A builder class for defining and registering routes in the application.
@@ -46,7 +47,7 @@ class RouteBuilder:
         """
         self._condition = condition
         return self
-    
+
     def on_enter(self, callback: Flow):
         self._on_enter = callback
         return self
@@ -62,4 +63,6 @@ class RouteBuilder:
             raise ValueError(
                 f"Route '{self._name}' cannot be registered without a target."
             )
-        self.app.register(Route(self._name, self._target, self._on_enter, self._condition))
+        self.app.register(
+            Route(self._name, self._target, self._on_enter, self._condition)
+        )
