@@ -1,5 +1,5 @@
 from .login import LoginFlow
-from .login_succes import LoginSuccessFlow
 from .refresh import RefreshFlow
+from .app_setup import SetupFlow
 
-__all__ = [LoginFlow, LoginSuccessFlow, RefreshFlow]
+__all__ = [LoginFlow, RefreshFlow, SetupFlow]

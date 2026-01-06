@@ -1,5 +1,5 @@
 import streamlit as st
-from flows import LoginFlow, LoginSuccessFlow, RefreshFlow
+from flows import LoginFlow, RefreshFlow, SetupFlow
 from layouts import LoginLayout, DashboardLayout, ManageDataLayout
 from service import MockBackendService
 from ststeroids import Store, Style, StSteroids
@@ -11,10 +11,8 @@ class MainApp:
         self.session_store = Store.create("store")
 
         self.backend_service = MockBackendService("./example/test_data.json")
+        self.setup_flow = SetupFlow.create()
         self.login_flow = LoginFlow.create(self.session_store, self.backend_service)
-        self.login_success_flow = LoginSuccessFlow.create(
-            self.session_store, self.backend_service
-        )
         self.refresh_flow = RefreshFlow.create(self.session_store, self.backend_service)
 
         st.set_page_config(page_title="StSteroids Example app", layout="wide")
@@ -23,12 +21,14 @@ class MainApp:
         app_style.apply_style()
 
         self.login_layout = LoginLayout.create(
-            self.session_store, "App login", self.login_flow, self.login_success_flow
+            self.session_store, "App login", self.login_flow
         )
         self.dashboard_layout = DashboardLayout.create(self.refresh_flow)
         self.manage_data_layout = ManageDataLayout.create()
 
         self.app = StSteroids()
+
+        # self.app.on_app_run_once(self.setup_flow)
 
         self.app.default_route(self.login_layout)
 
@@ -38,4 +38,4 @@ class MainApp:
         ).register()
         self.app.route("manage_data").to(self.manage_data_layout).when(
             lambda: self.session_store.has_property("access_token")
-        ).register()
+        ).on_enter(self.setup_flow).register()

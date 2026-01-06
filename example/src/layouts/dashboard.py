@@ -25,3 +25,6 @@ class DashboardLayout(Layout):
                 "fragment",
                 {"refresh_flow": self.refresh_flow, "refresh_interval": "2s"},
             )
+
+        if st.button("logout"):
+            del st.session_state["store"]["access_token"]

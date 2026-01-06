@@ -2,7 +2,8 @@ from .route import Route
 from .route_builder import RouteBuilder
 from .router import Router
 from .layout import Layout
-
+from .flow import Flow
+import streamlit as st
 
 class StSteroids:
     """
@@ -24,6 +25,8 @@ class StSteroids:
         self._router = Router()
         self._routes: dict[str, Route] = {}
         self._default: Route | None = None
+        self._on_app_run_once = None
+        self._on_app_run = None
 
     def route(self, name: str) -> RouteBuilder:
         """
@@ -55,6 +58,11 @@ class StSteroids:
         """
         self._routes[route.name] = route
 
+    def on_app_run_once(self, callback: Flow):
+        if self._on_app_run_once:
+            raise RuntimeError("on_app_run_once already registered.")
+        self._on_app_run_once = callback
+
     def run(self, entry_route: str | None = None) -> None:
         """
         Runs the application router.
@@ -66,6 +74,10 @@ class StSteroids:
         :param entry_route: Optional name of the route to navigate to immediately.
         :return: None
         """
+        if not "_on_app_run_once_done" in st.session_state and self._on_app_run_once:
+            self._on_app_run_once.dispatch()
+            st.session_state["_on_app_run_once_done"] = True
+
         routes = {}
 
         if self._default:

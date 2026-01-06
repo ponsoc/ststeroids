@@ -17,10 +17,10 @@ class LoginDialogComponent(Component):
         self.username = st.text_input("Username")
         self.password = st.text_input("Password", type="password")
         if st.button("Login", use_container_width=True):
-            self.login_flow.dispatch()
+            self.login_flow.dispatch() # via on click, doe hij dan wel een rerun/
         if self.error_message:
             st.error(self.error_message)
-            # clearing the error message?
+            self.error_message = None
 
     def set_error(self, message: str):
         self.error_message = message

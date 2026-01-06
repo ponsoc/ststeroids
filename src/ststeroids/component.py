@@ -143,7 +143,7 @@ class Component(ABC):
                 return self._render_dialog(**options)
             case "fragment":
                 return self._render_fragment(**options)
-        raise ValueError(f"Unexpected render_as value: {render_as}")
+        raise ValueError(f"Unexpected render_as value: {render_as}.")
 
     def show(self):
         self.visible = True

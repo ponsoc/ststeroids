@@ -1,6 +1,6 @@
 from .layout import Layout
 from .route import Route
-
+from .flow import Flow
 
 class RouteBuilder:
     """
@@ -23,6 +23,7 @@ class RouteBuilder:
         self._name = name
         self._target = None
         self._condition = None
+        self._on_enter = None
 
     def to(self, target: Layout) -> "RouteBuilder":
         """
@@ -45,6 +46,10 @@ class RouteBuilder:
         """
         self._condition = condition
         return self
+    
+    def on_enter(self, callback: Flow):
+        self._on_enter = callback
+        return self
 
     def register(self) -> None:
         """
@@ -57,4 +62,4 @@ class RouteBuilder:
             raise ValueError(
                 f"Route '{self._name}' cannot be registered without a target."
             )
-        self.app.register(Route(self._name, self._target, self._condition))
+        self.app.register(Route(self._name, self._target, self._on_enter, self._condition))

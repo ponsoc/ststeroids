@@ -10,13 +10,12 @@ class LoginLayout(Layout):
         session_store: Store,
         login_header: str,
         login_flow: Flow,
-        login_success_flow: Flow,
     ):
         self.session_store = session_store
         self.login_header = login_header
         self.sidebar = SidebarComponent.create(ComponentIDs.sidebar)
         self.login_dialog = LoginDialogComponent.create(
-            ComponentIDs.dialog_login, login_flow, login_success_flow
+            ComponentIDs.dialog_login, login_flow
         )
 
     def render(self):

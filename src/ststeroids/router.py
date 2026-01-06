@@ -49,4 +49,6 @@ class Router:
             raise RuntimeError(
                 "No current route selected and no default route registered."
             )
+        if route.on_enter:
+            route.on_enter.dispatch()
         route.target.render()

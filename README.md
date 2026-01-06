@@ -97,9 +97,9 @@ To create an application using StSteroids, follow these steps:
 
 This sequence ensures a clear separation of concerns and keeps your app modular, testable, and easy to maintain.
 
-#### Routes
+#### StSteroids App and routes
 
-Example of creatinga a StSteroids application.
+Example of creating a StSteroids application.
 
 ```python
 app = StSteroids()
@@ -114,11 +114,23 @@ app.default_route(DashboardLayout)
 app.run()
 ``` 
 
+##### API reference
+
 `app.route(name).to(layout).register()`
 
-Registers a layout or page as a route in your app.
-- name is the route identifier
-- layout is the layout class or callable to render when this route is selected
+Registers a route that maps a route name to a layout class .
+The layout is rendered when the route becomes active.
+
+The full route builder API is as follows.
+
+`app.route(name).to(layout).when(callable).on_enter(flow).register()`
+
+- `when` sets up a condition by specififying a callable. The route is only registered if the callable evaluates to True
+- `on_enter` registers a flow for the on enter event. The flow is dispatched once when the route becomes active, before the layout is rendered
+
+`app.on_app_run_once(flow)`
+
+Registers an on app run once event handler flow. You can use this to have an initial flow that runs once at the start of the application.
 
 `app.default_route(layout)`
 
@@ -127,6 +139,7 @@ Sets a default layout to display if no route is specified.
 `app.run(entry_route)`
 
 Starts the app and navigates to entry_route if provided; otherwise, uses the default route.
+
 
 
 #### Components
@@ -280,7 +293,7 @@ class AddDocumentFlow(DocumentActionBaseFlow):
 ```
 
 In this example, AddDocumentFlow represents a single user action, while DocumentActionBaseFlow provides shared orchestration context.
-This keeps flows focused, avoids duplication, and clearly separates reusable setup from action-specific logic.R
+This keeps flows focused, avoids duplication, and clearly separates reusable setup from action-specific logic.
 
 ##### API Reference
 
@@ -421,7 +434,9 @@ Partially rewritten the framework to reduce its footprint and make object creati
 - When creating instances of StSteroids classes use `create` instead of calling `ClassName()`. This does not apply to the `Style` class
 - The flow's `run` method can no longer take parameters. Access a components state instead to aquire the require parameters
 - When calling a flow, use `dispatch()` instead of `run()`
-- If you previously implemented your own logic for using the `router` class. Please consider using the new Steroids app style
+- If you previously implemented your own logic for using the `router` class. Please consider using the new Steroids app style, by doing so you can also utilize
+    - The on app run once event, for initial set up
+    - The router on enter event, for initial route setup. For example refresh data before rendering the page
 
 0.1.17
 
@@ -462,5 +477,6 @@ Beta releases
 
 ## Ideas
 
+- Improve event examples
 - Something for RBAC
 - Something for running longtime requests

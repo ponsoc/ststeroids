@@ -1,5 +1,5 @@
 from .layout import Layout
-
+from .flow import Flow
 
 class Route:
     """
@@ -16,7 +16,7 @@ class Route:
         condition (callable, optional): If provided, the route is active only when this callable returns True.
     """
 
-    def __init__(self, name: str, target: Layout, condition: callable = None):
+    def __init__(self, name: str, target: Layout, on_enter: Flow = None, condition: callable = None):
         """
         Initializes a Route instance.
 
@@ -26,4 +26,5 @@ class Route:
         """
         self.name = name
         self.target = target
+        self.on_enter = on_enter
         self.condition = condition
