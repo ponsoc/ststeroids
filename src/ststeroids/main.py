@@ -12,11 +12,6 @@ class StSteroids:
 
     StSteroids handles registration of routes, setting a default route,
     and running the router to navigate to the appropriate page or layout.
-
-    Attributes:
-        _router (Router): The router instance responsible for handling navigation.
-        _routes (dict[str, Route]): Dictionary of registered routes keyed by name.
-        _default (Route | None): Optional default route to use if no route is specified.
     """
 
     def __init__(self):

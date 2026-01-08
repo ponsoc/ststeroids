@@ -7,18 +7,28 @@ class Store:
     Class for creating a session store.
 
     This class manages storing and retrieving properties in Streamlit's session state.
-    It initializes a store with a unique name and allows properties to be set and retrieved.
-
-    :param store_name: The name of the store to create in session state.
+    
+    Attributes:
+            name (str): Unique name of the store.
     """
 
     def __init__(self, store_name: str):
+        """
+        Initializes a store with a unique name and allows properties to be set and retrieved. Do not use directly, use create instead.
+
+        :param store_name: The name of the store to create in session state.
+        """
         self.name = store_name
         if store_name not in st.session_state:
             st.session_state[store_name] = {}
 
     @classmethod
     def create(cls, store_name: str):
+        """
+        Creates a new instance of the store with a unique name and allows properties to be set and retrieved.
+
+        :param store_name: The name of the store to create in session state.
+        """
         return cls(store_name)
 
     def has_property(self, property_name: str) -> bool:

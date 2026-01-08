@@ -24,10 +24,9 @@ Each component contains only the logic necessary for its functionality, such as 
 Component concepts:
 
 - components never decide on domain logic, so no domain error handeling for example
-- a component contains interaction elements, unless
-    - the component is still meaningful and usable without a the interaction element → split the element out
-- a component doesn't navigate pages
-- should have methods for updating it's attributes (explicit state changes) (so that the flow doesn't need to all the attributes)
+- a component contains interaction elements, unless the component is still meaningful and usable without the interaction element → split the element out
+- components don't navigate pages
+- should have methods for updating its attributes (explicit state changes so that the flow doesn't need to all the attributes)
 
 For example, a metric component that can be reused for multiple purposes.
 
@@ -38,12 +37,12 @@ They handle user-initiated actions, coordinate state changes across components, 
 
 Flow concepts:
 
-- Flows act as handlers for user and system interactions (e.g. button clicks, page entry, form submission)
-- Flows orchestrate application behavior, calling services and updating component state
-- Flows coordinate multiple components and stores as part of a single interaction
-- Flows determine navigation and control flow between layouts or pages
-- Flows own error handling and recovery logic for the interactions they manage
-- Flows may contain light business rules, but core domain logic should live in services
+- flows act as handlers for user and system interactions (e.g. button clicks, page entry, form submission)
+- flows orchestrate application behavior, calling services and updating component state
+- flows coordinate multiple components and stores as part of a single interaction
+- flows determine navigation and control flow between layouts or pages
+- flows own error handling and recovery logic for the interactions they manage
+- flows may contain light business rules, but core domain logic should live in services
 
 For example, a login flow might call an authentication service, evaluate the result, store relevant session data, and update one or more components to reflect the outcome.
 
