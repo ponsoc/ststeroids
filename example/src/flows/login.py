@@ -1,5 +1,5 @@
 from service import MockBackendService
-from ststeroids import Flow, Store
+from ststeroids import Flow, Store, FlowContext
 from components import (
     LoginDialogComponent,
     DataViewerComponent,
@@ -31,7 +31,7 @@ class LoginFlow(Flow):
     def cp_toast(self):
         return ToastComponent.get(ComponentIDs.toast)
 
-    def run(self, component_id: str | None = None):
+    def run(self, _ctx: FlowContext):
         response = self.backend_service.authenticate(
             self.cp_login_dialog.username, self.cp_login_dialog.password
         )

@@ -1,6 +1,6 @@
 from service import MockBackendService
 from shared import ComponentIDs
-from ststeroids import Flow, Store
+from ststeroids import Flow, Store, FlowContext
 from components import MetricComponent
 
 
@@ -13,7 +13,7 @@ class RefreshFlow(Flow):
         self.session_store = session_store
         self.backend_service = backend_service
 
-    def run(self, component_id: str | None = None):
+    def run(self, _ctx: FlowContext):
         cp_avg_rating = MetricComponent.get(ComponentIDs.avg_rating)
         response = self.backend_service.get_movies()
         if response.ok:

@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from.flow_context import FlowContext
 
 
 # pylint: disable=too-few-public-methods
@@ -14,30 +15,27 @@ class Flow(ABC):
         """
         return cls(*args, **kwargs)
 
-    def dispatch(self, component_id: str | None = None) -> None:
+    def dispatch(self, ctx: FlowContext) -> None:
         """
         Dispatches the flow execution.
 
-        This method triggers the flow and forwards the identifier of the
+        This method triggers the flow and forwards the context of the
         source that caused the execution.
 
-        :param component_id: Optional identifier of the source component that triggered the flow. Ignore for other sources.
+        :param ctx: The `context` provides contextual information about what triggered the flow.
         :return: None
         """
-        return self.run(component_id)
+        self.run(ctx)
 
     @abstractmethod
-    def run(self, component_id: str | None = None) -> None:
+    def run(self, ctx: FlowContext) -> None:
         """
         Executes the flow logic.
 
         This method must be implemented by subclasses and contains the
         orchestration and business logic for the flow.
 
-        The `component_id` provides contextual information about which component triggered
-        the flow.
-
-        :param component_id: Optional identifier of the source component that triggered the flow. Can be useful when you want to reuse a flow for different instances of the same component.
+        :param ctx:  The `context` provides contextual information about what triggered the flow. Can be useful when you want to reuse a flow for different instances of the same component.
         :return: None
         """
         pass

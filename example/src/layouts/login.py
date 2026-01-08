@@ -9,14 +9,11 @@ class LoginLayout(Layout):
         self,
         session_store: Store,
         login_header: str,
-        login_flow: Flow,
     ):
         self.session_store = session_store
         self.login_header = login_header
         self.sidebar = SidebarComponent.create(ComponentIDs.sidebar)
         self.login_dialog = LoginDialogComponent.create(ComponentIDs.dialog_login)
-
-        self.login_dialog.on("login_click", login_flow)
 
     def render(self):
         self.sidebar.render()

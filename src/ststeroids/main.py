@@ -4,6 +4,7 @@ from .router import Router
 from .layout import Layout
 from .flow import Flow
 import streamlit as st
+from .flow_context import FlowContext
 
 
 class StSteroids:
@@ -81,7 +82,7 @@ class StSteroids:
         :return: None
         """
         if "_on_app_run_once_done" not in st.session_state and self._on_app_run_once:
-            self._on_app_run_once.dispatch()
+            self._on_app_run_once.dispatch(FlowContext("app","run_once"))
             st.session_state["_on_app_run_once_done"] = True
 
         routes = {}

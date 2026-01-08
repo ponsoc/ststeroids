@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 import streamlit as st
 from .store import ComponentStore
 from .flow import Flow
+from .flow_context import FlowContext
 
 
 # pylint: disable=too-few-public-methods
@@ -16,6 +17,7 @@ class Component(ABC):
     """
 
     id: str
+    _events: dict[str, Flow]
 
     @classmethod
     def create(cls, component_id: str, *args, **kwargs):
@@ -110,7 +112,7 @@ class Component(ABC):
         callback = self._events.get(event_name, None)
         if not callback:
             raise RuntimeError(f"{event_name} has not been registered.")
-        callback.dispatch(self.id)
+        callback.dispatch(FlowContext("component", self.id))
 
     def _render_dialog(self, title: str):
         """

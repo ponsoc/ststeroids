@@ -1,5 +1,5 @@
 from .route import Route
-
+from .flow_context import FlowContext
 
 class Router:
     """
@@ -50,5 +50,5 @@ class Router:
                 "No current route selected and no default route registered."
             )
         if route.on_enter:
-            route.on_enter.dispatch()
+            route.on_enter.dispatch(FlowContext("route", route.name))
         route.target.render()

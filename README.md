@@ -271,7 +271,7 @@ class AddDocumentFlow(Flow):
     def cp_document_table(self):
         return TableComponent.get(ComponentIDs.documents)
 
-    def run(self, component_id: str | None = None) -> None:
+    def run(self, ctx: FlowContext) -> None:
         # Flow logic for adding a document
 ```
 
@@ -296,7 +296,7 @@ Then, create a dedicated flow for each document action:
 
 ```python
 class AddDocumentFlow(DocumentActionBaseFlow):
-    def run(self):
+    def run(self, ctx: FlowContext):
         # Flow logic for adding a document
 ```
 
@@ -435,7 +435,7 @@ Partially rewritten the framework to reduce its footprint and make object creati
 - accessing `.state` is no longer possible, you can directly access the attributes on a component instead
 - Rename `render` in your components to `display`
 - Remove any `show` and `hide` methods from your components as well as the `visible` property. They are now controlled by the framework
-- Use a component’s on method to register flows as event handlers for specific component events, typically during layout initialization. Call trigger on the component to emit events and dispatch the registered flows.
+- Use a component’s on method to register flows as event handlers for specific component events, typically when setting up the app. Call trigger on the component to emit events and dispatch the registered flows.
 - In Flows use `YourComponent.get(component_id)` instead of `self.component_store.get_component(component_id)
 - Remove `Router` from your Flows, use `st.switch_page` instead if you didn't already
 - Move the initialization of the sidebar to layouts instead of the `main` of the app
@@ -488,5 +488,6 @@ Beta releases
 
 - Improve event examples in the example app
 - Move logout to sidebar in the example app and show another example for a separate button
+- Fragement through event
 - Something for RBAC
 - Something for running longtime requests

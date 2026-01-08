@@ -10,7 +10,7 @@ from ststeroids import Layout, Flow
 
 
 class DashboardLayout(Layout):
-    def __init__(self, refresh_flow: Flow, logout_flow: Flow):
+    def __init__(self, refresh_flow: Flow):
         self.refresh_flow = refresh_flow
         self.sidebar = SidebarComponent.create(ComponentIDs.sidebar)
         self.toast = ToastComponent.create(ComponentIDs.toast)
@@ -19,8 +19,6 @@ class DashboardLayout(Layout):
         )
         self.avg_rating = MetricComponent.create(ComponentIDs.avg_rating, "Avg. Rating")
         self.logout_button = ButtonComponent.create(ComponentIDs.logout, "Logout")
-
-        self.logout_button.on("button_click", logout_flow)
 
     def render(self):
         self.sidebar.render()

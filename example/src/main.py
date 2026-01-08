@@ -22,12 +22,16 @@ class MainApp:
         app_style.apply_style()
 
         self.login_layout = LoginLayout.create(
-            self.session_store, "App login", self.login_flow
+            self.session_store, "App login"
         )
         self.dashboard_layout = DashboardLayout.create(
-            self.refresh_flow, self.logout_flow
+            self.refresh_flow
         )
         self.manage_data_layout = ManageDataLayout.create()
+
+        # register event handlers
+        self.login_layout.login_dialog.on_login(self.login_flow)
+        self.dashboard_layout.logout_button.on_click(self.logout_flow)
 
         self.app = StSteroids()
 
