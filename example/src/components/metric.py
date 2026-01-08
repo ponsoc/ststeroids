@@ -1,8 +1,8 @@
 import streamlit as st
-from ststeroids import Component
+from ststeroids import Fragment
 
 
-class MetricComponent(Component):
+class MetricComponent(Fragment):
     def __init__(
         self,
         header: str,

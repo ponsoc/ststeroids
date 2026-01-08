@@ -1,16 +1,14 @@
 import streamlit as st
-from ststeroids import Component, Flow
+from ststeroids import Dialog, Flow
 
 
-class LoginDialogComponent(Component):
+class LoginDialogComponent(Dialog):
 
     EVENT_LOGIN = "login"
 
     def __init__(
         self,
-        header: str = "Enter username/password",
     ):
-        self.header = header
         self.error_message = None
         self.hide()
 

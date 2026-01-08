@@ -15,9 +15,9 @@ class DashboardLayout(Layout):
         self.sidebar = SidebarComponent.create(ComponentIDs.sidebar)
         self.toast = ToastComponent.create(ComponentIDs.toast)
         self.total_movies = MetricComponent.create(
-            ComponentIDs.total_movies, "Total movies"
+            ComponentIDs.total_movies, None, "Total movies"
         )
-        self.avg_rating = MetricComponent.create(ComponentIDs.avg_rating, "Avg. Rating")
+        self.avg_rating = MetricComponent.create(ComponentIDs.avg_rating, "2s", "Avg. Rating")
         self.logout_button = ButtonComponent.create(ComponentIDs.logout, "Logout")
 
     def render(self):
@@ -27,9 +27,6 @@ class DashboardLayout(Layout):
         with left:
             self.total_movies.render()
         with right:
-            self.avg_rating.render(
-                "fragment",
-                {"refresh_flow": self.refresh_flow, "refresh_interval": "2s"},
-            )
+            self.avg_rating.render()
         st.divider()
         self.logout_button.render()

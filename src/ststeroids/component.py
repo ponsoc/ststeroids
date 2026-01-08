@@ -111,53 +111,11 @@ class Component(ABC):
         """
         callback = self._events.get(event_name, None)
         if not callback:
-            raise RuntimeError(f"{event_name} has not been registered.")
+            raise RuntimeError(f"{event_name} has not been registered for component with id {self.id}")
         callback.dispatch(FlowContext("component", self.id))
-
-    def _render_dialog(self, title: str):
-        """
-        Internal method for rendering the component as a dialog.
-
-        This wraps the component's core render logic in a Streamlit dialog with the given title.
-
-        :param title: The title to display at the top of the dialog.
-        """
-
-        @st.dialog(title)
-        def _render():
-            self.display()
-
-        _render()
-
-    def _render_fragment(self, refresh_interval: str = None, refresh_flow: Flow = None):
-        """
-        Internal method for rendering the component as a fragment.
-
-        This sets up a Streamlit fragment that automatically re-runs at the given interval.
-        It internally calls the __render_fragment method.
-
-        This method is not meant to be overridden. Subclasses should implement the render()
-        method to define the rendering behavior.
-
-        :param refresh_interval: The interval at which the fragment should refresh (e.g., "5s").
-        :param refresh_flow: Optional flow object to pass into the rendering logic.
-        """
-
-        @st.fragment(run_every=refresh_interval)
-        def _render():
-            self.__render_fragment(refresh_flow)
-
-        _render()
-
-    def __render_fragment(self, refresh_flow: Flow = None):
-        self.display()
-        if refresh_flow:
-            refresh_flow.dispatch()
 
     def render(
         self,
-        render_as: Literal["normal", "dialog", "fragment"] = "normal",
-        options: dict = {},
     ) -> None:
         """
         Executes the render method implemented in the subclasses, additionaly providing extra configuration based on the `render_as` parameter
@@ -165,15 +123,7 @@ class Component(ABC):
 
         if not self.visible:
             return
-
-        match render_as:
-            case "normal":
-                return self.display()
-            case "dialog":
-                return self._render_dialog(**options)
-            case "fragment":
-                return self._render_fragment(**options)
-        raise ValueError(f"Unexpected render_as value: {render_as}.")
+        self.display()
 
     def show(self):
         self.visible = True

@@ -92,8 +92,9 @@ To create an application using StSteroids, follow these steps:
 
 1. Create components – Define the individual UI elements of your application, such as dialogs, tables, or metrics, using the Component base class.
 2. Create flows – Implement the business or orchestration logic that interacts with components, services, and session state.
-3. Create layouts – Group and initialize components, arrange them visually, and pass the necessary flows to the components. Layouts define how your pages are structured.
-4. Create the StSteroids app – Instantiate the app, register routes for each layout, and define a default route if needed.
+3. Create layouts – Group and initialize components, arrange them visually. Layouts define how your pages are structured.
+4. Register event handlers.
+5. Create the StSteroids app – Instantiate the app, register routes for each layout, and define a default route if needed.
 
 This sequence ensures a clear separation of concerns and keeps your app modular, testable, and easy to maintain.
 
@@ -185,9 +186,12 @@ Sets the `visible` property of the component to `True`
 Sets the `visible` property of the component to `False`
 
 `create(cls, component_id: str, *args, **kwargs)`
+`create(cls, component_id: str, title:str ,*args, **kwargs)` (Dialog only)
+`create(cls, component_id: str, refresh_interval:str ,*args, **kwargs)` (Fragment only)
 
 Creates a new component instance with the given `component_id` and stores it in the `ComponentStore`.  
 This is typically called in layouts to initialize components. Additional arguments are passed to the component's constructor.
+
 
 `get(cls, component_id: str)`
 
@@ -199,26 +203,9 @@ This is typically used in flows that needs to interact with a component after it
 
 This method needs to be implemented by the subclass. To call it in a layout, use `render()`
 
-`render(render_as: Literal["normal", "dialog", "fragment"]="normal", options:dict={})`
+`render()`
 
-Executes the display method of an instance of a component. Additionaly provide the `render_as` parameter with the `options` parameter.
-
-Dialog options:
-
-**title**
-
-The dialog title.
-
-Fragment options:
-
-**refresh_flow**
-
-A refresh flow that should be called post rendering the component, you can use this to refresh the applications state for the next view.
-
-**refresh_interval**
-
-The refresh interval, for example: `2s`.
-
+Executes the display method of an instance of a component.
 
 `register_element(element_name: str)`
 
@@ -251,6 +238,10 @@ Sets the value of a registered element.
 `on(event_name: str, callback: Flow)`
 
 Registers a flow as an event handler for the given event name on the component. The flow will be dispatched when the event is triggered.
+
+`on_refresh(self, flow: Flow)` 
+
+Registers a flow as an event handler for the refresh event of a Fragment (Fragment only)
 
 `trigger(event_name: str)` 
 
@@ -446,6 +437,7 @@ Partially rewritten the framework to reduce its footprint and make object creati
 - If you previously implemented your own logic for using the `router` class. Please consider using the new Steroids app style, by doing so you can also utilize
     - The on app run once event, for initial set up
     - The router on enter event, for initial route setup. For example refresh data before rendering the page
+- There are two new component types, `Fragement` and `Dialog`, they replace the `render_as` parameter. Please update your components and render calls accordingly
 
 0.1.17
 
@@ -488,6 +480,5 @@ Beta releases
 
 - Improve event examples in the example app
 - Move logout to sidebar in the example app and show another example for a separate button
-- Fragement through event
 - Something for RBAC
 - Something for running longtime requests

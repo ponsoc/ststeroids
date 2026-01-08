@@ -32,6 +32,7 @@ class MainApp:
         # register event handlers
         self.login_layout.login_dialog.on_login(self.login_flow)
         self.dashboard_layout.logout_button.on_click(self.logout_flow)
+        self.dashboard_layout.avg_rating.on_refresh(self.refresh_flow)
 
         self.app = StSteroids()
 
