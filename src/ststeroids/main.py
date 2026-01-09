@@ -44,6 +44,7 @@ class StSteroids:
         The default route is used if no other route is specified when running the app.
 
         :param target: The target layout for the default route.
+        :return: None
         """
         self._default = Route("__default__", target)
 
@@ -52,6 +53,7 @@ class StSteroids:
         Registers a route in the application.
 
         :param route: The Route instance to register.
+        :return: None
         """
         self._routes[route.name] = route
 

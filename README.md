@@ -23,7 +23,7 @@ Each component contains only the logic necessary for its functionality, such as 
 
 Component concepts:
 
-- components never decide on domain logic, so no domain error handeling for example
+- components never decide on domain logic, so there is no domain error handling for example
 - a component contains interaction elements, unless the component is still meaningful and usable without the interaction element → split the element out
 - components don't navigate pages
 - should have methods for updating its attributes (explicit state changes so that the flow doesn't need to all the attributes)
@@ -126,12 +126,12 @@ The full route builder API is as follows.
 
 `app.route(name).to(layout).when(callable).on_enter(flow).register()`
 
-- `when` sets up a condition by specififying a callable. The route is only registered if the callable evaluates to True
-- `on_enter` registers a flow for the on enter event. The flow is dispatched once when the route becomes active, before the layout is rendered. Note! that an on enter event flow should not switch page as it will break the routing concept
+- `when` sets up a condition by specifying a callable. The route is only registered if the callable evaluates to True
+- `on_enter` registers a flow for the on enter event. The flow is dispatched once when the route becomes active, before the layout is rendered. Note! that an `on_enter` event flow should not switch page as it will break the routing concept
 
 `app.on_app_run_once(flow)`
 
-Registers an on app run once event handler flow. You can use this to have an initial flow that runs once at the start of the application. Note! that an on app run once event flow should not switch page as it will break the app run concept
+Registers an `on_app_run_once` event handler flow. You can use this to have an initial flow that runs once at the start of the application. Note! that an `on_app_run_once` event flow should not switch page as it will break the app run concept
 
 `app.default_route(layout)`
 
@@ -171,7 +171,7 @@ The header attribute and set_value method are specific to this example. They ill
 
 `id`
 
-Holds the component id, is automaticly added from the base component.
+Holds the component id, is automatically added from the base component.
 
 `visible`
 
@@ -197,7 +197,7 @@ This is typically called in layouts to initialize components. Additional argumen
 
 Retrieves an existing component instance from the `ComponentStore` by its `component_id`.  
 `create()` must have been called first; otherwise, an error will be raised.  
-This is typically used in flows that needs to interact with a component after it has been initialized.
+This is typically used in flows that need to interact with a component after it has been initialized.
 
 `display()`
 
@@ -209,7 +209,7 @@ Executes the display method of an instance of a component.
 
 `register_element(element_name: str)`
 
-Registers a Streamlit element onto the component by generating component bound key. Use this method when setting a key for an element within the component. For more information about using keys, please refer to the official Streamlit documentation.
+Registers a Streamlit element onto the component by generating component-bound key. Use this method when setting a key for an element within the component. For more information about using keys, please refer to the official Streamlit documentation.
 
 Usage:
 
@@ -352,25 +352,6 @@ The router decides when it is rendered.
 
 This method needs to be implemented by the subclass.
 
-
-##### API Reference
-
-`run`
-
-Runs the currently active route
-
-`route(route_name: str)`
-
-Changes the currently active to the given route name
-
-`register_routes(routes: dict[str, Layout])`
-
-Registers a dictionary of routes where keys are route names and values are layouts.
-
-`get_current_route`
-
-Returns the currently active route. Useful for creating a navigation breadcrumbs. 
-
 #### Store
 
 A wrapper around `st.session_state` to separate states into stores.
@@ -426,7 +407,7 @@ Partially rewritten the framework to reduce its footprint and make object creati
 - accessing `.state` is no longer possible, you can directly access the attributes on a component instead
 - Rename `render` in your components to `display`
 - Remove any `show` and `hide` methods from your components as well as the `visible` property. They are now controlled by the framework
-- Use a component’s on method to register flows as event handlers for specific component events, typically when setting up the app. Call trigger on the component to emit events and dispatch the registered flows.
+- Use a component’s `on` method to register flows as event handlers for specific component events, typically when setting up the app. Call trigger on the component to emit events and dispatch the registered flows.
 - In Flows use `YourComponent.get(component_id)` instead of `self.component_store.get_component(component_id)
 - Remove `Router` from your Flows, use `st.switch_page` instead if you didn't already
 - Move the initialization of the sidebar to layouts instead of the `main` of the app

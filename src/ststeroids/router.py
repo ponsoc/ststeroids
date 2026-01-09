@@ -1,16 +1,22 @@
 from .route import Route
 from .flow_context import FlowContext
 
+
 class Router:
     """
-    A routing system for the framework, allowing navigation between different layouts.
+    Central routing system responsible for selecting and rendering layouts.
+
+    The Router maintains a set of registered routes, determines which route
+    is currently active, optionally dispatches route lifecycle flows, and
+    renders the corresponding layout.
     """
 
     def __init__(self, default: str = "__default__"):
         """
-        Initializes the Router instance with a default layout.
+        Initialize the Router.
 
-        :param default: The default route to use when no current route is selected.
+        :param default: The name of the default route to use when no explicit
+                        route has been selected.
         """
         self._routes: dict[str, Route] = {}
         self._current: str | None = None
@@ -18,28 +24,36 @@ class Router:
 
     def register_routes(self, routes: dict[str, Route]) -> None:
         """
-        Registers a dictionary of routes where keys are route names and values are layout callables.
+        Register the available routes.
+
+        This replaces any previously registered routes.
+
+        :param routes: A mapping of route names to Route instances.
+        :return: None
         """
         self._routes = routes
 
     def route(self, route_name: str) -> None:
         """
-        Sets the current route to execute.
+        Set the current route to navigate to.
 
-        :param route_name: The name of the route to navigate to.
+        The route will be resolved and rendered on the next call to `run()`.
+
+        :param route_name: The name of the route to activate.
+        :return: None
         """
         self._current = route_name
 
-    def current_route(self) -> str | None:
-        """
-        Returns the name of the currently selected layout.
-        """
-        return self._current
-
     def run(self) -> None:
         """
-        Executes the callable associated with the current layout.
-        Falls back to the default route if none is selected.
+        Resolve and render the active route.
+
+        The router selects the current route if set, otherwise falls back
+        to the default route. If the route defines an `on_enter` flow, it
+        will be dispatched before rendering the target layout.
+
+        :raises RuntimeError: If no valid route can be resolved.
+        :return: None
         """
         if self._current in self._routes:
             route = self._routes[self._current]
@@ -49,6 +63,10 @@ class Router:
             raise RuntimeError(
                 "No current route selected and no default route registered."
             )
+
         if route.on_enter:
-            route.on_enter.dispatch(FlowContext("route", route.name))
+            route.on_enter.dispatch(
+                FlowContext(source="route", identifier=route.name)
+            )
+
         route.target.render()

@@ -7,7 +7,12 @@ class Dialog(Component):
 
     Dialog components wrap their content inside a Streamlit dialog and provide
     a dedicated method for rendering as a dialog.
+
+    Attributes:
+    title (str): The title of the dialog.
     """
+
+    title: str
 
     @classmethod
     def create(cls, component_id: str, title: str = "title", *args, **kwargs):
@@ -16,16 +21,17 @@ class Dialog(Component):
 
         :param component_id: Unique identifier for this dialog component.
         :param title: Dialog title.
-        :return: Dialog instance
         """
         instance = super().create(component_id, *args, **kwargs)
         instance.title = title
         return instance
 
-    def render(self):
-        """
+    def render(self) -> None:
+        """ 
         Renders the component inside a Streamlit dialog context.
         Calls the `display` method to render the contents.
+
+        :return: None
         """
         if not self.visible:
             return
