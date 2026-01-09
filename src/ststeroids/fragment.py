@@ -2,6 +2,7 @@ from .component import Component
 from .flow import Flow
 import streamlit as st
 
+
 class Fragment(Component):
     """
     Base class for components that render as Streamlit fragments and provide
@@ -15,7 +16,9 @@ class Fragment(Component):
     EVENT_REFRESH = "_refresh"  # class-level constant for autocomplete
 
     @classmethod
-    def create(cls, component_id: str, refresh_interval: str | None = None, *args, **kwargs):
+    def create(
+        cls, component_id: str, refresh_interval: str | None = None, *args, **kwargs
+    ):
         """
         Create a new Fragment instance or return it from the store.
 
@@ -47,9 +50,8 @@ class Fragment(Component):
     def on_refresh(self, flow: Flow) -> None:
         """
         Register a flow to be executed when the the fragment refreshes
-        
+
         :param: Flow the flow to dispatch on the refresh event.
         :return: None
         """
         self.on(self.EVENT_REFRESH, flow)
-        

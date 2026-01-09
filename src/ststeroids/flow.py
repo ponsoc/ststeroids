@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from.flow_context import FlowContext
+from .flow_context import FlowContext
 
 
 # pylint: disable=too-few-public-methods

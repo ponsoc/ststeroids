@@ -17,7 +17,9 @@ class DashboardLayout(Layout):
         self.total_movies = MetricComponent.create(
             ComponentIDs.total_movies, None, "Total movies"
         )
-        self.avg_rating = MetricComponent.create(ComponentIDs.avg_rating, "2s", "Avg. Rating")
+        self.avg_rating = MetricComponent.create(
+            ComponentIDs.avg_rating, "2s", "Avg. Rating"
+        )
         self.logout_button = ButtonComponent.create(ComponentIDs.logout, "Logout")
 
     def render(self):

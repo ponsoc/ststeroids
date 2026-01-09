@@ -1,6 +1,7 @@
 import streamlit as st
 from .component import Component
 
+
 class Dialog(Component):
     """
     Base class for dialog components.
@@ -27,7 +28,7 @@ class Dialog(Component):
         return instance
 
     def render(self) -> None:
-        """ 
+        """
         Renders the component inside a Streamlit dialog context.
         Calls the `display` method to render the contents.
 
@@ -35,7 +36,7 @@ class Dialog(Component):
         """
         if not self.visible:
             return
-        
+
         @st.dialog(self.title)
         def _dialog():
             self.display()

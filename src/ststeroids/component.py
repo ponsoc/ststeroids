@@ -1,4 +1,4 @@
-from typing import Literal, Any
+from typing import Any
 from abc import ABC, abstractmethod
 import streamlit as st
 from .store import ComponentStore
@@ -111,7 +111,9 @@ class Component(ABC):
         """
         callback = self._events.get(event_name, None)
         if not callback:
-            raise RuntimeError(f"{event_name} has not been registered for component with id {self.id}")
+            raise RuntimeError(
+                f"{event_name} has not been registered for component with id {self.id}"
+            )
         callback.dispatch(FlowContext("component", self.id))
 
     def render(

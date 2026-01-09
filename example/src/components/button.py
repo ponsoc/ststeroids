@@ -20,4 +20,3 @@ class ButtonComponent(Component):
         Register a flow to be executed when the user clicks the button.
         """
         self.on(self.EVENT_ClICK, flow)
-        

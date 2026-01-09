@@ -7,7 +7,7 @@ class Store:
     Class for creating a session store.
 
     This class manages storing and retrieving properties in Streamlit's session state.
-    
+
     Attributes:
             name (str): Unique name of the store.
     """

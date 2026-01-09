@@ -21,12 +21,8 @@ class MainApp:
         app_style = Style("./example/src/assets/style.css")
         app_style.apply_style()
 
-        self.login_layout = LoginLayout.create(
-            self.session_store, "App login"
-        )
-        self.dashboard_layout = DashboardLayout.create(
-            self.refresh_flow
-        )
+        self.login_layout = LoginLayout.create(self.session_store, "App login")
+        self.dashboard_layout = DashboardLayout.create(self.refresh_flow)
         self.manage_data_layout = ManageDataLayout.create()
 
         # register event handlers

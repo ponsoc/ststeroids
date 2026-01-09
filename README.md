@@ -407,7 +407,7 @@ Partially rewritten the framework to reduce its footprint and make object creati
 - accessing `.state` is no longer possible, you can directly access the attributes on a component instead
 - Rename `render` in your components to `display`
 - Remove any `show` and `hide` methods from your components as well as the `visible` property. They are now controlled by the framework
-- Use a component’s `on` method to register flows as event handlers for specific component events, typically when setting up the app. Call trigger on the component to emit events and dispatch the registered flows.
+- Use a component’s `on` method to register flows as event handlers for specific component events, typically when setting up the app. Call `trigger` on the component to emit events and dispatch the registered flows.
 - In Flows use `YourComponent.get(component_id)` instead of `self.component_store.get_component(component_id)
 - Remove `Router` from your Flows, use `st.switch_page` instead if you didn't already
 - Move the initialization of the sidebar to layouts instead of the `main` of the app
@@ -418,7 +418,7 @@ Partially rewritten the framework to reduce its footprint and make object creati
 - If you previously implemented your own logic for using the `router` class. Please consider using the new Steroids app style, by doing so you can also utilize
     - The on app run once event, for initial set up
     - The router on enter event, for initial route setup. For example refresh data before rendering the page
-- There are two new component types, `Fragement` and `Dialog`, they replace the `render_as` parameter. Please update your components and render calls accordingly
+- There are two new component types, `Fragment` and `Dialog`, they replace the `render_as` parameter. Please update your components and render calls accordingly
 
 0.1.17
 
