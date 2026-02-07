@@ -239,7 +239,7 @@ Sets the value of a registered element.
 
 Registers a flow as an event handler for the given event name on the component. The flow will be dispatched when the event is triggered.
 
-`on_refresh(self, flow: Flow)` 
+`on_refresh(self, callback: Flow)` 
 
 Registers a flow as an event handler for the refresh event of a Fragment (Fragment only)
 

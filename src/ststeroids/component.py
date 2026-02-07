@@ -120,7 +120,7 @@ class Component(ABC):
         self,
     ) -> None:
         """
-        Executes the render method implemented in the subclasses, additionaly providing extra configuration based on the `render_as` parameter
+        Executes the render method implemented in the subclasses.
         """
 
         if not self.visible:

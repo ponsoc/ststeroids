@@ -47,11 +47,11 @@ class Fragment(Component):
 
         _fragment()
 
-    def on_refresh(self, flow: Flow) -> None:
+    def on_refresh(self, callback: Flow) -> None:
         """
         Register a flow to be executed when the the fragment refreshes
 
-        :param: Flow the flow to dispatch on the refresh event.
+        :param: callback the flow to dispatch on the refresh event.
         :return: None
         """
-        self.on(self.EVENT_REFRESH, flow)
+        self.on(self.EVENT_REFRESH, callback)
