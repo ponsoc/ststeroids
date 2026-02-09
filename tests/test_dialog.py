@@ -32,6 +32,7 @@ def test_render_calls_display_inside_dialog(dialog_instance, mock_dialog):
     def fake_decorator(func):
         def wrapper():
             func()
+
         return wrapper
 
     mock_dialog.side_effect = lambda title: fake_decorator

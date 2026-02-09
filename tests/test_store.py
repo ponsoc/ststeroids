@@ -16,6 +16,7 @@ def mock_session_state():
 # Store tests
 # =========================
 
+
 def test_store_initialization(mock_session_state):
     store = Store.create("test_store")
 
@@ -43,9 +44,7 @@ def test_store_del_property(mock_session_state):
     store.set_property("key", "value")
     store.del_property("key")
 
-    with pytest.raises(
-        KeyError, match="'key' doesn't exist in store 'test_store'."
-    ):
+    with pytest.raises(KeyError, match="'key' doesn't exist in store 'test_store'."):
         store.get_property("key")
 
 
@@ -69,6 +68,7 @@ def test_store_has_property(mock_session_state):
 # =========================
 # ComponentStore tests
 # =========================
+
 
 def test_component_store_initialization(mock_session_state):
     component_store = ComponentStore.create("components")

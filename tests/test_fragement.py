@@ -41,6 +41,7 @@ def test_render_calls_display_inside_fragment(fragment_instance, mock_fragment):
     def fake_decorator(func):
         def wrapper():
             func()
+
         return wrapper
 
     mock_fragment.side_effect = lambda run_every=None: fake_decorator

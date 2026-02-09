@@ -24,6 +24,7 @@ def mock_store():
 @pytest.fixture
 def component(mock_store):
     with patch("ststeroids.store.ComponentStore.create", return_value=mock_store):
+
         class MyComponent(Component):
             def display(self):
                 pass
@@ -33,6 +34,7 @@ def component(mock_store):
 
 def test_component_create_returns_same_instance(mock_store):
     with patch("ststeroids.store.ComponentStore.create", return_value=mock_store):
+
         class MyComponent(Component):
             def display(self):
                 pass
