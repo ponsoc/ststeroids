@@ -4,6 +4,9 @@ from unittest.mock import MagicMock, patch
 from ststeroids.fragment import Fragment
 from ststeroids.flow import Flow
 
+class MyFragment(Fragment):
+    def display(self):
+        pass
 
 @pytest.fixture
 def mock_fragment():
@@ -13,14 +16,14 @@ def mock_fragment():
 
 @pytest.fixture
 def fragment_instance():
-    class MyFragment(Fragment):
-        def display(self):
-            pass
-
     return MyFragment.create("frag1", refresh_interval="5s")
 
 
 def test_create_sets_refresh_interval(fragment_instance):
+    assert fragment_instance.refresh_interval == "5s"
+
+def test_get_does_not_set_refresh_interval(fragment_instance):
+    MyFragment.get("my_dialog")
     assert fragment_instance.refresh_interval == "5s"
 
 

@@ -4,6 +4,11 @@ from unittest.mock import MagicMock, patch
 from ststeroids.dialog import Dialog
 
 
+class MyDialog(Dialog):
+    def display(self):
+        pass
+
+
 @pytest.fixture
 def mock_dialog():
     with patch("streamlit.dialog") as mock:
@@ -12,16 +17,16 @@ def mock_dialog():
 
 @pytest.fixture
 def dialog_instance():
-    class MyDialog(Dialog):
-        def display(self):
-            pass
-
     return MyDialog.create("my_dialog", title="My Title")
 
 
 def test_create_sets_title(dialog_instance):
     assert dialog_instance.title == "My Title"
 
+
+def test_get_does_not_set_title(dialog_instance):
+    MyDialog.get("my_dialog")
+    assert dialog_instance.title == "My Title"
 
 def test_render_calls_display_inside_dialog(dialog_instance, mock_dialog):
     # Mock display

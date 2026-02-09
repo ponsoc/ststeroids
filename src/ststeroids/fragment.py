@@ -26,7 +26,8 @@ class Fragment(Component):
         :param refresh_interval: The interval for the on_refresh event.
         """
         instance = super().create(component_id, *args, **kwargs)
-        instance.refresh_interval = refresh_interval
+        if not hasattr(instance, "refresh_interval"):
+            instance.refresh_interval = refresh_interval
         return instance
 
     def render(self) -> None:

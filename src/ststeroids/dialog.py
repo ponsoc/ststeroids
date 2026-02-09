@@ -24,7 +24,8 @@ class Dialog(Component):
         :param title: Dialog title.
         """
         instance = super().create(component_id, *args, **kwargs)
-        instance.title = title
+        if not hasattr(instance, "title"):
+            instance.title = title
         return instance
 
     def render(self) -> None:
