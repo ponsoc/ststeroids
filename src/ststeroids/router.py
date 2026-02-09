@@ -65,6 +65,6 @@ class Router:
             )
 
         if route.on_enter:
-            route.on_enter.dispatch(FlowContext(source="route", identifier=route.name))
+            route.on_enter.dispatch(FlowContext("route", route.name))
 
         route.target.render()
