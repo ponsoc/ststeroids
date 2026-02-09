@@ -1,6 +1,5 @@
 import pytest
 from unittest.mock import MagicMock, patch
-import streamlit as st
 
 from ststeroids.dialog import Dialog
 

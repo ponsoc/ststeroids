@@ -1,6 +1,5 @@
 import pytest
 from unittest.mock import MagicMock, patch
-import streamlit as st
 
 from ststeroids.component import Component
 from ststeroids.flow import Flow
@@ -40,7 +39,7 @@ def test_component_create_returns_same_instance(mock_store):
                 pass
 
         comp1 = MyComponent.create("comp")
-        comp2 = MyComponent.create("comp")
+        MyComponent.create("comp")
         # Same store call, simulating singleton
         mock_store.has_property.return_value = True
         mock_store.get_component.return_value = comp1
