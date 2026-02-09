@@ -131,7 +131,7 @@ The full route builder API is as follows.
 
 `app.on_app_run_once(flow)`
 
-Registers an `on_app_run_once` event handler flow. You can use this to have an initial flow that runs once at the start of the application. Note! that an `on_app_run_once` event flow should not switch page as it will break the app run concept
+Registers an `on_app_run_once` event handler flow. You can use this to have an initial flow that runs once at the start of the application. Note! that an `on_app_run_once`.
 
 `app.default_route(layout)`
 
