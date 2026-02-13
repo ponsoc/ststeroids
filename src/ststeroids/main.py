@@ -105,3 +105,9 @@ class StSteroids:
             self._router.route(entry_route)
 
         self._router.run()
+
+        # experimental experimental_schedule_and_rerun
+        schedule_and_rerun = st.session_state.pop("_schedule_rerun", None)
+        if schedule_and_rerun:
+            schedule_and_rerun["fn"](*schedule_and_rerun["args"], **schedule_and_rerun["kwargs"])
+            st.rerun()
