@@ -24,6 +24,36 @@ class StSteroids:
         self._default: Route | None = None
         self._on_app_run_once = None
         self._on_app_run = None
+        
+    def _get_active_routes(self) -> dict[str, "Route"]:
+        """
+        Returns a dictionary of active routes filtered by their conditions.
+        Includes the default route if defined.
+        """
+        routes = {route.name: route for route in self._routes.values()
+                if not route.condition or route.condition()}
+
+        if self._default:
+            routes["__default__"] = self._default
+
+        return routes
+        
+    def _trigger_run_once_event(self) -> None:
+        """
+        Executes the `_on_app_run_once` event once per session if defined.
+        """
+        if "_on_app_run_once_done" not in st.session_state and self._on_app_run_once:
+            st.session_state["_on_app_run_once_done"] = True
+            self._on_app_run_once.dispatch(FlowContext("app", "run_once"))
+    
+    def _handle_scheduled_rerun(self) -> None:
+        """
+        Executes a scheduled rerun if present in session state.
+        """
+        scheduled = st.session_state.pop("_schedule_rerun", None)
+        if scheduled:
+            scheduled["fn"](*scheduled["args"], **scheduled["kwargs"])
+            st.rerun()
 
     def route(self, name: str) -> RouteBuilder:
         """
@@ -73,41 +103,13 @@ class StSteroids:
         self._on_app_run_once = callback
 
     def run(self, entry_route: str | None = None) -> None:
-        """
-        Runs the application router.
-
-        Filters routes based on their conditions, registers active routes
-        with the router, navigates to the specified entry route if provided,
-        and starts the router.
-
-        :param entry_route: Optional name of the route to navigate to immediately.
-        :return: None
-        """
-        if "_on_app_run_once_done" not in st.session_state and self._on_app_run_once:
-            st.session_state["_on_app_run_once_done"] = True
-            self._on_app_run_once.dispatch(FlowContext("app", "run_once"))
-
-        routes = {}
-
-        if self._default:
-            routes["__default__"] = self._default
-
-        for route in self._routes.values():
-            if route.condition:
-                if route.condition():
-                    routes[route.name] = route
-            else:
-                routes[route.name] = route
-
+        """Run the application router and handle scheduled tasks."""
+        self._trigger_run_once_event()
+        routes = self._get_active_routes()
         self._router.register_routes(routes)
 
         if entry_route:
             self._router.route(entry_route)
 
         self._router.run()
-
-        # experimental experimental_schedule_and_rerun
-        schedule_and_rerun = st.session_state.pop("_schedule_rerun", None)
-        if schedule_and_rerun:
-            schedule_and_rerun["fn"](*schedule_and_rerun["args"], **schedule_and_rerun["kwargs"])
-            st.rerun()
+        self._handle_scheduled_rerun()

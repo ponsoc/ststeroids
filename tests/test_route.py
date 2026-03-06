@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 
 
 def test_route_initialization_defaults():
-    layout = MagicMock(spec=Layout)
+    layout = MagicMock(spec_set=Layout)
     route = Route(name="home", target=layout)
 
     assert route.name == "home"
@@ -15,8 +15,8 @@ def test_route_initialization_defaults():
 
 
 def test_route_initialization_with_all_arguments():
-    layout = MagicMock(spec=Layout)
-    flow = MagicMock(spec=Flow)
+    layout = MagicMock(spec_set=Layout)
+    flow = MagicMock(spec_set=Flow)
     condition = lambda: True
 
     route = Route(name="dashboard", target=layout, on_enter=flow, condition=condition)

@@ -15,7 +15,7 @@ def test_to_when_on_enter_chain_returns_self():
         def render(self):
             pass
 
-    flow = MagicMock(spec=Flow)
+    flow = MagicMock(spec_set=Flow)
     condition = lambda: True
 
     # Each method should return self for chaining
@@ -40,7 +40,7 @@ def test_register_calls_app_register_with_route():
         def render(self):
             pass
 
-    flow = MagicMock(spec=Flow)
+    flow = MagicMock(spec_set=Flow)
     condition = lambda: True
 
     builder.to(DummyLayout).when(condition).on_enter(flow).register()

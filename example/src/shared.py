@@ -6,3 +6,5 @@ class ComponentIDs:
     avg_rating = "avg_rating"
     toast = "toast"
     logout = "logout"
+    spinner = "spinner"
+    long_running = "long_running"

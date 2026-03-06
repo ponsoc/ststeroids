@@ -16,11 +16,11 @@ class FlowContext:
         self.type = type
         self.identifier = identifier
 
-    def experimental_schedule_and_rerun(self, fn, *args, **kwargs):
-        self.experimental_schedule(fn, *args, **kwargs)
+    def schedule_and_rerun(self, fn, *args, **kwargs):
+        self.schedule(fn, *args, **kwargs)
         st.rerun()
 
-    def experimental_schedule(self, fn, *args, **kwargs):
+    def schedule(self, fn, *args, **kwargs):
         st.session_state["_schedule_rerun"] = {
             "fn": fn,
             "args": args,

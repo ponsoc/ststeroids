@@ -28,7 +28,7 @@ def test_get_does_not_set_refresh_interval(fragment_instance):
 
 
 def test_on_refresh_registers_flow(fragment_instance):
-    flow = MagicMock(spec=Flow)
+    flow = MagicMock(spec_set=Flow)
     fragment_instance.on_refresh(flow)
     assert fragment_instance._events[fragment_instance.EVENT_REFRESH] == flow
 

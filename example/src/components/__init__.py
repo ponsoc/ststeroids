@@ -4,6 +4,7 @@ from .data_viewer import DataViewerComponent
 from .metric import MetricComponent
 from .toast import ToastComponent
 from .button import ButtonComponent
+from .status import StatusComponent
 
 __all__ = [
     LoginDialogComponent,
@@ -12,4 +13,5 @@ __all__ = [
     MetricComponent,
     ToastComponent,
     ButtonComponent,
+    StatusComponent
 ]

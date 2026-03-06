@@ -15,7 +15,7 @@ def mock_session_state():
 
 @pytest.fixture
 def mock_store():
-    store = MagicMock(spec=ComponentStore)
+    store = MagicMock(spec_set=ComponentStore)
     store.has_property.return_value = False
     return store
 
@@ -68,7 +68,7 @@ def test_get_element_and_set_element(mock_session_state, component):
 
 
 def test_on_and_trigger_calls_flow(component):
-    flow = MagicMock(spec=Flow)
+    flow = MagicMock(spec_set=Flow)
     component.on("click", flow)
     component.trigger("click")
     flow.dispatch.assert_called_once()
@@ -79,7 +79,7 @@ def test_on_and_trigger_calls_flow(component):
     assert ctx.type == "component"
     
 def test_on_and_trigger_does_not_call_flow_when_not_registered(component):
-    flow = MagicMock(spec=Flow)
+    flow = MagicMock(spec_set=Flow)
     component.trigger("click")
     flow.dispatch.assert_not_called()
 

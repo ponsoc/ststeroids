@@ -288,7 +288,7 @@ Then, create a dedicated flow for each document action:
 ```python
 class AddDocumentFlow(DocumentActionBaseFlow):
     def run(self, ctx: FlowContext):
-        # Flow logic for adding a document
+        # Flow logic for adding a documentd
 ```
 
 In this example, AddDocumentFlow represents a single user action, while DocumentActionBaseFlow provides shared orchestration context.
@@ -296,9 +296,44 @@ This keeps flows focused, avoids duplication, and clearly separates reusable set
 
 ##### API Reference
 
-`run()`
+`run(ctx: FlowContext)`
 
-This method needs to be implemented by the subclass. To call it, use `dispatch()`
+This method must be implemented by subclasses. It contains the logic that should run when the flow is triggered.
+
+To execute a flow, register it with an event handler. When the event occurs, the framework calls `run()`.
+
+The `FlowContext` object provides information about the event that triggered the flow and utilities for scheduling follow-up actions.
+
+**Attributes**
+
+`identifier`
+  Identifier of the event that triggered the flow.
+
+`type`
+  Type of event that triggered the flow.
+
+**Methods**
+
+`schedule(function_to_schedule, args=None, kwargs=None)`
+Schedules a function to run **after the next rerun**.  
+This is typically used when component state must be updated before executing additional logic.
+
+`schedule_and_rerun(function_to_schedule, args=None, kwargs=None)`
+Schedules a function to run **after the next rerun** and immediately triggers a rerun. Use schedule in combination with user interactions to avoid the `calling st.rerun() within a callback is a no-op` warning.
+
+```python
+class ApproveLabelsFlow(Flow):
+
+    def run(self, ctx: FlowContext):
+        # mark selected rows as approved
+        self.table.update_rows(approved=True)
+
+        # perform backend call after rerun
+        ctx.schedule_and_rerun(self.store_labels)
+
+    def store_labels(self):
+        self.backend.store(self.table.selected_rows)
+```
 
 `dispatch()`
 
@@ -456,3 +491,7 @@ Considered first stable release.
 < 0.1.11
 
 Beta releases
+
+### Todo
+
+* the default route can only be one of the registered routes
