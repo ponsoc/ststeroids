@@ -454,6 +454,7 @@ Partially rewritten the framework to reduce its footprint and make object creati
     - The on app run once event, for initial set up
     - The router on enter event, for initial route setup. For example refresh data before rendering the page
 - There are two new component types, `Fragment` and `Dialog`, they replace the `render_as` parameter. Please update your components and render calls accordingly
+- Added the `schedule` functionality that allows for scheduling a run after the first rerun.
 
 0.1.17
 
