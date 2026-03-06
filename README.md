@@ -430,6 +430,10 @@ app_style.apply_style()
 
 ### Release notes
 
+1.0.1
+
+- Version bump to make sure upload to pypi works
+
 1.0.0
 
 Partially rewritten the framework to reduce its footprint and make object creation more intuitive. Editor and debugger support has been improved, making development smoother and more productive. The router system has also been greatly enhanced, now supporting conditional routes directly within the framework, giving you more control over navigation and layout rendering.
