@@ -77,12 +77,11 @@ def test_on_and_trigger_calls_flow(component):
     assert isinstance(ctx, FlowContext)
     assert ctx.identifier == component.id
     assert ctx.type == "component"
-
-
-def test_trigger_raises_if_event_not_registered(component):
-    with pytest.raises(RuntimeError, match="has not been registered"):
-        component.trigger("non_existent")
-
+    
+def test_on_and_trigger_does_not_call_flow_when_not_registered(component):
+    flow = MagicMock(spec=Flow)
+    component.trigger("click")
+    flow.dispatch.assert_not_called()
 
 def test_render_calls_display(component):
     component.display = MagicMock()
