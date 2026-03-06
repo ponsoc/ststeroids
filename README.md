@@ -245,7 +245,7 @@ Registers a flow as an event handler for the refresh event of a Fragment (Fragme
 
 `trigger(event_name: str)` 
 
-Triggers the specified event and dispatches the flow registered for it. Raises an error if no flow has been registered for that event.
+Triggers the specified event and dispatches the flow registered for it.
 
 #### Flows
 
@@ -456,10 +456,3 @@ Considered first stable release.
 < 0.1.11
 
 Beta releases
-
-## Ideas
-
-- Improve event examples in the example app
-- Move logout to sidebar in the example app and show another example for a separate button
-- Something for RBAC
-- Something for running longtime requests

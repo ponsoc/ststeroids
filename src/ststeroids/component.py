@@ -106,15 +106,11 @@ class Component(ABC):
         Trigger a previously registered event callback.
 
         :param event_name: The name of the event to trigger.
-        :raises RuntimeError: If no callback has been registered for this event.
         :return: None
         """
         callback = self._events.get(event_name, None)
-        if not callback:
-            raise RuntimeError(
-                f"{event_name} has not been registered for component with id {self.id}"
-            )
-        callback.dispatch(FlowContext("component", self.id))
+        if callback:
+            callback.dispatch(FlowContext("component", self.id))
 
     def render(
         self,
