@@ -1,37 +1,31 @@
 import streamlit as st
-from ststeroids import Component, Flow
+from ststeroids import Dialog, Flow
 
 
-class LoginDialogComponent(Component):
+class LoginDialogComponent(Dialog):
+
+    EVENT_LOGIN = "login"
+
     def __init__(
         self,
-        component_id: str,
-        login_flow: Flow,
-        login_success_flow: Flow,
-        header: str = "Enter username/password",
     ):
-        super().__init__(component_id, {"visible": False})
-        self.header = header
-        self.login_flow = login_flow
-        self.login_success_flow = login_success_flow
+        self.error_message = None
+        self.hide()
 
-    def render(self):
-        if self.state.visible:
-            username = st.text_input("Username")
-            password = st.text_input("Password", type="password")
-            if st.button("Login", use_container_width=True):
-                login_succes = self.login_flow.execute_run(username, password)
-                if login_succes:
-                    self.login_success_flow.execute_run()
-                else:
-                    st.error("Login failed, please check your username and password.")
+    def display(self):
+        self.username = st.text_input("Username")
+        self.password = st.text_input("Password", type="password")
+        if st.button("Login", use_container_width=True):
+            self.trigger(self.EVENT_LOGIN)
+        if self.error_message:
+            st.error(self.error_message)
+            self.error_message = None
 
-    def show(self):
-        if self.state.visible is False:
-            self.state.visible = True
-            st.rerun()
+    def on_login(self, flow: Flow) -> None:
+        """
+        Register a flow to be executed when the user clicks the login button.
+        """
+        self.on(self.EVENT_LOGIN, flow)
 
-    def hide(self):
-        if self.state.visible is True:
-            self.state.visible = False
-            st.rerun()
+    def set_error(self, message: str):
+        self.error_message = message

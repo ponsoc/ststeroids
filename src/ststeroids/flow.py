@@ -1,33 +1,41 @@
-from .store import ComponentStore
+from abc import ABC, abstractmethod
+from .flow_context import FlowContext
 
 
 # pylint: disable=too-few-public-methods
-class Flow:
+class Flow(ABC):
     """
-    Base class for a flow that can interact with the component store
+    Base class for a flow
     """
 
-    def __init__(self):
+    @classmethod
+    def create(cls, *args, **kwargs):
         """
-        Initializes the Flow class and creates a ComponentStore instance.
+        Creates a new flow instance.
         """
-        self.component_store = ComponentStore()
+        return cls(*args, **kwargs)
 
-    def execute_run(self, *args, **kwargs):
+    def dispatch(self, ctx: FlowContext) -> None:
         """
-        Executes the run method implemented in the subclasses.
-        """
-        return self.run(*args, **kwargs)
+        Dispatches the flow execution.
 
-    def run(self, *args, **kwargs):
+        This method triggers the flow and forwards the context of the
+        source that caused the execution.
+
+        :param ctx: The `context` provides contextual information about what triggered the flow.
+        :return: None
+        """
+        self.run(ctx)
+
+    @abstractmethod
+    def run(self, ctx: FlowContext) -> None:
         """
         Executes the flow logic.
 
-        Each derived class should implement its own `run` method.
+        This method must be implemented by subclasses and contains the
+        orchestration and business logic for the flow.
 
-        :param args: Positional arguments for the run method.
-        :param kwargs: Keyword arguments for the run method.
+        :param ctx:  The `context` provides contextual information about what triggered the flow. Can be useful when you want to reuse a flow for different instances of the same component.
         :return: None
-        :raises NotImplementedError: If the method is not implemented in a subclass.
         """
-        raise NotImplementedError("Subclasses must implement the run method.")
+        pass

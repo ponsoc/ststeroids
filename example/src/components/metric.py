@@ -1,18 +1,17 @@
 import streamlit as st
-from ststeroids import Component
+from ststeroids import Fragment
 
 
-class MetricComponent(Component):
+class MetricComponent(Fragment):
     def __init__(
         self,
-        component_id: str,
         header: str,
     ):
-        super().__init__(component_id, {"value": None})
         self.header = header
+        self.value = 0
 
-    def render(self):
-        st.metric(self.header, self.state.value)
+    def display(self):
+        st.metric(self.header, self.value)
 
     def set_value(self, value: int):
-        self.state.value = value
+        self.value = value

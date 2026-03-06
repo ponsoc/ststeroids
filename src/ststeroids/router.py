@@ -1,55 +1,70 @@
-import streamlit as st
-from .layout import Layout
+from .route import Route
+from .flow_context import FlowContext
 
 
 class Router:
     """
-    A routing system for Streamlit applications, allowing navigation between different pages.
+    Central routing system responsible for selecting and rendering layouts.
+
+    The Router maintains a set of registered routes, determines which route
+    is currently active, optionally dispatches route lifecycle flows, and
+    renders the corresponding layout.
     """
 
-    def __init__(self, default: str = "home"):
+    def __init__(self, default: str = "__default__"):
         """
-        Initializes the Router instance with a default page.
+        Initialize the Router.
 
-        :param default: The default page to load when the app starts. Defaults to "home".
+        :param default: The name of the default route to use when no explicit
+                        route has been selected.
         """
-        self.routes = {}
-        if "ststeroids_current_route" not in st.session_state:
-            st.session_state["ststeroids_current_route"] = default
+        self._routes: dict[str, Route] = {}
+        self._current: str | None = None
+        self._default: str = default
 
-    def run(self):
+    def register_routes(self, routes: dict[str, Route]) -> None:
         """
-        Executes the function associated with the currently active route.
+        Register the available routes.
 
+        This replaces any previously registered routes.
+
+        :param routes: A mapping of route names to Route instances.
         :return: None
         """
-        try:
-            route = self.routes[st.session_state["ststeroids_current_route"]]
-        except KeyError as exc:
-            raise KeyError(
-                f"The current route '{st.session_state['ststeroids_current_route']}' is not a registered route."
-            ) from exc
-        route()
+        self._routes = routes
 
-    def route(self, route_name: str):
+    def route(self, route_name: str) -> None:
         """
-        Updates the current page in the session state.
+        Set the current route to navigate to.
 
-        :param route_name: The name of the route to navigate to.
+        The route will be resolved and rendered on the next call to `run()`.
+
+        :param route_name: The name of the route to activate.
         :return: None
         """
-        st.session_state["ststeroids_current_route"] = route_name
+        self._current = route_name
 
-    def register_routes(self, routes: dict[str, Layout]):
+    def run(self) -> None:
         """
-        Registers a dictionary of routes where keys are route names and values are layouts.
+        Resolve and render the active route.
 
-        :param routes: A dictionary mapping route names to layouts.
+        The router selects the current route if set, otherwise falls back
+        to the default route. If the route defines an `on_enter` flow, it
+        will be dispatched before rendering the target layout.
+
+        :raises RuntimeError: If no valid route can be resolved.
         :return: None
         """
-        self.routes = routes
+        if self._current in self._routes:
+            route = self._routes[self._current]
+        elif self._default in self._routes:
+            route = self._routes[self._default]
+        else:
+            raise RuntimeError(
+                "No current route selected and no default route registered."
+            )
 
-    def get_current_route(self):
-        if "ststeroids_current_route" in st.session_state:
-            return st.session_state["ststeroids_current_route"]
-        return None
+        if route.on_enter:
+            route.on_enter.dispatch(FlowContext("route", route.name))
+
+        route.target.render()

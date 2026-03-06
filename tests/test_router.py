@@ -1,8 +1,9 @@
-from collections import defaultdict
 import pytest
-import streamlit as st
 from unittest.mock import MagicMock
-from ststeroids import Router
+
+from ststeroids.router import Router
+from ststeroids.route import Route
+from ststeroids.flow_context import FlowContext
 
 
 @pytest.fixture
@@ -10,79 +11,95 @@ def router():
     return Router()
 
 
-@pytest.fixture
-def mock_session_state(mocker):
-    mocker.patch.object(st, "session_state", {}, create=True)
-
-
-def test_router_initialization(mock_session_state, router):
-    assert "ststeroids_current_route" in st.session_state
-    assert st.session_state["ststeroids_current_route"] == "home"
-
-
-def test_router_initialization_with_custom_default(mock_session_state):
-    Router(default="dashboard")
-    assert st.session_state["ststeroids_current_route"] == "dashboard"
-
-
-def test_register_routes(mock_session_state, router):
-    mock_layout = MagicMock()
-    routes = {"home": mock_layout, "dashboard": mock_layout}
-    router.register_routes(routes)
-    assert router.routes == routes
-
-
-def test_route_changes_current_route(mock_session_state, router):
-    router.route("dashboard")
-    assert st.session_state["ststeroids_current_route"] == "dashboard"
-
-
-def test_run_calls_current_route(mock_session_state, router):
-    mock_function = MagicMock()
-    router.register_routes({"home": mock_function})
-    router.run()
-    mock_function.assert_called_once()
-
-
-def test_run_calls_current_route_that_raises_an_exception(mock_session_state, router):
-    mock_function = MagicMock(side_effect=KeyError("Missing key"))
-    router.register_routes({"home": mock_function})
-    with pytest.raises(KeyError, match="Missing key"):
-        router.route("home")
-        router.run()
-
-
-def test_run_calls_invalid_current_route(mock_session_state, router):
-    mock_function = MagicMock()
-    router.register_routes({"home": mock_function})
-    with pytest.raises(
-        KeyError, match="The current route 'invalid' is not a registered route."
-    ):
-        router.route("invalid")
-        router.run()
-
-
-def test_run_calls_with_defaultdict(mock_session_state, router):
-    mock_function = MagicMock()
-    default_function = MagicMock()
-
-    # Use defaultdict to return default_function for any missing keys
-    router.register_routes(
-        defaultdict(lambda: default_function, {"home": mock_function})
+def make_route(name="home", on_enter=None):
+    target = MagicMock()
+    target.render = MagicMock()
+    return Route(
+        name=name,
+        target=target,
+        on_enter=on_enter,
     )
 
-    router.route(
-        "invalid"
-    )  # This will now return default_function instead of raising KeyError
+
+def test_router_initialization(router):
+    assert router._current is None
+    assert router._default == "__default__"
+    assert router._routes == {}
+
+
+def test_router_initialization_with_custom_default():
+    router = Router(default="dashboard")
+    assert router._default == "dashboard"
+
+
+def test_register_routes(router):
+    route = make_route("home")
+    routes = {"home": route}
+
+    router.register_routes(routes)
+
+    assert router._routes == routes
+
+
+def test_route_sets_current_route(router):
+    router.route("dashboard")
+    assert router._current == "dashboard"
+
+
+def test_run_calls_current_route(router):
+    route = make_route("home")
+
+    router.register_routes({"home": route})
+    router.route("home")
     router.run()
 
-    # Ensure the default function is called
-    default_function.assert_called_once()
-    # Ensure the "home" function is not called
-    mock_function.assert_not_called()
+    route.target.render.assert_called_once()
 
 
-def test_get_current_route(mock_session_state, router):
-    assert router.get_current_route() == "home"
-    router.route("dashboard")
-    assert router.get_current_route() == "dashboard"
+def test_run_calls_on_enter_if_present(router):
+    on_enter = MagicMock()
+    on_enter.dispatch = MagicMock()
+
+    route = make_route("home", on_enter=on_enter)
+
+    router.register_routes({"home": route})
+    router.route("home")
+    router.run()
+
+    on_enter.dispatch.assert_called_once()
+    args, kwargs = on_enter.dispatch.call_args
+    flow_context = args[0]
+    assert isinstance(flow_context, FlowContext)
+    assert flow_context.identifier == "home"
+    assert flow_context.type == "route"
+
+    route.target.render.assert_called_once()
+
+
+def test_run_falls_back_to_default_route(router):
+    default_route = make_route("__default__")
+
+    router.register_routes({"__default__": default_route})
+    router.run()
+
+    default_route.target.render.assert_called_once()
+
+
+def test_run_raises_if_no_current_and_no_default(router):
+    router.register_routes({})
+
+    with pytest.raises(
+        RuntimeError,
+        match="No current route selected and no default route registered.",
+    ):
+        router.run()
+
+
+def test_run_uses_default_when_current_is_invalid(router):
+    default_route = make_route("__default__")
+
+    router.register_routes({"__default__": default_route})
+    router.route("invalid")
+    router.run()
+
+    default_route.target.render.assert_called_once()

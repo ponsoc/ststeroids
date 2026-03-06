@@ -1,24 +1,31 @@
 import pytest
+from unittest.mock import MagicMock
+
 from ststeroids.flow import Flow
-from ststeroids.store import ComponentStore
 
 
-def test_flow_initializes_component_store():
-    flow = Flow()
-    assert isinstance(flow.component_store, ComponentStore)
+def test_flow_cannot_instantiate_directly():
+    with pytest.raises(TypeError):
+        Flow()
 
 
-def test_flow_run_raises_not_implemented_error():
-    flow = Flow()
-    with pytest.raises(NotImplementedError):
-        flow.execute_run()
-
-
-def test_subclass_run_called_by__run():
+def test_subclass_run_called_by_dispatch():
     class MyFlow(Flow):
-        def run(self, x):
-            return x * 2
+        def run(self, ctx):
+            pass
 
-    flow = MyFlow()
-    result = flow.execute_run(3)
-    assert result == 6
+    flow = MyFlow.create()
+    flow.run = MagicMock()
+    flow.dispatch(None)
+    flow.run.assert_called_once_with(None)
+
+
+def test_flow_create_classmethod():
+    class MyFlow(Flow):
+        def run(self, ctx):
+            pass
+
+    flow = MyFlow.create()
+    assert isinstance(flow, MyFlow)
+    result = flow.run(None)
+    assert result is None

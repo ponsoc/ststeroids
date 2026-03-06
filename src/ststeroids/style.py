@@ -5,6 +5,9 @@ import streamlit as st
 class Style:
     """
     A class for applying custom CSS styles to a Streamlit app.
+
+    Attributes:
+        style_file (str): Path to CSS file for this instance.
     """
 
     def __init__(self, style_file: str):
@@ -15,7 +18,7 @@ class Style:
         """
         self.style_file = style_file
 
-    def apply_style(self):
+    def apply_style(self) -> None:
         """
         Reads the CSS file and applies its styles to the Streamlit app.
 

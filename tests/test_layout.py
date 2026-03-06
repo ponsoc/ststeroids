@@ -3,18 +3,29 @@ from ststeroids.layout import Layout
 from unittest.mock import MagicMock
 
 
-def test_layout_render_raises_not_implemented_error():
-    layout = Layout()
-    with pytest.raises(NotImplementedError):
-        layout.render()
+def test_layout_cannot_instantiate_directly():
+    # Abstract classes cannot be instantiated
+    with pytest.raises(TypeError):
+        Layout()
 
 
-def test_subclass_run_called_by__run():
+def test_subclass_render_called():
     class MyLayout(Layout):
         def render(self):
-            return ""
+            return "rendered"
 
     layout = MyLayout()
-    layout.render = MagicMock()
-    layout.execute_render()
+    layout.render = MagicMock(return_value="rendered")
+    result = layout.render()
     layout.render.assert_called_once()
+    assert result == "rendered"
+
+
+def test_layout_create_classmethod():
+    class MyLayout(Layout):
+        def render(self):
+            return "ok"
+
+    layout = MyLayout.create()
+    assert isinstance(layout, MyLayout)
+    assert layout.render() == "ok"

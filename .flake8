@@ -1,4 +1,4 @@
 [flake8]
-extend-ignore = E203, E501
+extend-ignore = E203, E501, E731
 exclude = .github,__pycache__,docs/source/conf.py,old,build,dist,venv,
 max-complexity = 10
