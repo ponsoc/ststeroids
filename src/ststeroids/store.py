@@ -69,7 +69,8 @@ class Store:
         :return: None
         """
 
-        del st.session_state[self.name][property_name]
+        if self.has_property(property_name):
+            del st.session_state[self.name][property_name]
 
 
 class ComponentStore(Store):

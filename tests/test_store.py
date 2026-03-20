@@ -42,11 +42,12 @@ def test_store_get_property(mock_session_state):
 def test_store_del_property(mock_session_state):
     store = Store.create("test_store")
     store.set_property("key", "value")
+
     store.del_property("key")
 
-    with pytest.raises(KeyError, match="'key' doesn't exist in store 'test_store'."):
-        store.get_property("key")
+    assert not store.has_property("key")
 
+    store.del_property("key")
 
 def test_store_get_property_key_error(mock_session_state):
     store = Store.create("test_store")
