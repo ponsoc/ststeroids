@@ -430,6 +430,10 @@ app_style.apply_style()
 
 ### Release notes
 
+1.0.2
+
+- Fixed an issue where deleting a property from a store instance would lead to an error when the property doesn't exist
+
 1.0.1
 
 - Version bump to make sure upload to pypi works
